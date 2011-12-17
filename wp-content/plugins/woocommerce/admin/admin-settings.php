@@ -39,6 +39,7 @@ $woocommerce_settings['general'] = apply_filters('woocommerce_general_settings',
 		'class'		=> 'chosen_select',
 		'options' => array_unique(apply_filters('woocommerce_currencies', array( 
 			'USD' => __( 'US Dollars (&#36;)', 'woothemes' ),
+			'RUB' => __( 'Rub (руб.)', 'woothemes' ),
 			'EUR' => __( 'Euros (&euro;)', 'woothemes' ),
 			'GBP' => __( 'Pounds Sterling (&pound;)', 'woothemes' ),
 			'AUD' => __( 'Australian Dollars (&#36;)', 'woothemes' ),
