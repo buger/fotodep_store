@@ -113,7 +113,10 @@
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-
+.diff
+{
+	display: none;
+}
 
 
 

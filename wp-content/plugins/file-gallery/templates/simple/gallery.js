@@ -1,11 +1,11 @@
 jQuery(document).ready(function()
 {
 	var file_gallery_simple_gallery_counter = 1;
-	
-	if( 0 < jQuery(".gallery.simple").length )
+
+	if( 0 < jQuery(".gallery.simple").length && "" != file_gallery_simple_linkclass )
 	{
 		var file_gallery_doing_ajax = false;
-		
+
 		// remove the clearing element
 		jQuery(".gallery.simple br.clear").remove();
 		
@@ -22,13 +22,13 @@ jQuery(document).ready(function()
 				
 				// if it's the first run...
 				if( 1 === file_gallery_simple_current_image )
-				{
-					var current_anchor = jQuery(this).find("a:first-child"),
-						current_image_src = current_anchor.attr("name") || "",
-						current_image_src = decodeURIComponent(current_image_src),
+				{										
+					var current_anchor = jQuery(this).find("a:first"),
+						diff = jQuery(this).find("span.diff:first").text().split(file_gallery_simple_diff_sep),
+						ext_regex = new RegExp('\.' + diff[1]), // .jpg or .png...
 						current_image_href = current_anchor.attr("href"),
-						current_caption = current_anchor.attr("title") || "",
-						current_caption = decodeURIComponent(current_caption.replace(/\+/g, ' '));
+						current_image_src = current_image_href.replace(ext_regex, diff[0] + '.' + diff[1]),
+						current_caption = decodeURIComponent((current_anchor.attr("title") || "").replace(/\+/g, ' '));
 
 					// add two containers, one for the thumbnails on the right and the other one for the bigger image on the left
 					jQuery(id).prepend('<div class="gallery_simple_thumbnails"></div>').prepend('<div class="gallery_simple_current"></div>');
@@ -40,17 +40,12 @@ jQuery(document).ready(function()
 					{
 						jQuery(".gallery_simple_current_image").wrap('<a href="' + current_image_href + '" title="' + strip_tags(current_caption) + '"></a>');
 
-						// check for lightbox scripts
-						lightbox = 
-							"thickbox" == file_gallery_simple_linkclass ? 
-								jQuery.isFunction(tb_init) : eval("jQuery.fn." + file_gallery_simple_linkclass);
-						
+						var lightbox = ("thickbox" == file_gallery_simple_linkclass && "function" === typeof(tb_init)) || jQuery.isFunction( jQuery.fn[file_gallery_simple_linkclass] ) ? true : false;
+
+						// check for lightbox scripts						
 						if( lightbox )
 						{
-							jQuery(id + " .gallery_simple_current a")
-								.addClass(
-									"colorbox" != file_gallery_simple_linkclass ? file_gallery_simple_linkclass : "cboxElement"
-							);
+							jQuery(id + " .gallery_simple_current a").addClass("colorbox" != file_gallery_simple_linkclass ? file_gallery_simple_linkclass : "cboxElement");
 
 							if( "thickbox" != file_gallery_simple_linkclass )
 								eval("jQuery('" + id + " .gallery_simple_current a')." + file_gallery_simple_linkclass + "()");
@@ -58,8 +53,7 @@ jQuery(document).ready(function()
 					}
 					
 					// and fade in the image and its caption
-					jQuery(id + " .gallery_simple_current_image_caption").css({"opacity" : 0}).fadeTo(500, 1);
-					jQuery(id + " .gallery_simple_current_image").css({"opacity" : 0}).fadeTo(500, 1);
+					jQuery(id + " .gallery_simple_current_image_caption, " + id + " .gallery_simple_current_image").css({"opacity" : 0}).fadeTo(500, 1);
 				}
 
 				// move all gallery items into the thumbnails container
@@ -75,7 +69,7 @@ jQuery(document).ready(function()
 		jQuery(".gallery_simple_thumbnails a").removeClass(file_gallery_simple_linkclass);
 
 		// bind a function to each thumbnail link to replace the bigger image on the left
-		jQuery(".gallery.simple .gallery-item a").live("click", function()
+		jQuery(".gallery.simple .gallery-item a").live("click", function(e)
 		{
 			if( file_gallery_doing_ajax )
 				return false;
@@ -84,43 +78,42 @@ jQuery(document).ready(function()
 			file_gallery_doing_ajax = true;
 			
 			var id = "#" + jQuery(this).parents(".gallery").attr("id"),
-				new_src = jQuery(this).attr("name") || "",
-				new_src = decodeURIComponent(new_src),
+				diff = jQuery(this).find("span.diff:first").text().split(file_gallery_simple_diff_sep),
+				ext_regex = new RegExp('\.' + diff[1]), // .jpg or .png...
 				new_href = jQuery(this).attr("href"),
-				new_caption = jQuery(this).attr("title") || "",
-				new_caption = decodeURIComponent(new_caption.replace(/\+/g, ' ')),
+				new_src = new_href.replace(ext_regex, diff[0] + '.' + diff[1]),
+				new_caption = decodeURIComponent((jQuery(this).attr("title") || "").replace(/\+/g, ' ')),
 				new_img = new Image();
 
-			new_img.src = new_src;
-			
-			// fade in the loading animation while fading out the old image and its caption
-			jQuery(id + " .file_gallery_simple_loading").css({"opacity" : 0}).fadeTo(250, 1);
-			jQuery(id + " .gallery_simple_current_image_caption").fadeTo(250, 0);
-			jQuery(id + " .gallery_simple_current_image").fadeTo(250, 0);
-			
 			// when the new bigger image is loaded...
 			jQuery(new_img).load(function()
 			{
 				// fade out the loading animation
-				jQuery(id + " .file_gallery_simple_loading").fadeTo(250, 0);
-				
-				// wait for the loading animation to fade out and then...
-				setTimeout(
-					function()
-					{
-						// replace caption text and fade it in
-						jQuery(id + " .gallery_simple_current_image_caption p").html(new_caption).parent().fadeTo(250, 1);
-						// replace bigger image source and fade it in, then replace link location and image caption
-						jQuery(id + " .gallery_simple_current_image").attr("src", new_src).fadeTo(250, 1);
-						
-						if( "" != file_gallery_simple_link )
-							jQuery(id + " .gallery_simple_current_image").parents("a").attr("href", new_href).attr("title", new_caption);
-						
-						// ajax no longer in process
-						file_gallery_doing_ajax = false;
-					}
-				, 250);});
+				jQuery(id + " .file_gallery_simple_loading").fadeTo(250, 0, function()
+				{
+					// wait for the loading animation to fade out and then replace caption text and fade it in
+					jQuery(id + " .gallery_simple_current_image_caption p").html(new_caption).parent().fadeTo(250, 1);
+					// replace bigger image source and fade it in, then replace link location and image caption
+					jQuery(id + " .gallery_simple_current_image").attr("src", new_src).fadeTo(250, 1);
+					
+					if( "" != file_gallery_simple_link )
+						jQuery(id + " .gallery_simple_current_image").parents("a").attr("href", new_href).attr("title", new_caption);
+					
+					// ajax no longer in process
+					file_gallery_doing_ajax = false;
+				});
+			});
 			
+			new_img.src = new_src;
+			
+			// fade in the loading animation while fading out the old image and its caption
+			jQuery(id + " .file_gallery_simple_loading").css({"opacity" : 0}).fadeTo(250, 1);
+			jQuery(id + " .gallery_simple_current_image_caption, " + id + " .gallery_simple_current_image").fadeTo(250, 0);
+
+			if( new_img.complete )
+				jQuery(new_img).trigger("load");
+
+			e.preventDefault();
 			return false;
 		});
 	}

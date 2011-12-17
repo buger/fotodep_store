@@ -3,7 +3,7 @@
 /**
  * Returns current post's attachments
  */
-function file_gallery_list_attachments(&$count_attachments, $post_id, $attachment_order, $checked_attachments)
+function file_gallery_list_attachments(&$count_attachments, $post_id, $attachment_order, $checked_attachments, $attachment_orderby = 'menu_order')
 {
 	global $wpdb, $_wp_additional_image_sizes;
 	
@@ -15,23 +15,30 @@ function file_gallery_list_attachments(&$count_attachments, $post_id, $attachmen
 	{
 		$attachment_ids = str_replace(',', "','", trim($attachment_order, ',') );
 		
-		$attachments = $wpdb->get_results(
-			"SELECT * FROM $wpdb->posts 
+		$query = "SELECT * FROM $wpdb->posts 
 			 WHERE $wpdb->posts.post_parent = " . $post_id . "
 			 AND $wpdb->posts.post_type = 'attachment' 
-			 ORDER BY FIELD(ID, '" . $attachment_ids . "') "
-		);
+			 ORDER BY FIELD(ID, '" . $attachment_ids . "') ";
+
+		$attachments = $wpdb->get_results( $query );
 	}
 	else
 	{
-		$attachments = get_children(
-			array(
+		if( ! in_array($attachment_order, array('ASC', 'DESC')) )
+			$attachment_order = 'ASC';
+		
+		if( ! in_array($attachment_orderby, array('post_title', 'post_name', 'post_date', 'menu_order')) )
+			$attachment_orderby = 'menu_order';
+		
+		$query = array(
 			  'post_parent' => $post_id, 
 			  'post_type' => 'attachment', 
-			  'order' => 'ASC', 
-			  'orderby' => 'menu_order',
+			  'order' => $attachment_order, 
+			  'orderby' => $attachment_orderby,
 			  'post_status' => 'inherit'
-		));
+		);
+		
+		$attachments = get_children( $query );
 	}
 
 	if( $attachments )
@@ -44,14 +51,25 @@ function file_gallery_list_attachments(&$count_attachments, $post_id, $attachmen
 		$count_attachments = count($attachments);
 		
 		$attachment_thumb_size  = isset($options["default_metabox_image_size"]) ? $options["default_metabox_image_size"] : 'thumbnail';
-		$attachment_thumb_width = isset($options["default_metabox_image_width"]) ? $options["default_metabox_image_width"] : 75;	
+		$attachment_thumb_width = isset($options["default_metabox_image_width"]) && 0 < $options["default_metabox_image_width"] ? $options["default_metabox_image_width"] : 75;	
 		
 		if( isset($_wp_additional_image_sizes[$attachment_thumb_size]) )
-			$attachment_thumb_ratio = $_wp_additional_image_sizes[$attachment_thumb_size]['width'] / $_wp_additional_image_sizes[$attachment_thumb_size]['height'];
+		{
+			$ats_width  = $_wp_additional_image_sizes[$attachment_thumb_size]['width'];
+			$ats_height = $_wp_additional_image_sizes[$attachment_thumb_size]['height'];
+		}
 		else
-			$attachment_thumb_ratio = get_option($attachment_thumb_size . '_size_w') / get_option($attachment_thumb_size . '_size_h');
+		{
+			$ats_width  = get_option($attachment_thumb_size . '_size_w');
+			$ats_height = get_option($attachment_thumb_size . '_size_h');
+		}
 		
-		if( "" == strval($attachment_thumb_ratio) )
+		if( 0 < (int) $ats_width && 0 < (int) $ats_height )
+			$attachment_thumb_ratio = $ats_width / $ats_height;
+		else
+			$attachment_thumb_ratio = 1;
+			
+		if( '' == strval($attachment_thumb_ratio) )
 			$attachment_thumb_ratio = 1;
 
 		$attachment_thumb_height = $attachment_thumb_width / $attachment_thumb_ratio;
@@ -71,7 +89,7 @@ function file_gallery_list_attachments(&$count_attachments, $post_id, $attachmen
 			elseif( "" != strval($copies) )
 				$classes[] = "has_copies copies-" . implode("-", $copies);
 			
-			if( intval($thumb_id) === intval($attachment->ID) )
+			if( (int) $thumb_id === (int) $attachment->ID )
 			{
 				$classes[]       = "post_thumb";
 				$post_thumb_link = "unset";
@@ -79,40 +97,54 @@ function file_gallery_list_attachments(&$count_attachments, $post_id, $attachmen
 			
 			$attachment_thumb = wp_get_attachment_image_src($attachment->ID, $attachment_thumb_size);
 			$large            = wp_get_attachment_image_src($attachment->ID, "large");
-			
+
 			if( in_array($attachment->ID, $checked_attachments) )
+			{
 				$checked = ' checked="checked"';
+				$classes[] = 'selected';
+			}
 			
 			// if it's not an image...
 			if( "" == $attachment_thumb )
 			{
-				$attachment_thumb[0] = FILE_GALLERY_CRYSTAL_URL . "/" . file_gallery_get_file_type($attachment->post_mime_type) . ".png";
-				$attachment_width    = "";
-				$attachment_height   = "";
-				$non_image           = " non_image";
+				$attachment_thumb[0] = file_gallery_https( FILE_GALLERY_CRYSTAL_URL ). "/" . file_gallery_get_file_type($attachment->post_mime_type) . ".png";
+				$attachment_width    = '';
+				$attachment_height   = '';
+				$non_image           = ' non_image';
 				$_attachment_thumb_width = 55;
+				$image_width_style = '';
+				$classes[] = 'non-image';
 			}
 			else
 			{
-				$classes[] = "image";
+				$classes[] = 'image';
 				$_attachment_thumb_width = $attachment_thumb_width;
+				
+				if( 1 === $attachment_thumb_ratio && $attachment_thumb[2] > $attachment_thumb_width )
+					$forced_height = 'height: ' . $attachment_thumb_height . 'px';
+				else
+					$forced_height = '';
+				
+				$image_width_style = 'style="width: ' . $_attachment_thumb_width . 'px; ' . $forced_height . '"';
 			}
 			
 			$attached_files .= '
 			<li id="image-' . $attachment->ID . '" class="' . implode(" ", $classes) . '" style="width: ' . $_attachment_thumb_width . 'px; height: ' . $attachment_thumb_height . 'px">
 				
-				<img src="' . $attachment_thumb[0] . '" alt="' . $attachment->post_title . '" id="in-' . $attachment->ID . '" title="' . $attachment->post_title . '" class="fgtt' . $non_image . '"  style="width: ' . $_attachment_thumb_width . 'px;" />';
+				<img src="' . $attachment_thumb[0] . '" alt="' . $attachment->post_title . '" id="in-' . $attachment->ID . '" title="' . $attachment->post_title . '" class="fgtt' . $non_image . '" ' . $image_width_style . ' />';
 				
 				if( "" == $non_image ) :
-					$attached_files .= '<a href="' . $large[0] . '" id="in-' . $attachment->ID . '-zoom" class="img_zoom">
-						<img src="' . FILE_GALLERY_URL . '/images/famfamfam_silk/magnifier.png" alt="' . __("Zoom", "file-gallery") . '" title="' . __("Zoom", "file-gallery") . '" />
+					$attached_files .= '<a href="' . $large[0] . '" id="in-' . $attachment->ID . '-zoom" class="img_zoom action">
+						<img src="' . file_gallery_https( FILE_GALLERY_URL ) . '/images/famfamfam_silk/magnifier.png" alt="' . __("Zoom", "file-gallery") . '" title="' . __("Zoom", "file-gallery") . '" />
 					</a>';
 				endif;
 				
-				$attached_files .= '<a href="#" id="in-' . $attachment->ID . '-edit" class="img_edit">
-					<img src="' . FILE_GALLERY_URL . '/images/famfamfam_silk/pencil.png" alt="' . __("Edit", "file-gallery") . '" title="' . __("Edit", "file-gallery") . '" />
+				$attached_files .= '<a href="#" id="in-' . $attachment->ID . '-edit" class="img_edit action">
+					<img src="' . file_gallery_https( FILE_GALLERY_URL ) . '/images/famfamfam_silk/pencil.png" alt="' . __("Edit", "file-gallery") . '" title="' . __("Edit", "file-gallery") . '" />
 				</a>
-				<input type="checkbox" id="att-chk-' . $attachment->ID . '" class="checker"' . $checked . ' title="' . __("Click to select", "file-gallery") . '" />';
+				<span class="checker_action action" title="' . __('Click to select, or click and drag to change position', 'file-gallery') . '">
+					<input type="checkbox" id="att-chk-' . $attachment->ID . '" class="checker"' . $checked . ' title="' . __("Click to select", "file-gallery") . '" />
+				</span>';
 		
 			if( current_user_can('edit_post', $attachment->ID) ) :
 				
@@ -123,8 +155,8 @@ function file_gallery_list_attachments(&$count_attachments, $post_id, $attachmen
 					else
 						$as_featured = __("Unset as featured image", "file-gallery");
 				
-					$attached_files .= '<a href="#" class="post_thumb_status" rel="' . $attachment->ID . '" title="' . $as_featured . '">
-							<img src="' . FILE_GALLERY_URL . '/images/famfamfam_silk/star_' . $post_thumb_link . '.png" alt="' . $as_featured . '" />
+					$attached_files .= '<a href="#" class="post_thumb_status action" rel="' . $attachment->ID . '" title="' . $as_featured . '">
+							<img src="' . file_gallery_https( FILE_GALLERY_URL ) . '/images/famfamfam_silk/star_' . $post_thumb_link . '.png" alt="' . $as_featured . '" />
 						</a>';
 					
 					$attached_files .= '<div id="post_thumb_setter_' . $attachment->ID . '" class="post_thumb_setter">
@@ -143,8 +175,8 @@ function file_gallery_list_attachments(&$count_attachments, $post_id, $attachmen
 				
 				endif;
 
-				$attached_files .= '<a href="#" class="delete_or_detach_link" rel="' . $attachment->ID . '">
-					<img src="' . FILE_GALLERY_URL . '/images/famfamfam_silk/delete.png" alt="' . __("Detach / Delete", "file-gallery") . '" title="' . __("Detach / Delete", "file-gallery") . '" />
+				$attached_files .= '<a href="#" class="delete_or_detach_link action" rel="' . $attachment->ID . '">
+					<img src="' . file_gallery_https( FILE_GALLERY_URL ) . '/images/famfamfam_silk/delete.png" alt="' . __("Detach / Delete", "file-gallery") . '" title="' . __("Detach / Delete", "file-gallery") . '" />
 				</a>
 				<div id="detach_or_delete_'  . $attachment->ID . '" class="detach_or_delete">
 					<br />';
@@ -177,7 +209,7 @@ function file_gallery_list_attachments(&$count_attachments, $post_id, $attachmen
 					</div>';
 					
 				endif;
-			
+
 			endif;
 			
 			$attached_files .= '</li>
@@ -290,7 +322,7 @@ function file_gallery_list_tags( $args = array() )
 
 				foreach( $media_tags as $tag )
 				{						
-					$list[] = '<a href="' . get_bloginfo("url") . $fs . $media_tag_slug . $ss . $tag->slug . $ts . '" class="fg_insert_tag" name="' . $tag->slug . '">' . $tag->name . '</a>';
+					$list[] = '<a href="' . file_gallery_https( get_bloginfo("url") ) . $fs . $media_tag_slug . $ss . $tag->slug . $ts . '" class="fg_insert_tag" name="' . $tag->slug . '">' . $tag->name . '</a>';
 				}
 			}
 			else
@@ -330,11 +362,12 @@ function file_gallery_list_tags( $args = array() )
 function file_gallery_main( $ajax = true )
 {
 	global $wpdb;
-	
+
 	check_ajax_referer('file-gallery');
-	
+
 	$post_id			  = isset($_POST['post_id']) ? $_POST['post_id'] : '';
 	$attachment_order	  = isset($_POST['attachment_order']) ? $_POST['attachment_order'] : '';
+	$attachment_orderby	  = isset($_POST['attachment_orderby']) ? $_POST['attachment_orderby'] : '';
 	$files_or_tags		  = isset($_POST['files_or_tags']) ? $_POST["files_or_tags"] : '';
 	$tags_from			  = isset($_POST['tags_from']) ? $_POST["tags_from"] : '';
 	$action				  = isset($_POST['action']) ? $_POST['action'] : '';
@@ -375,16 +408,16 @@ function file_gallery_main( $ajax = true )
 	
 	if( 'file_gallery_main_delete' == $action )
 	{
-		if( !empty($copies) && !empty($originals) )
+		if( ! empty($copies) && ! empty($originals) )
 		{
 			$cpluso  = array_merge($copies, $originals);
 			$normals = array_xor((array)$attachment_ids, $cpluso);
 		}
-		elseif( !empty($copies) )
+		elseif( ! empty($copies) )
 		{
 			$normals = array_xor((array)$attachment_ids, $copies);
 		}
-		elseif( !empty($originals) )
+		elseif( ! empty($originals) )
 		{
 			$normals = array_xor((array)$attachment_ids, $originals);
 		}
@@ -454,7 +487,7 @@ function file_gallery_main( $ajax = true )
 	}
 	elseif( "file_gallery_main_update" == $action )
 	{
-		$attachment_id = intval($_POST['attachment_id']);
+		$attachment_id = (int) $_POST['attachment_id'];
 
 		$attachment_data['ID'] 			  = $attachment_id;
 		$attachment_data['post_alt']      = $_POST['post_alt'];
@@ -465,20 +498,22 @@ function file_gallery_main( $ajax = true )
 		
 		// attachment custom fields
 		$custom = get_post_custom($attachment_id);
-		$custom_fields = $_POST['custom_fields'];
+		$custom_fields = isset($_POST['custom_fields']) ? $_POST['custom_fields'] : '';
 		
 		if( ! empty($custom) && ! empty($custom_fields) )
-		foreach( $custom_fields as $key => $val )
 		{
-			if( $custom[$key][0] != $val )
-				update_post_meta($attachment_id, $key, $val);
+			foreach( $custom_fields as $key => $val )
+			{
+				if( isset($custom[$key]) && $custom[$key][0] != $val )
+					update_post_meta($attachment_id, $key, $val);
+			}
 		}
 		
 		// media_tag taxonomy - attachment tags
 		$tax_input = "";
 		$old_media_tags = "";
 		
-		$get_old_media_tags = wp_get_object_terms(intval($_POST['attachment_id']), FILE_GALLERY_MEDIA_TAG_NAME);
+		$get_old_media_tags = wp_get_object_terms((int) $_POST['attachment_id'], FILE_GALLERY_MEDIA_TAG_NAME);
 		
 		if( !empty($get_old_media_tags) )
 		{
@@ -499,6 +534,10 @@ function file_gallery_main( $ajax = true )
 			$tax_input = explode(", ", $tax_input);
 			
 			$media_tags_result = wp_set_object_terms( $attachment_id, $tax_input, FILE_GALLERY_MEDIA_TAG_NAME );
+		}
+		elseif( "" == $_POST['tax_input'] )
+		{
+			$media_tags_result = wp_set_object_terms( $attachment_id, NULL, FILE_GALLERY_MEDIA_TAG_NAME );
 		}
 		
 		// check if there were any changes

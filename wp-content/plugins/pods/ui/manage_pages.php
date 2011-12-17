@@ -30,7 +30,7 @@ function loadPage() {
     jQuery.ajax({
         type: "post",
         url: api_url,
-        data: "action=load_page&id="+page_id,
+        data: "action=load_page&_wpnonce=<?php echo wp_create_nonce('pods-load_page'); ?>&id="+page_id,
         success: function(msg) {
             if (!is_error(msg)) {
                 var json = eval('('+msg+')');
@@ -52,7 +52,7 @@ function addPage() {
     jQuery.ajax({
         type: "post",
         url: api_url,
-        data: "action=save_page&uri="+uri,
+        data: "action=save_page&_wpnonce=<?php echo wp_create_nonce('pods-save_page'); ?>&uri="+uri,
         success: function(msg) {
             if (!is_error(msg)) {
                 var id = msg;
@@ -75,7 +75,7 @@ function editPage() {
     jQuery.ajax({
         type: "post",
         url: api_url,
-        data: "action=save_page&id="+page_id+"&page_title="+encodeURIComponent(title)+"&page_template="+encodeURIComponent(template)+"&phpcode="+encodeURIComponent(code)+"&precode="+encodeURIComponent(precode),
+        data: "action=save_page&_wpnonce=<?php echo wp_create_nonce('pods-save_page'); ?>&id="+page_id+"&page_title="+encodeURIComponent(title)+"&page_template="+encodeURIComponent(template)+"&phpcode="+encodeURIComponent(code)+"&precode="+encodeURIComponent(precode),
         success: function(msg) {
             if (!is_error(msg)) {
                 alert("Success!");
@@ -89,7 +89,7 @@ function dropPage() {
         jQuery.ajax({
             type: "post",
             url: api_url,
-            data: "action=drop_page&id="+page_id,
+            data: "action=drop_page&_wpnonce=<?php echo wp_create_nonce('pods-drop_page'); ?>&id="+page_id,
             success: function(msg) {
                 if (!is_error(msg)) {
                     jQuery(".select-page > option[value='"+page_id+"']").remove();
@@ -133,8 +133,8 @@ if (isset($pages)) {
     <select id="page_template">
         <option value="">-- Page Template --</option>
 <?php
-$page_templates = get_page_templates();
-if (!in_array('page.php',$page_templates) && locate_template(array('page.php',false))) {
+$page_templates = apply_filters('pods_page_templates', get_page_templates());
+if (!in_array('page.php', $page_templates) && locate_template(array('page.php', false))) {
     $page_templates['Page (WP Default)'] = 'page.php';
     ksort($page_templates);
 }
@@ -151,6 +151,6 @@ foreach ($page_templates as $template => $file) {
 
 <div class="stickynote">
     <div><strong>Pod Pages are similar to WordPress pages, but also support PHP and wildcard URLs.</strong></div>
-    <div style="margin-top:10px">To handle the URL of http://yoursite.com/history, you'd create a Pod Page named <strong>history</strong></div>
-    <div style="margin-top:10px">A single wildcard Pod Page can handle multiple URLs. For example, the Pod Page <strong>history/*</strong> will be used for any URL beginning with http://yoursite.com/history/</div>
+    <div style="margin-top:10px">To handle the URL of http://yoursite.com/history/, you'd create a Pod Page named <strong>history</strong></div>
+    <div style="margin-top:10px">A single wildcard Pod Page can handle multiple URLs. For example, the Pod Page <strong>history/*</strong> will be used for any URL beginning with http://yoursite.com/history/ like http://yoursite.com/history/ancient-egypt/</div>
 </div>

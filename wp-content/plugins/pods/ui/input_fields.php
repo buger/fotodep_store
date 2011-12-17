@@ -42,7 +42,41 @@ Generate the input helper
 ==================================================
 */
 if (!empty($input_helper)) {
-    eval("?>$input_helper");
+    $function_or_file = $input_helper;
+    $check_function = $function_or_file;
+    if ((!defined('PODS_STRICT_MODE') || !PODS_STRICT_MODE) && (!defined('PODS_HELPER_FUNCTIONS') || !PODS_HELPER_FUNCTIONS))
+        $check_function = false;
+    $check_file = null;
+    if ((!defined('PODS_STRICT_MODE') || !PODS_STRICT_MODE) && (!defined('PODS_HELPER_FILES') || !PODS_HELPER_FILES))
+        $check_file = false;
+    if (false !== $check_function && false !== $check_file)
+        $function_or_file = pods_function_or_file($function_or_file, $check_function, 'helper', $check_file);
+    else
+        $function_or_file = false;
+
+    $content = false;
+    if (!$function_or_file) {
+        $api = new PodAPI();
+        $params = array('name' => $input_helper, 'type' => 'input');
+        if (!defined('PODS_STRICT_MODE') || !PODS_STRICT_MODE)
+            $params = pods_sanitize($params);
+        $content = $api->load_helper($params);
+        if (false !== $content && 0 < strlen(trim($content['phpcode'])))
+            $content = $content['phpcode'];
+        else
+            $content = false;
+    }
+
+    if (false === $content && false !== $function_or_file && isset($function_or_file['function']))
+        echo $function_or_file['function']($coltype, $field, $css_id, $css_classes, $value, $this);
+    elseif (false === $content && false !== $function_or_file && isset($function_or_file['file']))
+        locate_template($function_or_file['file'], true, true);
+    elseif (false !== $content) {
+        if (!defined('PODS_DISABLE_EVAL') || PODS_DISABLE_EVAL)
+            eval("?>$content");
+        else
+            echo $content;
+    }
 }
 
 /*
@@ -98,12 +132,12 @@ Textarea box
 elseif ('desc' == $coltype) {
     if (is_admin()) {
         $coltype = 'desc_tinymce';
-        
+
         // New TinyMCE API by azaozz
         require_once(PODS_DIR . '/ui/wp-editor/wp-editor.php');
         require_once(ABSPATH . '/wp-admin/includes/template.php');
 
-        if (!isset($coltype_exists[$coltype]) || empty($coltype_exists[$coltype])) {
+        if (!function_exists('wp_editor') && (!isset($coltype_exists[$coltype]) || empty($coltype_exists[$coltype]))) {
 ?>
     <style type="text/css" scoped="scoped">
         @import url("<?php echo PODS_URL; ?>/ui/wp-editor/editor-buttons.css");
@@ -118,8 +152,13 @@ elseif ('desc' == $coltype) {
                 && !(defined('PODS_UPLOAD_REQUIRE_LOGIN') && !is_bool(PODS_UPLOAD_REQUIRE_LOGIN) && (!is_user_logged_in() || !current_user_can(PODS_UPLOAD_REQUIRE_LOGIN)))) {
             $media_bar = true;
         }
-        global $wp_editor;
-        echo $wp_editor->editor($value, $css_id, array('editor_class' => $css_classes, 'media_buttons_context' => 'Upload/Insert ', 'textarea_rows' => 10), $media_bar);
+        if (function_exists('wp_editor')) {
+            wp_editor($value, $css_id, array('editor_class' => $css_classes, 'media_buttons' => $media_bar));
+        }
+        else {
+            global $wp_editor;
+            echo $wp_editor->editor($value, $css_id, array('editor_class' => $css_classes, 'media_buttons_context' => 'Upload/Insert ', 'textarea_rows' => 10), $media_bar);
+        }
     }
     else {
         if (!isset($coltype_exists[$coltype]) || empty($coltype_exists[$coltype])) {
@@ -189,7 +228,7 @@ elseif ('file' == $coltype) {
                 flash_url: "<?php echo WP_INC_URL; ?>/js/swfupload/swfupload.swf",
                 file_types: "*.*",
                 file_size_limit: "<?php echo esc_attr(wp_max_upload_size()); ?>",
-                post_params: {"action": "wp_handle_upload_advanced", "auth_cookie": "<?php echo (is_ssl() ? esc_attr($_COOKIE[SECURE_AUTH_COOKIE]) : esc_attr($_COOKIE[AUTH_COOKIE])); ?>", "logged_in_cookie": "<?php echo esc_attr($_COOKIE[LOGGED_IN_COOKIE]); ?>"},
+                post_params: {"action": "wp_handle_upload_advanced", "_wpnonce": "<?php echo wp_create_nonce('pods-wp_handle_upload_advanced'); ?>", "auth_cookie": "<?php echo (is_ssl() ? esc_attr($_COOKIE[SECURE_AUTH_COOKIE]) : esc_attr($_COOKIE[AUTH_COOKIE])); ?>", "logged_in_cookie": "<?php echo esc_attr($_COOKIE[LOGGED_IN_COOKIE]); ?>"},
                 file_dialog_complete_handler: function(num_files, num_queued_files, total_queued_files) {
                     this.startUpload();
                 },
@@ -313,7 +352,7 @@ $coltype_exists[$coltype] = true;
 ?>
     </div>
     <div class="clear<?php echo esc_attr($hidden); ?>" id="spacer_<?php echo esc_attr($name); ?>"></div>
-<?php 
+<?php
 //post-field hooks
 do_action('pods_post_input_field', $field, $css_id, $css_classes, $this);
 do_action("pods_post_input_field_$name", $field, $css_id, $css_classes, $this);

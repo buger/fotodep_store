@@ -12,20 +12,24 @@ class PodInit
         // Activate and Install
         register_activation_hook(__FILE__, array($this, 'activate'));
         add_action('wpmu_new_blog', array($this, 'new_blog'), 10, 6);
-        if (absint(get_option('pods_version')) < PODS_VERSION)
+
+        $installed = get_option('pods_version');
+        if (0 < strlen($installed) && false === strpos($installed, '.'))
+            $installed = pods_version_to_point($installed);
+        if (version_compare($installed, PODS_VERSION, '<'))
             $this->setup();
-        elseif (absint(get_option('pods_version')) != PODS_VERSION) {
+        elseif (version_compare($installed, PODS_VERSION, '>')) {
             delete_option('pods_version');
             add_option('pods_version', PODS_VERSION);
         }
 
-
         add_action('init', array($this, 'init'));
+        add_action('after_setup_theme', array($this, 'deprecated'));
         add_action('admin_menu', array($this, 'admin_menu'), 99);
         add_action('template_redirect', array($this, 'template_redirect'));
         add_action('delete_attachment', array($this, 'delete_attachment'));
         add_shortcode('pods', 'pods_shortcode');
-        
+
         if (!defined('PODS_DISABLE_POD_PAGE_CHECK')) {
             $pod_page_exists = pod_page_exists();
 
@@ -35,7 +39,10 @@ class PodInit
                 add_filter('wp_title', array($this, 'wp_title'), 0, 3);
                 add_filter('body_class', array($this, 'body_class'), 0, 1);
                 add_filter('status_header', array($this, 'status_header'));
-                add_action('plugins_loaded', array($this, 'precode'));
+                if (defined('PODS_PAGE_PRECODE_TIMING') && false !== PODS_PAGE_PRECODE_TIMING)
+                    add_action('after_setup_theme', array($this, 'precode'));
+                else
+                    add_action('plugins_loaded', array($this, 'precode'));
                 add_action('wp', array($this, 'silence_404'));
             }
         }
@@ -64,18 +71,23 @@ class PodInit
             switch_to_blog($blogid);
         }
         // Setup DB tables
-        if ($installed = absint(get_option('pods_version'))) {
-            if ($installed < PODS_VERSION) {
+        $installed = get_option('pods_version');
+        if (0 < strlen($installed) && false === strpos($installed, '.'))
+            $installed = pods_version_to_point($installed);
+        if (0 < strlen($installed)) {
+            if (version_compare($installed, PODS_VERSION, '<')) {
                 do_action('pods_update', PODS_VERSION, $installed, $blogid);
-                if (null === apply_filters('pods_update_run', null, PODS_VERSION, $installed, $blogid))
+                if (null === apply_filters('pods_update_run', null, PODS_VERSION, $installed, $blogid) && !isset($_GET['pods_bypass_update']))
                     include(PODS_DIR . '/sql/update.php');
                 do_action('pods_update_post', PODS_VERSION, $installed, $blogid);
             }
         }
         else {
             do_action('pods_install', PODS_VERSION, $installed, $blogid);
-            if (null === apply_filters('pods_install_run', null, PODS_VERSION, $installed, $blogid)) {
+            if (null === apply_filters('pods_install_run', null, PODS_VERSION, $installed, $blogid) && !isset($_GET['pods_bypass_install'])) {
                 $sql = file_get_contents(PODS_DIR . '/sql/dump.sql');
+                $sql = str_replace("\r", "\n", $sql);
+                $sql = str_replace("\n\n", "\n", $sql);
                 $sql = apply_filters('pods_install_sql', $sql, PODS_VERSION, $installed, $blogid);
                 $charset_collate = 'DEFAULT CHARSET utf8';
                 if (!empty($wpdb->charset))
@@ -86,6 +98,9 @@ class PodInit
                     $sql = str_replace('DEFAULT CHARSET utf8', $charset_collate, $sql);
                 $sql = explode(";\n", str_replace('wp_', '@wp_', $sql));
                 for ($i = 0, $z = count($sql); $i < $z; $i++) {
+                    $sql[$i] = trim($sql[$i]);
+                    if (empty($sql[$i]))
+                        continue;
                     pod_query($sql[$i], 'Cannot setup SQL tables');
                 }
             }
@@ -106,38 +121,60 @@ class PodInit
         wp_register_script('jqmodal', PODS_URL . '/ui/js/jqmodal.js', array('jquery'));
         wp_register_script('pods-ui', PODS_URL . '/ui/js/pods.ui.js', array('jquery', 'jqmodal'));
 
-        $security_settings = array('pods_disable_file_browser' => 0,
-                                   'pods_files_require_login' => 0,
-                                   'pods_files_require_login_cap' => '',
-                                   'pods_disable_file_upload' => 0,
-                                   'pods_upload_require_login' => 0,
-                                   'pods_upload_require_login_cap' => '');
-        foreach ($security_settings as $security_setting => $setting) {
-            $setting = get_option($security_setting);
+        $additional_settings = array('pods_disable_file_browser' => 0,
+                                     'pods_files_require_login' => 0,
+                                     'pods_files_require_login_cap' => '',
+                                     'pods_disable_file_upload' => 0,
+                                     'pods_upload_require_login' => 0,
+                                     'pods_upload_require_login_cap' => '',
+                                     'pods_page_precode_timing' => 0);
+        foreach ($additional_settings as $additional_setting => $setting) {
+            $setting = get_option($additional_setting);
             if (!empty($setting))
-                $security_settings[$security_setting] = $setting;
+                $additional_settings[$additional_setting] = $setting;
         }
-        foreach ($security_settings as $security_setting => $setting) {
+        foreach ($additional_settings as $additional_setting => $setting) {
             if (0 == $setting)
                 $setting = false;
             elseif (1 == $setting)
                 $setting = true;
-            if (in_array($security_setting, array('pods_files_require_login', 'pods_upload_require_login'))) {
-                if (0 < strlen($security_settings[$security_setting.'_cap']))
-                    $setting = $security_settings[$security_setting.'_cap'];
+            if (in_array($additional_setting, array('pods_files_require_login', 'pods_upload_require_login'))) {
+                if (0 < strlen($additional_settings[$additional_setting.'_cap']))
+                    $setting = $additional_settings[$additional_setting.'_cap'];
             }
-            elseif (in_array($security_setting, array('pods_files_require_login_cap', 'pods_upload_require_login_cap')))
+            elseif (in_array($additional_setting, array('pods_files_require_login_cap', 'pods_upload_require_login_cap')))
                 continue;
-            if (!defined(strtoupper($security_setting)))
-                define(strtoupper($security_setting), $setting);
+            if (!defined(strtoupper($additional_setting)))
+                define(strtoupper($additional_setting), $setting);
         }
     }
 
     function precode() {
         global $pods, $pod_page_exists;
-        eval('?>' . $pod_page_exists['precode']);
-        do_action('pods_page_precode', $pod_page_exists);
-        if (!is_object($pods) && 404 == $pods) {
+
+        $function_or_file = str_replace('*', 'w', $pod_page_exists['uri']);
+        $check_function = false;
+        $check_file = 'precode-' . $function_or_file;
+        if ((!defined('PODS_STRICT_MODE') || !PODS_STRICT_MODE) && (!defined('PODS_PAGE_FILES') || !PODS_PAGE_FILES))
+            $check_file = false;
+        if (false !== $check_function && false !== $check_file)
+            $function_or_file = pods_function_or_file($function_or_file, $check_function, 'page', $check_file);
+        else
+            $function_or_file = false;
+
+        $content = false;
+        if (!$function_or_file && 0 < strlen(trim($pod_page_exists['precode'])))
+            $content = $pod_page_exists['precode'];
+
+        if (false === $content && false !== $function_or_file && isset($function_or_file['file']))
+            locate_template($function_or_file['file'], true, true);
+        elseif (false !== $content) {
+            if (!defined('PODS_DISABLE_EVAL') || PODS_DISABLE_EVAL)
+                eval("?>$content");
+        }
+
+        do_action('pods_page_precode', $pod_page_exists, $pods);
+        if (!is_object($pods) && (404 == $pods || is_wp_error($pods))) {
             remove_action('template_redirect', array($this, 'template_redirect'));
             remove_action('wp_head', array($this, 'wp_head'));
             remove_filter('redirect_canonical', array($this, 'kill_redirect'));
@@ -171,8 +208,6 @@ class PodInit
         }
         $priv_check = array('manage_pods','manage_templates','manage_pod_pages','manage_helpers','manage_roles','manage_settings','manage_content','manage_packages');
         if ((!defined('PODS_DISABLE_ADMIN_MENU') || !PODS_DISABLE_ADMIN_MENU) && (!empty($submenu) || pods_access($priv_check))) {
-            wp_enqueue_script('jquery-ui-core');
-            wp_enqueue_script('jquery-ui-sortable');
             add_object_page('Pods', 'Pods', 'read', 'pods', null, PODS_URL.'/ui/images/icon16.png');
             if (pods_access(array('manage_pods','manage_templates','manage_pod_pages','manage_helpers','manage_roles','manage_settings'))) {
                 add_submenu_page('pods', 'Setup', 'Setup', 'read', 'pods', array($this, 'pods_setup_page'));
@@ -199,10 +234,10 @@ class PodInit
         do_action('pods_wp_head');
         if (!defined('PODS_DISABLE_VERSION_OUTPUT') || !PODS_DISABLE_VERSION_OUTPUT) {
 ?>
-<!-- Pods CMS <?php echo PODS_VERSION_FULL; ?> -->
+<!-- Pods CMS <?php echo PODS_VERSION; ?> -->
 <?php
         }
-        if ((!defined('PODS_DISABLE_META') || !PODS_DISABLE_META) && is_object($pods)) {
+        if ((!defined('PODS_DISABLE_META') || !PODS_DISABLE_META) && is_object($pods) && !is_wp_error($pods)) {
             if (isset($pods->meta) && is_array($pods->meta)) {
                 foreach ($pods->meta as $name => $content) {
                     if ('title' == $name)
@@ -234,7 +269,7 @@ class PodInit
         $page_title = $pod_page_exists['title'];
 
         if (0 < strlen(trim($page_title))) {
-            if (is_object($pods))
+            if (is_object($pods) && !is_wp_error($pods))
                 $page_title = preg_replace_callback("/({@(.*?)})/m", array($pods, "parse_magic_tags"), $page_title);
             $title = ('right' == $seplocation) ? $page_title . " $sep " : " $sep " . $page_title;
         }
@@ -249,7 +284,7 @@ class PodInit
                 $title .= ('right' == $seplocation) ? ucwords($page_title) . " $sep " : " $sep " . ucwords($page_title);
             }
         }
-        if ((!defined('PODS_DISABLE_META') || !PODS_DISABLE_META) && is_object($pods) && isset($pods->meta) && is_array($pods->meta) && isset($pods->meta['title']))
+        if ((!defined('PODS_DISABLE_META') || !PODS_DISABLE_META) && is_object($pods) && !is_wp_error($pods) && isset($pods->meta) && is_array($pods->meta) && isset($pods->meta['title']))
             $title = $pods->meta['title'];
         return apply_filters('pods_title', $title, $sep, $seplocation);
     }
@@ -260,10 +295,10 @@ class PodInit
         $uri = explode('?',$pod_page_exists['uri']);
         $uri = explode('#',$uri[0]);
         $classes[] = 'pod-page-'.trim(str_replace('--','-',str_replace('--','-',str_replace('_','-',sanitize_title(str_replace('/','-',str_replace('*','_w_',$uri[0])))))), '-');
-        if (is_object($pods)) {
+        if (is_object($pods) && !is_wp_error($pods)) {
             $classes[] = 'pod-'.trim(str_replace('--','-',str_replace('_','-',$pods->datatype)), '-');
         }
-        if ((!defined('PODS_DISABLE_BODY_CLASSES') || !PODS_DISABLE_BODY_CLASSES) && is_object($pods) && isset($pods->body_classes))
+        if ((!defined('PODS_DISABLE_BODY_CLASSES') || !PODS_DISABLE_BODY_CLASSES) && is_object($pods) && !is_wp_error($pods) && isset($pods->body_classes))
             $classes[] = $pods->body_classes;
         return apply_filters('pods_body_class', $classes, $uri);
     }
@@ -291,24 +326,35 @@ class PodInit
              * get_sidebar()
              * get_footer()
              */
-            $page_template = $pod_page_exists['page_template'];
+            $template = $pod_page_exists['page_template'];
+            $template = apply_filters('pods_page_template', $template, $pod_page_exists);
 
-            if ((!defined('PODS_DISABLE_DYNAMIC_TEMPLATE') || !PODS_DISABLE_DYNAMIC_TEMPLATE) && is_object($pods) && isset($pods->page_template) && !empty($pods->page_template) && '' != locate_template(array($pods->page_template), true)) {
+            $render_function = apply_filters('pods_template_redirect', 'false', $template, $pod_page_exists);
+
+            do_action('pods_page', $template, $pod_page_exists);
+            if (is_callable($render_function))
+                call_user_func($render_function);
+            elseif ((!defined('PODS_DISABLE_DYNAMIC_TEMPLATE') || !PODS_DISABLE_DYNAMIC_TEMPLATE) && is_object($pods) && !is_wp_error($pods) && isset($pods->page_template) && !empty($pods->page_template) && '' != locate_template(array($pods->page_template), true)) {
+                $template = $pods->page_template;
                 // found the template and included it, we're good to go!
             }
-            elseif (!empty($page_template) && '' != locate_template(array($page_template), true)) {
+            elseif (!empty($pod_page_exists['page_template']) && '' != locate_template(array($pod_page_exists['page_template']), true)) {
+                $template = $pod_page_exists['page_template'];
                 // found the template and included it, we're good to go!
             }
-            elseif ('' != locate_template(array('pods.php'), true)) {
+            elseif ('' != locate_template(apply_filters('pods_page_default_templates', array('pods.php')), true)) {
+                $template = 'pods.php';
                 // found the template and included it, we're good to go!
             }
             else {
                 // templates not found in theme, default output
+                do_action('pods_page_default', $template, $pod_page_exists);
                 get_header();
                 pods_content();
                 get_sidebar();
                 get_footer();
             }
+            do_action('pods_page_end', $template, $pod_page_exists);
             exit;
         }
     }
@@ -328,6 +374,10 @@ class PodInit
     }
 
     function pods_setup_page() {
+        if (!wp_script_is('jquery-ui-core', 'queue') && !wp_script_is('jquery-ui-core', 'to_do') && !wp_script_is('jquery-ui-core', 'done'))
+            wp_print_scripts('jquery-ui-core');
+        if (!wp_script_is('jquery-ui-sortable', 'queue') && !wp_script_is('jquery-ui-sortable', 'to_do') && !wp_script_is('jquery-ui-sortable', 'done'))
+            wp_print_scripts('jquery-ui-sortable');
         if (null === apply_filters('pods_admin_setup', null))
             include PODS_DIR . '/ui/manage.php';
     }
@@ -338,7 +388,15 @@ class PodInit
     }
 
     function pods_content_page() {
+        if (!wp_script_is('jquery-ui-core', 'queue') && !wp_script_is('jquery-ui-core', 'to_do') && !wp_script_is('jquery-ui-core', 'done'))
+            wp_print_scripts('jquery-ui-core');
+        if (!wp_script_is('jquery-ui-sortable', 'queue') && !wp_script_is('jquery-ui-sortable', 'to_do') && !wp_script_is('jquery-ui-sortable', 'done'))
+            wp_print_scripts('jquery-ui-sortable');
         if (null === apply_filters('pods_admin_content', null))
             include PODS_DIR . '/ui/manage_content.php';
+    }
+
+    function deprecated() {
+        require_once(PODS_DIR . '/deprecated.php'); // DEPRECATED IN 2.0
     }
 }

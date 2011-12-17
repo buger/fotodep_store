@@ -1,22 +1,21 @@
 <?php
 
-/*
-Creates an admin page
-
-You must set $this->args and define the page_content() method
-*/
+// Administration page base class
 
 abstract class scbAdminPage {
 	/** Page args
-	 * $toplevel string  If not empty, will create a new top level menu
-	 * $icon string  Path to an icon for the top level menu
-	 * $parent string  ( default: options-general.php )
-	 * $capability string  ( default: 'manage_options' )
-	 * $page_title string  ( mandatory )
-	 * $menu_title string  ( default: $page_title )
-	 * $page_slug string  ( default: sanitized $page_title )
-	 * $nonce string  ( default: $page_slug )
-	 * $action_link string|bool  Text of the action link on the Plugins page ( default: 'Settings' )
+	 * $page_title string (mandatory)
+	 * $parent (string)  (default: options-general.php)
+	 * $capability (string)  (default: 'manage_options')
+	 * $menu_title (string)  (default: $page_title)
+	 * $page_slug (string)  (default: sanitized $page_title)
+	 * $toplevel (string)  If not empty, will create a new top level menu (for expected values see http://codex.wordpress.org/Administration_Menus#Using_add_submenu_page)
+	 * - $icon_url (string)  URL to an icon for the top level menu
+	 * - $position (int)  Position of the toplevel menu (caution!)
+	 * $screen_icon (string)  The icon type to use in the screen header
+	 * $nonce string  (default: $page_slug)
+	 * $action_link (string|bool)  Text of the action link on the Plugins page (default: 'Settings')
+	 * $admin_action_priority int  The priority that the admin_menu action should be executed at (default: 10)
 	 */
 	protected $args;
 
@@ -97,7 +96,7 @@ abstract class scbAdminPage {
 				add_action( 'admin_notices', 'settings_errors' );
 		}
 
-		add_action( 'admin_menu', array( $this, 'page_init' ) );
+		add_action( 'admin_menu', array( $this, 'page_init' ), $this->args['admin_action_priority'] );
 		add_filter( 'contextual_help', array( $this, '_contextual_help' ), 10, 2 );
 
 		if ( $this->args['action_link'] )
@@ -118,7 +117,7 @@ abstract class scbAdminPage {
 	// A generic page header
 	function page_header() {
 		echo "<div class='wrap'>\n";
-		screen_icon();
+		screen_icon( $this->args['screen_icon'] );
 		echo "<h2>" . $this->args['page_title'] . "</h2>\n";
 	}
 
@@ -147,7 +146,7 @@ abstract class scbAdminPage {
 			return false;
 		}
 
-		$new_data = scbUtil::array_extract( $_POST, array_keys( $this->options->get_defaults() ) );
+		$new_data = wp_array_slice_assoc( $_POST, array_keys( $this->options->get_defaults() ) );
 
 		$new_data = stripslashes_deep( $new_data );
 
@@ -173,10 +172,12 @@ abstract class scbAdminPage {
 	// Generates a form submit button
 	function submit_button( $value = '', $action = 'action', $class = "button" ) {
 		if ( is_array( $value ) ) {
-			extract( wp_parse_args( $value, array( 'value' => __( 'Save Changes', $this->textdomain ),
+			extract( wp_parse_args( $value, array(
+				'value' => __( 'Save Changes', $this->textdomain ),
 				'action' => 'action',
 				'class' => 'button',
-				'ajax' => true ) ) );
+				'ajax' => true
+			) ) );
 
 			if ( ! $ajax )
 				$class .= ' no-ajax';
@@ -215,7 +216,7 @@ abstract class scbAdminPage {
 	*/
 	function form_wrap( $content, $submit_button = true ) {
 		if ( is_array( $submit_button ) ) {
-			$content .= call_user_func( array( $this, 'submit_button' ), $submit_button );
+			$content .= $this->submit_button( $submit_button );
 		} elseif ( true === $submit_button ) {
 			$content .= $this->submit_button();
 		} elseif ( false !== strpos( $submit_button, '<input' ) ) {
@@ -228,13 +229,8 @@ abstract class scbAdminPage {
 		return scbForms::form_wrap( $content, $this->nonce );
 	}
 
-	// See scbForms::form()
-	function form( $rows, $formdata = array() ) {
-		return scbForms::form( $rows, $formdata, $this->nonce );
-	}
-
 	// Generates a table wrapped in a form
-	function form_table( $rows, $formdata = array() ) {
+	function form_table( $rows, $formdata = false ) {
 		$output = '';
 		foreach ( $rows as $row )
 			$output .= $this->table_row( $row, $formdata );
@@ -247,13 +243,13 @@ abstract class scbAdminPage {
 	// Wraps the given content in a <form><table>
 	function form_table_wrap( $content ) {
 		$output = $this->table_wrap( $content );
-		$output = $this->form_wrap( $output, $this->nonce );
+		$output = $this->form_wrap( $output );
 
 		return $output;
 	}
 
 	// Generates a form table
-	function table( $rows, $formdata = array() ) {
+	function table( $rows, $formdata = false ) {
 		$output = '';
 		foreach ( $rows as $row )
 			$output .= $this->table_row( $row, $formdata );
@@ -264,7 +260,7 @@ abstract class scbAdminPage {
 	}
 
 	// Generates a table row
-	function table_row( $args, $formdata = array() ) {
+	function table_row( $args, $formdata = false ) {
 		return $this->row_wrap( $args['title'], $this->input( $args, $formdata ) );
 	}
 
@@ -276,40 +272,22 @@ abstract class scbAdminPage {
 
 	// Wraps the given content in a <tr><td>
 	function row_wrap( $title, $content ) {
-		return 
-		html( 'tr', 
+		return
+		html( 'tr',
 			 html( 'th scope="row"', $title )
 			.html( 'td', $content ) );
 	}
 
-	function input( $args, $formdata = array() ) {
-		if ( empty( $formdata ) && isset( $this->options ) )
-			$formdata = $this->options->get();
-
-		if ( isset( $args['name_tree'] ) ) {
-			$tree = ( array ) $args['name_tree'];
-			unset( $args['name_tree'] );
-
-			$value = $formdata;
-			$name = $this->option_name;
-			foreach ( $tree as $key ) {
-				$value = $value[$key];
-				$name .= '[' . $key . ']';
-			}
-
-			$args['name'] = $name;
-			unset( $args['names'] );
-
-			unset( $args['values'] );
-
-			$formdata = array( $name => $value );
-		}
-
-		return scbForms::input( $args, $formdata );
-	}
-
 	// Mimic scbForms inheritance
 	function __call( $method, $args ) {
+		if ( in_array( $method, array( 'input', 'form' ) ) ) {
+			if ( empty( $args[1] ) && isset( $this->options ) )
+				$args[1] = $this->options->get();
+
+			if ( 'form' == $method )
+				$args[2] = $this->nonce;
+		}
+
 		return call_user_func_array( array( 'scbForms', $method ), $args );
 	}
 
@@ -335,7 +313,7 @@ abstract class scbAdminPage {
 			$this->pagehook = add_submenu_page( $parent, $page_title, $menu_title, $capability, $page_slug, array( $this, '_page_content_hook' ) );
 		} else {
 			$func = 'add_' . $toplevel . '_page';
-			$this->pagehook = $func( $page_title, $menu_title, $capability, $page_slug, array( $this, '_page_content_hook' ), $icon_url );
+			$this->pagehook = $func( $page_title, $menu_title, $capability, $page_slug, array( $this, '_page_content_hook' ), $icon_url, $position );
 		}
 
 		if ( ! $this->pagehook )
@@ -357,16 +335,19 @@ abstract class scbAdminPage {
 		if ( empty( $this->args['page_title'] ) )
 			trigger_error( 'Page title cannot be empty', E_USER_WARNING );
 
-		$this->args = wp_parse_args( $this->args, array( 
+		$this->args = wp_parse_args( $this->args, array(
 			'toplevel' => '',
-			'icon' => '',
+			'position' => null,
+			'icon_url' => '',
+			'screen_icon' => '',
 			'parent' => 'options-general.php',
 			'capability' => 'manage_options',
 			'menu_title' => $this->args['page_title'],
 			'page_slug' => '',
 			'nonce' => '',
 			'action_link' => __( 'Settings', $this->textdomain ),
-			'ajax_submit' => false, 
+			'ajax_submit' => false,
+			'admin_action_priority' => 10,
 		) );
 
 		if ( empty( $this->args['page_slug'] ) )

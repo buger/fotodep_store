@@ -31,7 +31,10 @@ function pod_query($sql, $error = 'SQL failed', $results_error = null, $no_resul
             return $result;
         }
     }
-    $result = mysql_query($sql, $wpdb->dbh) or die("<e>$error; SQL: $sql; Response: " . mysql_error($wpdb->dbh));
+    if (false !== $error)
+        $result = mysql_query($sql, $wpdb->dbh) or die("<e>$error; SQL: $sql; Response: " . mysql_error($wpdb->dbh));
+    else
+        $result = @mysql_query($sql, $wpdb->dbh);
 
     if (0 < @mysql_num_rows($result)) {
         if (!empty($results_error)) {
@@ -67,13 +70,13 @@ function pods_sanitize($input) {
         $output = $input;
     elseif (is_object($input)) {
         foreach ((array) $input as $key => $val) {
-            $output[$key] = pods_sanitize($val);
+            $output[pods_sanitize($key)] = pods_sanitize($val);
         }
         $output = (object) $output;
     }
     elseif (is_array($input)) {
         foreach ($input as $key => $val) {
-            $output[$key] = pods_sanitize($val);
+            $output[pods_sanitize($key)] = pods_sanitize($val);
         }
     }
     else
@@ -98,7 +101,7 @@ function pods_url_variable($key = 'last', $type = 'url') {
 /**
  * Return a variable (if exists)
  *
- * @param mixed $key The variable name or URI segment position
+ * @param mixed $key The variable key or URI segment position
  * @param string $type (optional) "url", "get", "post", "request", "server", "session", "cookie", "constant", or "user"
  * @param mixed $default (optional) The default value to set if variable doesn't exist
  * @param mixed $allowed (optional) The value(s) allowed
@@ -106,7 +109,7 @@ function pods_url_variable($key = 'last', $type = 'url') {
  * @return mixed The variable (if exists), or default value
  * @since 1.10.6
  */
-function pods_var($key = 'last', $type = 'url', $default = null, $allowed = null, $strict = false) {
+function pods_var($key = 'last', $type = 'get', $default = null, $allowed = null, $strict = false) {
     $output = $default;
     if (is_array($type))
         $output = isset($type[$key]) ? $type[$key] : $output;
@@ -114,7 +117,9 @@ function pods_var($key = 'last', $type = 'url', $default = null, $allowed = null
         $output = isset($type->$key) ? $type->$key : $output;
     else {
         $type = strtolower((string) $type);
-        if (in_array($type, array('url', 'uri'))) {
+        if ('get' == $type && isset($_GET[$key]))
+            $output = stripslashes_deep($_GET[$key]);
+        elseif (in_array($type, array('url', 'uri'))) {
             $url = parse_url(get_current_url());
             $uri = trim($url['path'], '/');
             $uri = array_filter(explode('/', $uri));
@@ -127,8 +132,6 @@ function pods_var($key = 'last', $type = 'url', $default = null, $allowed = null
             if (is_numeric($key))
                 $output = ($key < 0) ? $uri[count($uri) + $key] : $uri[$key];
         }
-        elseif ('get' == $type && isset($_GET[$key]))
-            $output = stripslashes_deep($_GET[$key]);
         elseif ('post' == $type && isset($_POST[$key]))
             $output = stripslashes_deep($_POST[$key]);
         elseif ('request' == $type && isset($_REQUEST[$key]))
@@ -268,34 +271,67 @@ function pods_clean_name($str) {
  * @return string The unique slug name
  * @since 1.7.2
  */
-function pods_unique_slug($value, $column_name, $datatype, $datatype_id, $pod_id = 0) {
+function pods_unique_slug($value, $column_name, $datatype, $datatype_id = 0, $pod_id = 0) {
     $value = sanitize_title($value);
+    $slug = pods_sanitize($value);
+    $tbl_row_id = 0;
+    if (is_object($datatype)) {
+        if (isset($datatype->tbl_row_id))
+            $tbl_row_id = $datatype->tbl_row_id;
+        if (isset($datatype->pod_id))
+            $pod_id = $datatype->pod_id;
+        if (isset($datatype->datatype_id))
+            $datatype_id = $datatype->datatype_id;
+        if (isset($datatype->datatype))
+            $datatype = $datatype->datatype;
+        else
+            $datatype = '';
+    }
+    $datatype_id = absint($datatype_id);
+    $tbl_row_id = absint($tbl_row_id);
+    $pod_id = absint($pod_id);
     $sql = "
     SELECT DISTINCT
-        t.`$column_name` AS slug
+        t.`{$column_name}` AS slug
     FROM
-        @wp_pod p
-    INNER JOIN
-        `@wp_pod_tbl_{$datatype}` t ON t.id = p.tbl_row_id
+        `@wp_pod_tbl_{$datatype}` t
     WHERE
-        p.datatype = '$datatype_id' AND p.id != '$pod_id'
+        t.`{$column_name}` = '{$value}'
     ";
+    if (0 < $tbl_row_id) {
+        $sql = "
+        SELECT DISTINCT
+            t.`{$column_name}` AS slug
+        FROM
+            `@wp_pod_tbl_{$datatype}` t
+        WHERE
+            t.`{$column_name}` = '{$value}' AND t.id != {$tbl_row_id}
+        ";
+    }
+    elseif (0 < $pod_id) {
+        $sql = "
+        SELECT DISTINCT
+            t.`{$column_name}` AS slug
+        FROM
+            @wp_pod p
+        INNER JOIN
+            `@wp_pod_tbl_{$datatype}` t ON t.id = p.tbl_row_id
+        WHERE
+            t.`{$column_name}` = '{$slug}' AND p.datatype = {$datatype_id} AND p.id != {$pod_id}
+        ";
+    }
     $result = pod_query($sql);
     if (0 < mysql_num_rows($result)) {
         $unique_num = 0;
         $unique_found = false;
-        while ($row = mysql_fetch_assoc($result)) {
-            $taken_slugs[] = $row['slug'];
-        }
-        if (in_array($value, $taken_slugs)) {
-            while (!$unique_found) {
-                $unique_num++;
-                $test_slug = $value . '-' . $unique_num;
-                if (!in_array($test_slug, $taken_slugs)) {
-                    $value = $test_slug;
-                    $unique_found = true;
-                }
-            }
+        while (!$unique_found) {
+            $unique_num++;
+            $test_slug = pods_sanitize($value . '-' . $unique_num);
+            $result = pod_query(str_replace("t.`{$column_name}` = '{$slug}'", "t.`{$column_name}` = '{$test_slug}'", $sql));
+            if (0 < mysql_num_rows($result))
+                continue;
+            $value = $test_slug;
+            $unique_found = true;
         }
     }
     $value = apply_filters('pods_unique_slug', $value, $column_name, $datatype, $datatype_id, $pod_id);
@@ -447,8 +483,26 @@ function pods_access($privs, $method = 'OR') {
  * @since 1.6.7
  */
 function pods_shortcode($tags) {
-    $pairs = array('name' => null, 'id' => null, 'slug' => null, 'order' => 't.id DESC', 'limit' => 15, 'where' => null, 'col' => null, 'template' => null, 'helper' => null);
-    $tags = shortcode_atts($pairs, $tags);
+    $defaults = array('name' => null,
+                   'id' => null,
+                   'slug' => null,
+                   'select' => null,
+                   'order' => null,
+                   'orderby' => null,
+                   'limit' => null,
+                   'where' => null,
+                   'search' => true,
+                   'page' => null,
+                   'filters' => false,
+                   'filters_label' => null,
+                   'filters_location' => 'before',
+                   'pagination' => false,
+                   'pagination_label' => null,
+                   'pagination_location' => 'after',
+                   'col' => null,
+                   'template' => null,
+                   'helper' => null);
+    $tags = shortcode_atts($defaults, $tags);
     $tags = apply_filters('pods_shortcode', $tags);
 
     if (empty($tags['name'])) {
@@ -460,24 +514,46 @@ function pods_shortcode($tags) {
 
     // id > slug (if both exist)
     $id = empty($tags['slug']) ? null : $tags['slug'];
-    $id = empty($tags['id']) ? $id : $tags['id'];
+    $id = empty($tags['id']) ? $id : absint($tags['id']);
 
-    $order = empty($tags['order']) ? 'id DESC' : $tags['order'];
-    $limit = empty($tags['limit']) ? 15 : $tags['limit'];
-    $where = empty($tags['where']) ? null : $tags['where'];
+    $pod = new Pod($tags['name'], $id);
 
-    $Record = new Pod($tags['name'], $id);
-
+    $found = 0;
     if (empty($id)) {
-        $params = array('orderby' => $order, 'limit' => $limit, 'where' => $where);
+        $params = array();
+        if (0 < strlen($tags['order']))
+            $params['orderby'] = $tags['order'];
+        if (0 < strlen($tags['orderby']))
+            $params['orderby'] = $tags['orderby'];
+        if (!empty($tags['limit']))
+            $params['limit'] = $tags['limit'];
+        if (0 < strlen($tags['where']))
+            $params['where'] = $tags['where'];
+        if (0 < strlen($tags['select']))
+            $params['select'] = $tags['select'];
+        if (empty($tags['search']))
+            $params['search'] = false;
+        if (0 < absint($tags['page']))
+            $params['page'] = absint($tags['page']);
         $params = apply_filters('pods_shortcode_findrecords_params', $params);
-        $Record->findRecords($params);
+        $pod->findRecords($params);
+        $found = $pod->getTotalRows();
     }
-    if (!empty($tags['col']) && !empty($id)) {
-        $val = $Record->get_field($tags['col']);
-        return empty($tags['helper']) ? $val : $Record->pod_helper($tags['helper'], $val);
+    elseif (!empty($tags['col'])) {
+        $val = $pod->get_field($tags['col']);
+        return empty($tags['helper']) ? $val : $pod->pod_helper($tags['helper'], $val);
     }
-    return $Record->showTemplate($tags['template']);
+    ob_start();
+    if (empty($id) && false !== $tags['filters'] && 'before' == $tags['filters_location'])
+        echo $pod->getFilters($tags['filters'], $tags['filters_label']);
+    if (empty($id) && 0 < $found && false !== $tags['pagination'] && 'before' == $tags['pagination_location'])
+        echo $pod->getPagination($tags['pagination_label']);
+    echo $pod->showTemplate($tags['template']);
+    if (empty($id) && 0 < $found && false !== $tags['pagination'] && 'after' == $tags['pagination_location'])
+        echo $pod->getPagination($tags['pagination_label']);
+    if (empty($id) && false !== $tags['filters'] && 'after' == $tags['filters_location'])
+        echo $pod->getFilters($tags['filters'], $tags['filters_label']);
+    return ob_get_clean();
 }
 
 /**
@@ -485,12 +561,10 @@ function pods_shortcode($tags) {
  *
  * @since 1.2.0
  */
-function pods_generate_key($datatype, $uri_hash, $public_columns, $form_count = 1) {
-    $token = md5(mt_rand());
-    $_SESSION[$uri_hash][$form_count]['dt'] = $datatype;
-    $_SESSION[$uri_hash][$form_count]['token'] = $token;
-    $_SESSION[$uri_hash][$form_count]['columns'] = $public_columns;
-    $token = apply_filters('pods_generate_key', $token, $datatype, $uri_hash, $public_columns, $form_count);
+function pods_generate_key($datatype, $uri_hash, $columns, $form_count = 1) {
+    $token = wp_create_nonce('pods-form-' . $datatype . '-' . (int) $form_count . '-' . $uri_hash . '-' . json_encode($columns));
+    $token = apply_filters('pods_generate_key', $token, $datatype, $uri_hash, $columns, (int) $form_count);
+    $_SESSION['pods_form_' . $token] = $columns;
     return $token;
 }
 
@@ -499,14 +573,13 @@ function pods_generate_key($datatype, $uri_hash, $public_columns, $form_count = 
  *
  * @since 1.2.0
  */
-function pods_validate_key($key, $uri_hash, $datatype, $form_count = 1) {
-    if (!empty($_SESSION) && isset($_SESSION[$uri_hash]) && !empty($_SESSION[$uri_hash])) {
-        $session_dt = $_SESSION[$uri_hash][$form_count]['dt'];
-        $session_token = $_SESSION[$uri_hash][$form_count]['token'];
-        if (!empty($session_token) && $key == $session_token && $datatype == $session_dt)
-            return apply_filters('pods_validate_key', true, $key, $uri_hash, $datatype, $form_count);
-    }
-    return apply_filters('pods_validate_key', false, $key, $uri_hash, $datatype, $form_count);
+function pods_validate_key($token, $datatype, $uri_hash, $columns = null, $form_count = 1) {
+    if (null === $columns && !empty($_SESSION) && isset($_SESSION['pods_form_' . $token]))
+        $columns = $_SESSION['pods_form_' . $token];
+    $success = false;
+    if (false !== wp_verify_nonce($token, 'pods-form-' . $datatype . '-' . (int) $form_count . '-' . $uri_hash . '-' . json_encode($columns)))
+        $success = $columns;
+    return apply_filters('pods_validate_key', $success, $token, $datatype, $uri_hash, $columns, (int) $form_count);
 }
 
 /**
@@ -515,11 +588,35 @@ function pods_validate_key($key, $uri_hash, $datatype, $form_count = 1) {
 function pods_content() {
     global $pod_page_exists;
 
+    do_action('pods_content_pre', $pod_page_exists);
+    $content = false;
     if (false !== $pod_page_exists) {
+        $function_or_file = str_replace('*', 'w', $pod_page_exists['uri']);
+        $check_function = false;
+        $check_file = null;
+        if ((!defined('PODS_STRICT_MODE') || !PODS_STRICT_MODE) && (!defined('PODS_PAGE_FILES') || !PODS_PAGE_FILES))
+            $check_file = false;
+        if (false !== $check_function && false !== $check_file)
+            $function_or_file = pods_function_or_file($function_or_file, $check_function, 'page', $check_file);
+        else
+            $function_or_file = false;
+
+        if (!$function_or_file && 0 < strlen(trim($pod_page_exists['phpcode'])))
+            $content = $pod_page_exists['phpcode'];
+
         ob_start();
-        eval('?>' . $pod_page_exists['phpcode']);
-        echo apply_filters('pods_content', ob_get_clean());
+        if (false === $content && false !== $function_or_file && isset($function_or_file['file']))
+            locate_template($function_or_file['file'], true, true);
+        elseif (false !== $content) {
+            if (!defined('PODS_DISABLE_EVAL') || PODS_DISABLE_EVAL)
+                eval("?>$content");
+            else
+                echo $content;
+        }
+        $content = ob_get_clean();
+        echo apply_filters('pods_content', $content);
     }
+    do_action('pods_content_post', $pod_page_exists, $content);
 }
 
 /**
@@ -616,4 +713,40 @@ function pods_compatible($wp = null, $php = null, $mysql = null) {
         }
     }
     return $compatible;
+}
+
+/**
+ * Check if a Function exists or File exists in Theme / Child Theme
+ *
+ * @since 1.12
+ */
+function pods_function_or_file ($function_or_file, $function_name = null, $file_dir = null, $file_name = null) {
+    $found = false;
+    $function_or_file = (string) $function_or_file;
+    if (false !== $function_name) {
+        if (null === $function_name)
+            $function_name = $function_or_file;
+        $function_name = str_replace(array('__', '__', '__'), '_', preg_replace('/[^a-z^A-Z^_][^a-z^A-Z^0-9^_]*/', '_', (string) $function_name));
+        if (function_exists('pods_custom_' . $function_name))
+            $found = array('function' => 'pods_custom_' . $function_name);
+        elseif (function_exists($function_name))
+            $found = array('function' => $function_name);
+    }
+    if (false !== $file_name && false === $found) {
+        if (null === $file_name)
+            $file_name = $function_or_file;
+        $file_name = str_replace(array('__', '__', '__'), '_', preg_replace('/[^a-z^A-Z^0-9^_]*/', '_', (string) $file_name)) . '.php';
+        $custom_location = apply_filters('pods_file_directory', null, $function_or_file, $function_name, $file_dir, $file_name);
+        if (defined('PODS_FILE_DIRECTORY') && false !== PODS_FILE_DIRECTORY)
+            $custom_location = PODS_FILE_DIRECTORY;
+        if (!empty($custom_location) && locate_template(trim($custom_location, '/') . '/' . (!empty($file_dir) ? $file_dir . '/' : '') . $file_name))
+            $found = array('file' => trim($custom_location, '/') . '/' . (!empty($file_dir) ? $file_dir . '/' : '') . $file_name);
+        elseif (locate_template('pods/' . (!empty($file_dir) ? $file_dir . '/' : '') . $file_name))
+            $found = array('file' => 'pods/' . (!empty($file_dir) ? $file_dir . '/' : '') . $file_name);
+        elseif (locate_template('pods-' . (!empty($file_dir) ? $file_dir . '-' : '') . $file_name))
+            $found = array('file' => 'pods-' . (!empty($file_dir) ? $file_dir . '-' : '') . $file_name);
+        elseif (locate_template('pods/' . (!empty($file_dir) ? $file_dir . '-' : '') . $file_name))
+            $found = array('file' => 'pods/' . (!empty($file_dir) ? $file_dir . '-' : '') . $file_name);
+    }
+    return apply_filters('pods_function_or_file', $found, $function_or_file, $function_name, $file_name);
 }

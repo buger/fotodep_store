@@ -2,41 +2,65 @@
 
 function file_gallery_lightboxes_support( $value = '', $type = '', $args = array() )
 {
+	$options = get_option('file_gallery');
+
 	$lightboxes_options = array
 	(
-		'colorbox' => array( 
-			'linkrel' => false, 
-			'linkclass' => false, 
-			'imageclass' => '{script_name}-{gallery_id}', 
-			'disable_imageclass_if_rel_false' => true
+		'colorbox' => array(
+			'linkrel' => false,
+			'linkclass' => false === $args['linkrel'] ? 'colorbox-link' : 'colorbox', 
+			'imageclass' => false === $args['linkrel'] ? 'colorbox' : 'colorbox-' . $args['gallery_id']
+		),
+		'thickbox' => array(
+			'linkrel' => 'thickbox-' . $args['gallery_id']
+		),
+		'fancybox' => array(
+			'linkrel' => 'fancybox-' . $args['gallery_id']
+		),
+		'prettyPhoto' => array(
+			'linkrel' => 'prettyPhoto[' . $args['gallery_id'] . ']'
 		)
 	);
 
 	$lightboxes_options = apply_filters('file_gallery_lightboxes_options', $lightboxes_options);
 	
-	$enqueued = array();
-	
-	if( defined("FILE_GALLERY_LIGHTBOX_CLASSES") )
+	if( defined('FILE_GALLERY_LIGHTBOX_CLASSES') )
 		$enqueued = unserialize(FILE_GALLERY_LIGHTBOX_CLASSES);
-	
+	else
+		$enqueued = explode(',', $options['auto_enqueued_scripts']);
+
+	// if auto-enqueued scripts are set
 	if( ! empty($enqueued) )
 	{
 		foreach( $enqueued as $script_name )
 		{
-			if( isset($lightboxes_options[$script_name][$type]) && false !== $lightboxes_options[$script_name][$type] )
+			// supplemental value is set...
+			if(	isset($lightboxes_options[$script_name][$type]) )
 			{
-				$new_value = str_replace(array('{script_name}', '{gallery_id}'), array($script_name, $args['gallery_id']), $lightboxes_options[$script_name][$type]);
-				
-				if( false !== $args['linkrel'] || (true !== $args['linkrel'] && true !== $lightboxes_options[$script_name]['disable_imageclass_if_rel_false']) )
+				$search = $script_name;
+			
+				if( 'linkrel' == $type )
+					$search .= '[' . $args['gallery_id'] . ']';
+
+				// ...and it's not 'false'
+				if(	false !== $lightboxes_options[$script_name][$type] )
 				{
-					if( false !== strpos($value, $script_name) )
-						$value = str_replace($script_name, $new_value, $value);
+					/**
+					 * if supplied value is not boolean ( == string || number)
+					 * and script name is present in attribute value,
+					 * just replace script name in attribute with supplied value.
+					 *
+					 * otherwise append supplied value to current attribute.
+					 */
+					if( ! is_bool($lightboxes_options[$script_name][$type]) && false !== strpos($args[$type], $script_name))
+						return str_replace($search, $lightboxes_options[$script_name][$type], $value);
 					else
-						$value .= ' ' . $new_value;
+						return $value . ' ' . $lightboxes_options[$script_name][$type];
 				}
-				else
+				// ...and it is 'false'
+				elseif(	false === $lightboxes_options[$script_name][$type] )
 				{
-					$value = str_replace($script_name, '', $value);
+					return str_replace($search, '', $value);
 				}
 			}
 		}

@@ -45,7 +45,7 @@ function pods_ui_manage ($obj)
     {
         $unique_md5 .= '_'.$object->ui['num'];
     }
-    $unique_md5 = '_'.md5($unique_md5);
+    $unique_md5 = '_'.wp_hash($unique_md5);
     $object->ui['unique_md5'] = (isset($object->ui['unique_md5'])?'_'.$object->ui['unique_md5']:$unique_md5);
     $object->ui['title'] = (isset($object->ui['title'])?$object->ui['title']:ucwords(str_replace('_',' ',$object->datatype)));
     $object->ui['item'] = (isset($object->ui['item'])?$object->ui['item']:ucwords(str_replace('_',' ',$object->datatype)));
@@ -129,12 +129,18 @@ function pods_ui_manage ($obj)
     $object->ui['join'] = (isset($object->ui['join'])?$object->ui['join']:null);
     $object->ui['groupby'] = (isset($object->ui['groupby'])?$object->ui['groupby']:null);
     $object->ui['having'] = (isset($object->ui['having'])?$object->ui['having']:null);
+    $object->ui['search_mode'] = (isset($object->ui['search_mode'])?$object->ui['search_mode']:null);
+    $object->ui['traverse'] = (isset($object->ui['traverse'])?$object->ui['traverse']:null);
+    $object->ui['calc_found_rows'] = (isset($object->ui['calc_found_rows'])?$object->ui['calc_found_rows']:null);
+    $object->ui['count_found_rows'] = (isset($object->ui['count_found_rows'])?$object->ui['count_found_rows']:null);
+    $object->ui['rabit_hole'] = (isset($object->ui['rabit_hole'])?$object->ui['rabit_hole']:null);
     $object->ui['sql'] = (isset($object->ui['sql'])?$object->ui['sql']:null);
     $object->ui['reorder_sql'] = (isset($object->ui['reorder_sql'])?$object->ui['reorder_sql']:$object->ui['sql']);
     $object->ui['search'] = (isset($object->ui['search'])&&is_bool($object->ui['search'])&&$object->ui['search']===false?false:null);
     $object->ui['search_across'] = (isset($object->ui['search_across'])&&is_bool($object->ui['search_across'])&&$object->ui['search_across']===false?$object->ui['search']:null);
     $object->ui['search_across_picks'] = (isset($object->ui['search_across_picks'])&&is_bool($object->ui['search_across_picks'])&&$object->ui['search_across_picks']===false?true:false);
     $object->ui['filters'] = (isset($object->ui['filters'])&&!empty($object->ui['filters'])?pods_ui_strtoarray($object->ui['filters']):null);
+    $object->ui['hidden_filters'] = (isset($object->ui['hidden_filters'])&&!empty($object->ui['hidden_filters'])?pods_ui_strtoarray($object->ui['hidden_filters']):null);
     $object->ui['custom_filters'] = (isset($object->ui['custom_filters'])?$object->ui['custom_filters']:null);
     $object->ui['disable_actions'] = (isset($object->ui['disable_actions'])?pods_ui_strtoarray($object->ui['disable_actions']):array());
     if(in_array($object->ui['action'],$object->ui['disable_actions']))
@@ -144,6 +150,10 @@ function pods_ui_manage ($obj)
     $object->ui['hide_actions'] = (isset($object->ui['hide_actions'])?pods_ui_strtoarray($object->ui['hide_actions']):array());
     $object->ui['wpcss'] = (isset($object->ui['wpcss'])?true:null);
     $object->ui = apply_filters('pods_ui_options', $object->ui, $object);
+    if (null !== $object->ui['search_mode'])
+        $object->search_mode = $object->ui['search_mode'];
+    if (null !== $object->ui['rabit_hole'])
+        $object->rabit_hole = $object->ui['rabit_hole'];
     if($object->ui['wpcss']!==null)
     {
         wp_print_styles(array('global','wp-admin'));
@@ -195,7 +205,7 @@ function pods_ui_manage ($obj)
     if(!is_numeric($object->ui['num']))
     {
 ?>
-<div class="wrap">
+<div class="wrap" id="pods_ui_manage">
     <div id="icon-edit-pages" class="icon32"<?php if(null!==$object->ui['icon']){ ?> style="background-position:0 0;background-image:url(<?php echo $object->ui['icon']; ?>);"<?php } ?>><br /></div>
 <?php
     }
@@ -214,7 +224,7 @@ function pods_ui_manage ($obj)
     {
         $access = $object->ui['edit_where'];
         $continue_edit = true;
-        $edit = new Pod($object->datatype,pods_ui_var('id'.$object->ui['num']));
+        $edit = new Pod($object->datatype, pods_ui_var('id'.$object->ui['num']));
         if($edit->data!==false)
         {
             $check = pods_ui_verify_access($edit,$access,'edit');
@@ -241,7 +251,7 @@ function pods_ui_manage ($obj)
         }
         else
         {
-            pods_ui_message($object->ui['item'].' <strong>not found</strong>, cannot edit.',2);
+            pods_ui_message($object->ui['item'].' <strong>item not found</strong>, cannot edit.',2);
         }
     }
     elseif($object->ui['action']=='duplicate')
@@ -317,7 +327,7 @@ function pods_ui_manage ($obj)
             }
             else
             {
-                $search = pods_ui_var('search'.$object->ui['num'],$oldget,false);
+                $search = stripslashes(pods_ui_var('search'.$object->ui['num'],$oldget,false));
                 if(false!==$search && $object->ui['session_filters']!==false)
                 {
                     $search = pods_ui_var('search'.$object->ui['unique_md5'],'session');
@@ -326,7 +336,7 @@ function pods_ui_manage ($obj)
                         $_GET['search'] = $search;
                     }
                 }
-                $search = pods_ui_var('search'.$object->ui['num'],$oldget);
+                $search = stripslashes(pods_ui_var('search'.$object->ui['num'],$oldget));
                 if($search!==false)
                 {
                     $_GET['search'] = $search;
@@ -454,28 +464,68 @@ function pods_ui_manage ($obj)
                 $params = array();
                 if (!empty($object->ui['select']))
                     $params['select'] = $object->ui['select'];
-                $params['orderby'] = $object->ui['reorder_sort'];
-                $params['limit'] = $object->ui['reorder_limit'];
-                $params['where'] = $object->ui['reorder_where'];
-                $params['join'] = $object->ui['join'];
-                $params['groupby'] = $object->ui['groupby'];
-                $params['having'] = $object->ui['having'];
-                $params['sql'] = $object->ui['reorder_sql'];
+                if (null !== $object->ui['reorder_sort'])
+                    $params['orderby'] = $object->ui['reorder_sort'];
+                if (null !== $object->ui['reorder_limit'])
+                    $params['limit'] = $object->ui['reorder_limit'];
+                if (null !== $object->ui['reorder_where'])
+                    $params['where'] = $object->ui['reorder_where'];
+                if (null !== $object->ui['join'])
+                    $params['join'] = $object->ui['join'];
+                if (null !== $object->ui['groupby'])
+                    $params['groupby'] = $object->ui['groupby'];
+                if (null !== $object->ui['having'])
+                    $params['having'] = $object->ui['having'];
+                if (null !== $object->ui['search_mode'])
+                    $params['search_mode'] = $object->ui['search_mode'];
+                if (null !== $object->ui['traverse'])
+                    $params['traverse'] = $object->ui['traverse'];
+                if (null !== $object->ui['calc_found_rows'])
+                    $params['calc_found_rows'] = $object->ui['calc_found_rows'];
+                if (null !== $object->ui['count_found_rows'])
+                    $params['count_found_rows'] = $object->ui['count_found_rows'];
+                if (null !== $object->ui['reorder_sql'])
+                    $params['sql'] = $object->ui['reorder_sql'];
                 $object->findRecords($params);
+                if (current_user_can('manage_options') && isset($_GET['debug']) && 1 == $_GET['debug']) {
+?>
+    <textarea cols="130" rows="30"><?php echo esc_html($object->sql); ?></textarea>
+<?php
+                }
             }
             else
             {
                 $params = array();
                 if (!empty($object->ui['select']))
                     $params['select'] = $object->ui['select'];
-                $params['orderby'] = $object->ui['sort'];
-                $params['limit'] = $object->ui['limit'];
-                $params['where'] = $object->ui['where'];
-                $params['join'] = $object->ui['join'];
-                $params['groupby'] = $object->ui['groupby'];
-                $params['having'] = $object->ui['having'];
-                $params['sql'] = $object->ui['sql'];
+                if (null !== $object->ui['sort'])
+                    $params['orderby'] = $object->ui['sort'];
+                if (null !== $object->ui['limit'])
+                    $params['limit'] = $object->ui['limit'];
+                if (null !== $object->ui['where'])
+                    $params['where'] = $object->ui['where'];
+                if (null !== $object->ui['join'])
+                    $params['join'] = $object->ui['join'];
+                if (null !== $object->ui['groupby'])
+                    $params['groupby'] = $object->ui['groupby'];
+                if (null !== $object->ui['having'])
+                    $params['having'] = $object->ui['having'];
+                if (null !== $object->ui['search_mode'])
+                    $params['search_mode'] = $object->ui['search_mode'];
+                if (null !== $object->ui['traverse'])
+                    $params['traverse'] = $object->ui['traverse'];
+                if (null !== $object->ui['calc_found_rows'])
+                    $params['calc_found_rows'] = $object->ui['calc_found_rows'];
+                if (null !== $object->ui['count_found_rows'])
+                    $params['count_found_rows'] = $object->ui['count_found_rows'];
+                if (null !== $object->ui['sql'])
+                    $params['sql'] = $object->ui['sql'];
                 $object->findRecords($params);
+                if (current_user_can('manage_options') && isset($_GET['debug']) && 1 == $_GET['debug']) {
+?>
+    <textarea cols="130" rows="30"><?php echo esc_html($object->sql); ?></textarea>
+<?php
+                }
             }
             $_GET = array_merge($oldget,$_GET);
             if(!empty($all_where))
@@ -510,6 +560,15 @@ function pods_ui_manage ($obj)
             {
                 $hidden_filters = array();
                 foreach ($object->ui['filters'] as $filter)
+                {
+                    $hidden_filters[$filter.$object->ui['num']] = '';
+                }
+                $hidden_fields = array_merge($hidden_filters,$hidden_fields);
+            }
+            if(is_array($object->ui['hidden_filters']))
+            {
+                $hidden_filters = array();
+                foreach ($object->ui['hidden_filters'] as $filter)
                 {
                     $hidden_filters[$filter.$object->ui['num']] = '';
                 }
@@ -578,9 +637,15 @@ function pods_ui_manage ($obj)
 <?php
                                     foreach ($data as $k => $v)
                                     {
-                                        $active = (false!==pods_ui_var($field_name.$object->ui['num'])&&$v['id']==pods_ui_var($field_name.$object->ui['num'])) ? ' selected' : '';
+                                        $active = '';
+                                        if (false!==pods_ui_var($field_name.$object->ui['num'])&&(('int' == $object->search_mode && $v['id'] == pods_ui_var($field_name.$object->ui['num'])) || ('text' == $object->search_mode && $v['name'] == pods_ui_var($field_name.$object->ui['num'])))) {
+                                            $active = ' selected';
+                                        }
+                                        $value = $v['id'];
+                                        if ('text' == $object->search_mode)
+                                            $value = $v['name'];
 ?>
-                <option value="<?php echo $v['id']; ?>"<?php echo $active; ?>><?php echo esc_html($v['name']); ?></option>
+                <option value="<?php echo esc_attr($value); ?>"<?php echo $active; ?>><?php echo esc_html($v['name']); ?></option>
 <?php
                                     }
 ?>
@@ -612,7 +677,7 @@ function pods_ui_manage ($obj)
             if(false!==$object->ui['search'])
             {
 ?>
-            <input type="text" name="search<?php echo $object->ui['num']; ?>" id="page-search-input" value="<?php echo esc_attr(pods_ui_var('search'.$object->ui['num'])); ?>" />
+            <input type="text" name="search<?php echo $object->ui['num']; ?>" id="page-search-input" value="<?php echo esc_attr(stripslashes(pods_ui_var('search'.$object->ui['num']))); ?>" />
 <?php
             }
 ?>
@@ -635,7 +700,29 @@ function pods_ui_manage ($obj)
 <?php
             }
 ?>
-            Show per page: <?php $ipp = 10; if($object->ui['limit']==$ipp){ ?><span class="page-numbers current"><?php echo $ipp; ?></span><?php } else { ?><a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a><?php } ?> <?php $ipp = 25; if($object->ui['limit']==$ipp){ ?><span class="page-numbers current"><?php echo $ipp; ?></span><?php } else { ?><a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>'')); ?>"><?php echo $ipp; ?></a><?php } ?> <?php $ipp = 50; if($object->ui['limit']==$ipp){ ?><span class="page-numbers current"><?php echo $ipp; ?></span><?php } else { ?><a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a><?php } ?> <?php $ipp = 100; if($object->ui['limit']==$ipp){ ?><span class="page-numbers current"><?php echo $ipp; ?></span><?php } else { ?><a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a><?php } ?> <?php $ipp = 200; if($object->ui['limit']==$ipp){ ?><span class="page-numbers current"><?php echo $ipp; ?></span><?php } else { ?><a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a><?php } ?>&nbsp;&nbsp;|&nbsp;&nbsp;
+            Show per page:
+<?php $ipp = 10; if($object->ui['limit']==$ipp){ ?>
+            <span class="page-numbers current"><?php echo $ipp; ?></span>
+<?php } else { ?>
+            <a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a>
+<?php } $ipp = 25; if($object->ui['limit']==$ipp){ ?>
+            <span class="page-numbers current"><?php echo $ipp; ?></span>
+<?php } else { ?>
+            <a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a>
+<?php } $ipp = 50; if($object->ui['limit']==$ipp){ ?>
+            <span class="page-numbers current"><?php echo $ipp; ?></span>
+<?php } else { ?>
+            <a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a>
+<?php } $ipp = 100; if($object->ui['limit']==$ipp){ ?>
+            <span class="page-numbers current"><?php echo $ipp; ?></span>
+<?php } else { ?>
+            <a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a>
+<?php } $ipp = 200; if($object->ui['limit']==$ipp){ ?>
+            <span class="page-numbers current"><?php echo $ipp; ?></span>
+<?php } else { ?>
+            <a href="<?php echo pods_ui_var_update(array('limit'.$object->ui['num']=>$ipp,'pg'.$object->ui['num']=>''),false,false); ?>"><?php echo $ipp; ?></a>
+<?php } ?>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
 <?php pods_ui_pagination($object); ?>
         </div>
 <?php
@@ -719,6 +806,7 @@ function pods_ui_manage ($obj)
 </div>
 <?php
     }
+    return $object;
 }
 function pods_ui_table ($object,$rows=null)
 {
@@ -751,7 +839,10 @@ function pods_ui_table ($object,$rows=null)
                 }
                 if(is_array($column)&&isset($column['display_helper']))
                 {
-                    $value = $object->pod_helper($column['display_helper'],$object->get_field($key),$key);
+                    if (function_exists($column['display_helper']))
+                        $value = $column['display_helper']($object->get_field($key), $key, $object);
+                    else
+                        $value = $object->pod_helper($column['display_helper'],$object->get_field($key),$key);
                 }
                 $rows[$i][$key] = $value;
             }
@@ -876,7 +967,7 @@ function pods_ui_table ($object,$rows=null)
     if(is_array($rows))
     {
 ?>
-<table class="widefat page fixed" cellspacing="0">
+<table id="pods_ui_<?php echo $object->datatype; ?>" class="widefat page fixed" cellspacing="0">
     <thead>
         <tr>
 <?php
@@ -912,8 +1003,38 @@ function pods_ui_table ($object,$rows=null)
             }
             $dir = (($object->ui['sortable']===null&&pods_ui_var('sort'.$object->ui['num'])==pods_ui_coltype($key,$object)&&pods_ui_var('sortdir'.$object->ui['num'])=='desc')?'asc':'desc');
             $sort = ($object->ui['sortable']===null?pods_ui_coltype($key,$object):null);
+            if ($object->ui['sortable']===null&&(!isset($column['sortable']) || false !== $column['sortable'])) {
+                if (pods_ui_var('sort'.$object->ui['num'])==pods_ui_coltype($key,$object))
+                    $class .= ' sorted';
+                else {
+                    $class .= ' sortable';
+                    $dir = 'asc';
+                }
+                if (pods_ui_var('sort'.$object->ui['num'])==pods_ui_coltype($key,$object)&&$dir=='asc')
+                    $class .= ' asc';
+                else
+                    $class .= ' ' . $dir;
+            }
+            $class .= ' pods-ui-' . $column;
 ?>
-            <th scope="col"<?php echo $id; ?> class="manage-column<?php echo $class; ?>"><?php if($object->ui['sortable']===null&&$sort!==null){ ?><a href="<?php echo pods_ui_var_update(array('sort'.$object->ui['num']=>$sort,'sortdir'.$object->ui['num']=>$dir),false,false); ?>"><?php } echo $label; if($object->ui['sortable']===null){ ?></a><?php } ?></th>
+            <th scope="col"<?php echo $id; ?> class="manage-column<?php echo $class; ?>">
+<?php
+            if($object->ui['sortable']===null&&$sort!==null&&(!isset($column['sortable']) || false !== $column['sortable'])){
+?>
+                <a href="<?php echo pods_ui_var_update(array('sort'.$object->ui['num']=>$sort,'sortdir'.$object->ui['num']=>$dir,'reset_filters'.$object->ui['num']=>'','pg'.$object->ui['num']=>''),false,false); ?>">
+                    <span>
+<?php
+            }
+            echo $label;
+            if($object->ui['sortable']===null&&$sort!==null&&(!isset($column['sortable']) || false !== $column['sortable'])){
+?>
+                    </span>
+                    <span class="sorting-indicator"></span>
+                </a>
+<?php
+            }
+?>
+            </th>
 <?php
         }
 ?>
@@ -947,6 +1068,7 @@ function pods_ui_table ($object,$rows=null)
             {
                 $class = ' column-'.$id;
             }
+            $class .= ' pods-ui-' . $column;
             $label = $column;
             if(is_array($column)&&isset($column['label']))
             {
@@ -1029,9 +1151,10 @@ function pods_ui_table ($object,$rows=null)
                 {
                     $id = 'author'; $flag=true;
                 }
+                $class = 'pods-ui-' . $column;
                 if(0<strlen($id))
                 {
-                    $class = ' class="'.$id.' column-'.$id.'"';
+                    $class = $id . ' column-' . $id . ' ' . $class;
                 }
                 $row_old = false;
                 if(is_array($row[$key]))
@@ -1074,7 +1197,7 @@ function pods_ui_table ($object,$rows=null)
                     }
                 }
 ?>
-            <td<?php echo $class; ?>><?php echo apply_filters('pods_ui_cell_value',$row[$key],$key,$row,$object); ?></td>
+            <td class="<?php echo $class; ?>"><?php echo apply_filters('pods_ui_cell_value',$row[$key],$key,$row,$object); ?></td>
 <?php
             }
 ?>
@@ -1114,7 +1237,7 @@ function pods_ui_table_reorder ($object)
 <script type="text/javascript">
 function pods_ui_reorder () {
     var order = "";
-    jQuery("table#pods_ui_reorder tbody tr").each(function() {
+    jQuery("table.pods_ui_reorder tbody tr").each(function() {
         order += jQuery(this).attr("id").substr(5) + ",";
     });
     order = order.slice(0, -1);
@@ -1122,7 +1245,7 @@ function pods_ui_reorder () {
     jQuery.ajax({
         type: "post",
         url: "<?php echo PODS_URL; ?>/ui/ajax/api.php",
-        data: "action=reorder_pod_item&datatype=<?php echo $object->datatype; ?>&field=<?php echo $object->ui['reorder']; ?>&order="+order,
+        data: "action=reorder_pod_item&_wpnonce=<?php echo wp_create_nonce('pods-reorder_pod_item'); ?>&datatype=<?php echo $object->datatype; ?>&field=<?php echo $object->ui['reorder']; ?>&order="+order,
         success: function(msg) {
             if ("<e>" == msg.substr(0, 3)) {
                 alert(msg);
@@ -1184,7 +1307,7 @@ function pods_ui_reorder () {
     if(is_array($rows))
     {
 ?>
-<table class="widefat page fixed" id="pods_ui_reorder" cellspacing="0">
+<table id="pods_ui_<?php echo $object->datatype; ?>" class="widefat page fixed pods_ui_reorder" cellspacing="0">
     <thead>
         <tr>
 <?php
@@ -1220,6 +1343,7 @@ function pods_ui_reorder () {
             }
             $dir = (($object->ui['sortable']===null&&pods_ui_var('sort'.$object->ui['num'])==pods_ui_coltype($key,$object)&&pods_ui_var('sortdir'.$object->ui['num'])=='desc')?'asc':'desc');
             $sort = ($object->ui['sortable']===null?pods_ui_coltype($key,$object):null);
+            $class .= ' pods-ui-' . $column;
 ?>
             <th scope="col"<?php echo $id; ?> class="manage-column<?php echo $class; ?>"><?php if($object->ui['sortable']===null&&$sort!==null){ ?><a href="<?php echo pods_ui_var_update(array('sort'.$object->ui['num']=>$sort,'sortdir'.$object->ui['num']=>$dir),false,false); ?>"><?php } echo $label; if($object->ui['sortable']===null){ ?></a><?php } ?></th>
 <?php
@@ -1260,6 +1384,7 @@ function pods_ui_reorder () {
             {
                 $label = $column['label'];
             }
+            $class .= ' pods-ui-' . $column;
 ?>
             <th scope="col" class="manage-column<?php echo $class; ?>"><?php echo apply_filters('pods_ui_cell_header',$label,$key,$column,$object); ?></th>
 <?php
@@ -1299,9 +1424,10 @@ function pods_ui_reorder () {
                 {
                     $id = 'author'; $flag=true;
                 }
+                $class = 'pods-ui-' . $column;
                 if(0<strlen($id))
                 {
-                    $class = ' class="'.$id.' column-'.$id.'"';
+                    $class = $id . ' column-' . $id . ' ' . $class;
                 }
                 $row_old = false;
                 if(is_array($row[$key]))
@@ -1344,7 +1470,7 @@ function pods_ui_reorder () {
                     }
                 }
 ?>
-            <td<?php echo $class; ?>><?php echo apply_filters('pods_ui_cell_value',$row[$key],$key,$row,$object); ?></td>
+            <td class="<?php echo $class; ?>"><?php echo apply_filters('pods_ui_cell_value',$row[$key],$key,$row,$object); ?></td>
 <?php
             }
 ?>
@@ -1456,19 +1582,27 @@ function pods_ui_verify_access  ($object,$access,$what)
                 $okay = false;
                 foreach($match as $the_field=>$the_match)
                 {
-                    if($object->get_field($the_field)==$the_match)
-                    {
-                        $okay = true;
+                    $value = $object->get_field($the_field);
+                    if (is_array($value)) {
+                        if (in_array($the_match, $value))
+                            $okay = true;
                     }
+                    elseif($value==$the_match)
+                        $okay = true;
                 }
                 if($okay===false)
                 {
                     return false;
                 }
             }
-            elseif($object->get_field($field)!=$match)
-            {
-                return false;
+            else {
+                $value = $object->get_field($field);
+                if (is_array($value)) {
+                    if (!in_array($match, $value))
+                        return false;
+                }
+                elseif($value!=$match)
+                    return false;
             }
         }
     }
@@ -1669,6 +1803,14 @@ function pods_ui_var_update ($arr=false,$url=false,$strict=true)
     {
         $query['pod'] = $get['pod'];
     }
+
+    // hack to fix Lotus theme hack...
+    // yeah that's a hack to fix someone else's hack
+    if(isset($query['post_type']))
+    {
+        unset($query['post_type']);
+    }
+
     if(is_array($arr))
     {
         foreach($arr as $key=>$val)
@@ -1797,12 +1939,15 @@ function pods_ui_fields ($datatype_id)
 }
 function pods_ui_coltype ($column,$object,$t=false)
 {
-    $column = explode('.',$column);
-    if(isset($column[1]))
+    $columns = explode('.',str_replace('`', '', $column));
+    if(!isset($columns[1]) || 't' == $columns[0])
     {
         $t = true;
+        if (isset($columns[1]))
+            $column = $columns[1];
     }
-    $column = $column[0];
+    else
+        $column = $columns[0];
     $fields = $object->ui['fields'];
     if($fields===false)
     {
@@ -1811,6 +1956,9 @@ function pods_ui_coltype ($column,$object,$t=false)
     if(empty($fields))
     {
         return ($t?'':'t.').$column;
+    }
+    elseif(1 < count($columns)) {
+        return implode('.', $columns);
     }
     elseif(isset($fields[$column]))
     {
@@ -1821,6 +1969,10 @@ function pods_ui_coltype ($column,$object,$t=false)
                 if($fields[$column]['pickval']=='wp_user')
                 {
                     return ($t?'':$column.'.').'display_name';
+                }
+                elseif($fields[$column]['pickval']=='wp_taxonomy')
+                {
+                    return ($t?'':$column.'.').'name';
                 }
                 else
                 {

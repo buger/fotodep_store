@@ -4,17 +4,13 @@ Donate link: http://lipeimagination.info/contact/
 Tags: menus, sidebar menu, heirchy 
 Requires at least: 3.1
 Tested up to: 3.2.1
-Stable tag: 1.2
+Stable tag: 1.4.4
+Version: 1.4.4
 
 == Description ==
 
 Creates a widget that can be dragged into a sidebar which automatically generates a menu based on the parent/child relationship of the pages. When on a top level page it displays a menu of the all of the top level pages and a menu of all of the pages that are children of the current page. Keep the sidebar menu clean and usable.
 Has a checkbox for including the top level of pages (good for sites that have 3 or more page levels) and a box to exclude pages and children of excluded page.
-
-Creates a widget that can be dragged into a sidebar which automatically generates a menu based on the parent/child relationship of the pages. When on a top level page it displays a menu of the all of the top level pages and a menu of all of the pages that are children of the current page. Keep the sidebar menu clean and usable.
-Has a checkbox for including the top level of pages (good for sites that have 3 or more page levels) and a box to exclude pages and children of excluded page.
-
-
 
 
 == Installation ==
@@ -25,7 +21,7 @@ e.g.
 
 1. Upload the `advanced-sidbebar-menu` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Drag the Advanced Sidebar Menu widget into a sidebar.
+1. Drag the Sidebar Menu widget into a sidebar.
 
 == Frequently Asked Questions ==
 
@@ -43,10 +39,22 @@ As of version 1.1 this will automatically generate class names for each level fo
 
 == Screenshots ==
 
-1. This screenshot shows what the widget looks like
+1. The Simple to use widget
 
 
 == Changelog ==
+
+= 1.4.4 =
+* Cleaned up the way the plugin displays
+* Added class to match normal widgets
+* Removed the <div> completely when no menu present
+
+
+= 1.4 =
+* Removed Menu from pages with no children
+* Added a checkbox for including menu on page with no children
+* Removed ability to exclude items from menu
+
 
 = 1.2 =
 * Added support for the built in page ordering.

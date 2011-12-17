@@ -28,6 +28,9 @@ if ('wp_handle_upload' == $params->action || 'wp_handle_upload_advanced' == $par
     unset($current_user);
 }
 
+if (isset($params->_wpnonce) && false === wp_verify_nonce($params->_wpnonce, 'pods-' . $params->action))
+    die('<e>Access denied');
+
 /**
  * Access Checking
  */
@@ -96,6 +99,7 @@ elseif ('wp_handle_upload_advanced' == $params->action && false === $upload_disa
     }
     else {
         $attachment = get_post($attachment_id, ARRAY_A);
+        $attachment['filename'] = basename($attachment['guid']);
         echo json_encode($attachment);
     }
 }

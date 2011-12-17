@@ -36,4 +36,19 @@ if( ! function_exists("empty_array") )
 	}
 }
 
+
+/**
+ * Returns intermediate size file name ending difference
+ */
+function file_gallery_filename_end_diff( $ori, $size )
+{
+	$ext = explode('.', $ori);
+	$ext = end($ext);
+	
+	$ori  = str_replace('.' . $ext, '', $ori);
+	$size = str_replace('.' . $ext, '', $size);
+	
+	return array(str_replace($ori, '', $size), $ext);
+}
+
 ?>

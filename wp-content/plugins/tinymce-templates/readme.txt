@@ -1,10 +1,10 @@
 === TinyMCE Templates ===
 Contributors: miyauchi
-Donate link: https://www.paypal.com/jp/cgi-bin/webscr?cmd=_flow&SESSION=vVwWrw6VVHF22np9_GU0-V40_AQGlVgFMJBcwaUbLfZPzirnfNd92OY6dV0&dispatch=50a222a57771920b6a3d7b606239e4d529b525e0b7e69bf0224adecfb0124e9b61f737ba21b0819838956b846fa597911f234fb937456ea7
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CTUKCMFHF79K2
 Tags: tinymce, Visual Editor, template
 Requires at least: 3.0
 Tested up to: 3.2
-Stable tag: 1.6.0
+Stable tag: 2.4.0
 
 TinyMCE Template plugin will enable to use HTML template on WordPress Visual Editor.
 You can edit and share this template with WordPress users.
@@ -16,8 +16,9 @@ You can edit and share this template with WordPress users.
 
 If you will install this plugin, You will be very easy to edit posts and pages.
 
-* [GitHub](https://github.com/miya0001/TinyMCE-Templates)
-* [Plugin Homepage](http://firegoby.theta.ne.jp/wp/tinymce_templates) (Japanese)
+* [GitHub](https://github.com/miya0001/tinymce-templates)
+* [Plugin Homepage (en)](http://wpist.me/wp/tinymce-templates/)
+* [Plugin Homepage (ja)](http://firegoby.theta.ne.jp/wp/tinymce_templates)
 * [Support](http://wordpress.org/tags/tinymce-templates)
 
 = Some features: =
@@ -28,12 +29,13 @@ If you will install this plugin, You will be very easy to edit posts and pages.
 
 = Translators: =
 
-* Japanese(ja) - [Takayuki Miyauchi](http://firegoby.theta.ne.jp/)
+* Japanese(ja) - [Takayuki Miyauchi](http://wpist.me/)
 * Italian(it_IT) - [Andrea Bersi](http://www.andreabersi.com)
 * Swedish(sv_SE) - Tobias Bergius
 * German(de_DE) - [Martin Lettner](http://www.martinlettner.info/)
 * Spanish(es_ES) - [David Bravo](http://www.dimensionmultimedia.com/)
 * Dutch(nl_NL) - [Frank Groeneveld](http://ivaldi.nl/)
+* French(fr_FR) - [HAROUY Jean-Michel](http://www.laposte.net/)
 
 You can send your own language pack to me.
 
@@ -50,6 +52,12 @@ You can send your own language pack to me.
 1. Template Admin.
 2. Visual Editor.
 
+== Changelog ==
+
+* [2.4.0](http://wpist.me/2011/11/14/tinymce-templates-2-4-0/)
+* [2.3.0](http://wpist.me/2011/11/14/tinymce-templates-2-3-0/)
+* [2.2.0](http://wpist.me/2011/11/13/tinymce-templates-2-2-0/)
+
 == Credits ==
 
 This plug-in is not guaranteed though the user of WordPress can freely use this plug-in free of charge regardless of the purpose.
@@ -57,8 +65,8 @@ The author must acknowledge the thing that the operation guarantee and the suppo
 
 == Contact ==
 
-* email to miya[at]theta.ne.jp
-* twitter @miya0001
+* http://wpist.me/
+* twitter @wpist_me
 
 == Special Thanks ==
 

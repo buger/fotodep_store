@@ -1,9 +1,9 @@
 === WP-PageNavi ===
 Contributors: GamerZ, scribu
 Tags: navigation, pagination, paging, pages
-Requires at least: 2.8
-Tested up to: 3.1
-Stable tag: 2.74
+Requires at least: 3.1
+Tested up to: 3.3
+Stable tag: 2.81
 
 Adds a more advanced paging navigation interface.
 
@@ -11,7 +11,9 @@ Adds a more advanced paging navigation interface.
 
 [PHP5 is required since version 2.70](http://scribu.net/wordpress/wp-pagenavi/wp-2-70.html)
 
-Replaces the basic *&larr; Older posts | Newer posts &rarr;* links with a more advanced paging navigation interface.
+Want to replace the old *&larr; Older posts | Newer posts &rarr;* links with some page links?
+
+This plugin provides the `wp_pagenavi()` template tag which generates fancy pagination links. See the [installation instructions](http://wordpress.org/extend/plugins/wp-pagenavi/installation/) for using it in your theme.
 
 Links: [Demo](http://lesterchan.net/wordpress/) | [Plugin News](http://scribu.net/wordpress/wp-pagenavi/) | [Translating](http://scribu.net/wordpress/translating-plugins.html)
 
@@ -37,6 +39,14 @@ You would replace those two lines with this:
 
 `<?php wp_pagenavi(); ?>`
 
+For multipart pages, you would look for code like this:
+
+`<?php wp_link_pages( ... ); ?>`
+
+and replace it with this:
+
+`<?php wp_pagenavi( array( 'type' => 'multipart' ) ); ?>`
+
 Go to *WP-Admin -> Settings -> PageNavi* for configuration.
 
 = Changing the CSS =
@@ -60,9 +70,13 @@ Make sure your host is running PHP 5. The only foolproof way to do this is to ad
 `var_dump(PHP_VERSION);`
 <br>
 
-= Doesn't work with query_posts() or custom query =
+= When I go to page 2, I see the same posts as on page 1! =
 
-Read [this tutorial](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
+You're using `query_posts()` wrong. See [The Right Way To use query_posts()](http://scribu.net/wordpress/wp-pagenavi/right-way-to-use-query_posts.html)
+
+= Does PageNavi work with secondary WP_Query instances? =
+
+Yes; read [this tutorial](http://scribu.net/wordpress/wp-pagenavi/wpn-2-74.html)
 
 = How do I ignore the options page? =
 
@@ -73,6 +87,14 @@ You can do that like so:
 `<?php wp_pagenavi( array( 'options' => PageNavi_Core::$options->get_defaults() ) ); ?>`
 
 == Changelog ==
+
+= 2.81 =
+* require an explicit type; fixes bugs with multipart pages
+
+= 2.80 =
+* support for multi-part pages and user queries
+* moved prev/next links before/after first/last links
+* [more info](http://scribu.net/wordpress/wp-pagenavi/wpn-2-80.html)
 
 = 2.74 (2011-02-17) =
 * added 'smaller' and 'larger' classes

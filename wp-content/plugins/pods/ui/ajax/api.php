@@ -11,8 +11,10 @@ if (false === headers_sent()) {
 
 // Sanitize input
 $params = stripslashes_deep($_POST);
-foreach ($params as $key => $val) {
-    $params[$key] = pods_sanitize(trim($val));
+if (!defined('PODS_STRICT_MODE') || !PODS_STRICT_MODE) {
+    foreach ($params as $key => $val) {
+        $params[$key] = pods_sanitize(trim($val));
+    }
 }
 
 $methods = array(
@@ -22,7 +24,6 @@ $methods = array(
     'save_page' => array('priv' => 'manage_pod_pages'),
     'save_helper' => array('priv' => 'manage_helpers'),
     'save_roles' => array('priv' => 'manage_roles'),
-    'save_menu_item' => array('priv' => 'manage_menu'),
     'save_pod_item' => array('processor' => 'process_save_pod_item'),
     'reorder_pod_item' => array('access_pod_specific' => true),
     'drop_pod' => array('priv' => 'manage_pods'),
@@ -30,14 +31,12 @@ $methods = array(
     'drop_template' => array('priv' => 'manage_templates'),
     'drop_page' => array('priv' => 'manage_pod_pages'),
     'drop_helper' => array('priv' => 'manage_helpers'),
-    'drop_menu_item' => array('priv' => 'manage_menu'),
     'drop_pod_item' => array('access_pod_specific' => true),
     'load_pod' => array('priv' => 'manage_pods', 'format' => 'json'),
     'load_column' => array('priv' => 'manage_pods', 'format' => 'json'),
     'load_template' => array('priv' => 'manage_templates', 'format' => 'json'),
     'load_page' => array('priv' => 'manage_pod_pages', 'format' => 'json'),
     'load_helper' => array('priv' => 'manage_helpers', 'format' => 'json'),
-    'load_menu_item' => array('priv' => 'manage_menu', 'format' => 'json'),
     'load_sister_fields' => array('priv' => 'manage_pods', 'format' => 'json'),
     'load_pod_item' => array(),
     'load_files' => array(),
@@ -46,6 +45,7 @@ $methods = array(
     'validate_package' => array('priv' => 'manage_packages'),
     'replace_package' => array('priv' => 'manage_packages'),
     'security_settings' => array('priv' => 'manage_settings'),
+    'pod_page_settings' => array('priv' => 'manage_settings'),
     'fix_wp_pod' => array('priv' => 'manage_settings')
 );
 
@@ -60,7 +60,14 @@ if (isset($methods[$action])) {
     $safe = isset($methods[$action]['safe']) ? $methods[$action]['safe'] : null;
     $access_pod_specific = isset($methods[$action]['access_pod_specific']) ? $methods[$action]['access_pod_specific'] : null;
 
-    if($access_pod_specific === true) {
+    if ('save_pod_item' == $action) {
+        if (isset($params->_wpnonce) && false === wp_verify_nonce($params->_wpnonce, 'pods-' . $action))
+            die('<e>Access denied');
+    }
+    elseif ((!isset($params->_wpnonce) || (false === wp_verify_nonce($params->_wpnonce, 'pods-' . $action) && false === wp_verify_nonce($params->_wpnonce, 'pods-multi'))))
+        die('<e>Access denied');
+
+    if ($access_pod_specific === true) {
         if (isset($params->datatype))
             $priv_val = 'pod_' . $params->datatype;
         else {
@@ -73,7 +80,7 @@ if (isset($methods[$action])) {
                 }
                 $sql = "
                 SELECT
-                    p.id AS pod_id, p.tbl_row_id, t.id, t.name AS datatype
+                    p.id AS pod_id, p.tbl_row_id, t.id, t.name AS datatype, t.id AS datatype_id
                 FROM
                     @wp_pod p
                 INNER JOIN
@@ -88,7 +95,7 @@ if (isset($methods[$action])) {
             else {
                 $sql = "
                 SELECT
-                    p.id AS pod_id, p.tbl_row_id, t.id, t.name AS datatype
+                    p.id AS pod_id, p.tbl_row_id, t.id, t.name AS datatype, t.id AS datatype_id
                 FROM
                     @wp_pod p
                 INNER JOIN
@@ -102,6 +109,8 @@ if (isset($methods[$action])) {
             $result = pod_query($sql);
             $row = mysql_fetch_assoc($result);
             $priv_val = 'pod_' . $row['datatype'];
+            $params->datatype = $row['datatype'];
+            $params->datatype_id = $row['datatype_id'];
         }
         if (!pods_access($priv_val) && !pods_access('manage_content'))
             die('<e>Access denied');
@@ -119,7 +128,8 @@ if (isset($methods[$action])) {
     if (null !== $processor && 0 < strlen($processor) && function_exists($processor))
         $params = $processor($params, $api);
 
-    $params = apply_filters('pods_api_'.$action,$params);
+    $params = apply_filters('pods_api_'.$action, $params);
+    $output = '';
 
     if ('security_settings' == $action) {
         delete_option('pods_disable_file_browser');
@@ -139,6 +149,10 @@ if (isset($methods[$action])) {
 
         delete_option('pods_upload_require_login_cap');
         add_option('pods_upload_require_login_cap', (isset($params->upload_require_login_cap) ? $params->upload_require_login_cap : ''));
+    }
+    elseif ('pod_page_settings' == $action) {
+        delete_option('pods_page_precode_timing');
+        add_option('pods_page_precode_timing', (isset($params->pods_page_precode_timing) ? (int) $params->pods_page_precode_timing : 0));
     }
     else {
         // Dynamically call the API method
@@ -160,20 +174,28 @@ if (isset($methods[$action])) {
 
 function process_save_pod_item($params, $api) {
     $params = (object) $params;
-    if (!pods_validate_key($params->token, $params->uri_hash, $params->datatype, $params->form_count))
-        die("<e>The form has expired. Please reload the page and ensure your session is still active.");
 
-    if ($tmp = $_SESSION[$params->uri_hash][$params->form_count]['columns']) {
-        foreach ($tmp as $key => $val) {
-            $column_name = is_array($val) ? $key : $val;
-            $columns[$column_name] = $params->$column_name;
+    $columns = pods_validate_key($params->token, $params->datatype, $params->uri_hash, null, $params->form_count);
+    if (false === $columns)
+        die("<e>This form has expired. Please reload the page and ensure your session is still active.");
+
+    if (is_array($columns)) {
+        foreach ($columns as $key => $val) {
+            $column = is_array($val) ? $key : $val;
+            if (!isset($params->$column))
+                unset($columns[$column]);
+            else
+                $columns[$column] = $params->$column;
         }
     }
     else {
         $tmp = $api->load_pod(array('name' => $params->datatype));
+        $columns = array();
         foreach ($tmp['fields'] as $field_data) {
-            $column_name = $field_data['name'];
-            $columns[$column_name] = $params->$column_name;
+            $column = $field_data['name'];
+            if (!isset($params->$column))
+                continue;
+            $columns[$column] = $params->$column;
         }
     }
     $params->columns = $columns;

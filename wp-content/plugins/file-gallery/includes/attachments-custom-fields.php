@@ -96,7 +96,7 @@ function file_gallery_add_new_attachment_custom_field()
 {
 	check_ajax_referer('add_new_attachment_custom_field_nonce');
 	
-	$attachment_id = intval($_POST['attachment_id']);
+	$attachment_id = (int) $_POST['attachment_id'];
 	$key = $_POST['key'];
 	$value = $_POST['value'];
 	
@@ -117,7 +117,7 @@ function file_gallery_delete_attachment_custom_field()
 {
 	check_ajax_referer('delete_attachment_custom_field_nonce');
 	
-	$attachment_id = intval($_POST['attachment_id']);
+	$attachment_id = (int) $_POST['attachment_id'];
 	$key = $_POST['key'];
 	$value = $_POST['value'];
 	
@@ -132,52 +132,62 @@ if( false === $file_gallery->acf )
 /**
  * Displays attachment custom fields on media editing page.
  *
+ * @since 1.6.5
+ *
  * Also adds a button to the edit/insert attachment form
  * to link the attachment to the parent post
  * in addition to itself, the actual file, or nothing.
  *
- * @since 1.6.5
+ * @since unknown
  */
 function file_gallery_attachment_fields_to_edit( $form_fields, $attachment )
 {
 	global $pagenow, $wpdb;
 
 	// parent post url button
-	$form_fields['url']['html']  = str_replace( __('Post URL'), __('Attachment URL', 'file-gallery'), $form_fields['url']['html']);
-	$form_fields['url']['html'] .= '<button type="button" class="button urlparent" title="' . get_permalink( $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE `ID`='%d'", $attachment->ID) ) ) . '">Parent Post URL</button>';
+	if( false === strpos($form_fields['url']['html'], __('Attachment Post URL')) ) // Button title changed in 3.3
+		$form_fields['url']['html'] = str_replace( __('Post URL'), __('Attachment URL', 'file-gallery'), $form_fields['url']['html']);
 
+	$form_fields['url']['html'] .= '<button type="button" class="button urlparent" title="' . get_permalink( $wpdb->get_var( $wpdb->prepare("SELECT `post_parent` FROM $wpdb->posts WHERE `ID`='%d'", $attachment->ID) ) ) . '">' . __('Parent Post URL', 'file-gallery') . '</button>';
 
 	// custom fields
-	if( 'media.php' == $pagenow && is_numeric($_GET['attachment_id']) && 'edit' == $_GET['action'] )
+	if( false === $file_gallery->acf )
 	{
-		$form_fields['acf_custom_fields'] = array( 'label' => '&nbsp;', 'tr' => '<tr><td colspan="2"><h2>' . __('Custom Fields', 'file-gallery') . '</h2></td></tr>' );
+		$options = get_option('file_gallery');
 		
-		$custom = get_post_custom($attachment->ID);
-		
-		foreach( (array) $custom as $key => $val )
+		if( true == $options['display_acf'] )
 		{
-			if( 1 < count($val) || "_" == substr($key, 0, 1) || is_array($val[0]) )
-				continue;
-			
-			$form_fields[$key] = array(
-				'label' => $key, 
-				'input' => 'textarea', 
-				'value' => $val[0]
-			);
+			if( 'media.php' == $pagenow && is_numeric($_GET['attachment_id']) && 'edit' == $_GET['action'] )
+			{
+				$form_fields['acf_custom_fields'] = array( 'label' => '&nbsp;', 'tr' => '<tr><td colspan="2"><h2>' . __('Custom Fields', 'file-gallery') . '</h2></td></tr>' );
+				
+				$custom = get_post_custom($attachment->ID);
+				
+				foreach( (array) $custom as $key => $val )
+				{
+					if( 1 < count($val) || "_" == substr($key, 0, 1) || is_array($val[0]) )
+						continue;
+					
+					$form_fields[$key] = array(
+						'label' => $key, 
+						'input' => 'textarea', 
+						'value' => $val[0]
+					);
+				}
+				
+				$form_fields['acf_new_custom_field'] = array( 
+					'label' => __('Add New Custom Field', 'ile-gallery'), 
+					'helps' => '<abbr class="required" title="required">*</abbr>' . __('The "Name" field is required', 'file-gallery'),
+					'input' => 'html', 
+					'html'  => '<p><label>'. __('Name:', 'file-gallery') . '</label><br /><input value="" name="new_custom_field_key" id="new_custom_field_key" class="text" type="text"><abbr class="required" title="required">*</abbr></p><p><label>'. __('Value:', 'file-gallery') . '</label><br /><textarea name="new_custom_field_value" id="new_custom_field_value" class="textarea"></textarea></p><p><input id="new_custom_field_submit" name="new_custom_field_submit" value="' . __('Add Custom Field', 'file-gallery') . '" class="button-secondary" type="submit"></p>'
+				);
+			}
 		}
-		
-		$form_fields['acf_new_custom_field'] = array( 
-			'label' => __('Add New Custom Field', 'ile-gallery'), 
-			'helps' => '<abbr class="required" title="required">*</abbr>' . __('The "Name" field is required', 'file-gallery'),
-			'input' => 'html', 
-			'html'  => '<p><label>'. __('Name:', 'file-gallery') . '</label><br /><input value="" name="new_custom_field_key" id="new_custom_field_key" class="text" type="text"><abbr class="required" title="required">*</abbr></p><p><label>'. __('Value:', 'file-gallery') . '</label><br /><textarea name="new_custom_field_value" id="new_custom_field_value" class="textarea"></textarea></p><p><input id="new_custom_field_submit" name="new_custom_field_submit" value="' . __('Add Custom Field', 'file-gallery') . '" class="button-secondary" type="submit"></p>'
-		);
 	}
 	
 	return $form_fields;
 }
-if( false === $file_gallery->acf )
-	add_filter('attachment_fields_to_edit', 'file_gallery_attachment_fields_to_edit', 10, 2);
+add_filter('attachment_fields_to_edit', 'file_gallery_attachment_fields_to_edit', 10, 2);
 
 
 /**

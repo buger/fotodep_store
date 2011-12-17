@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: File Gallery 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-06 22:53+0100\n"
+"POT-Creation-Date: 2011-12-11 19:47+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bruno Babic <aesqe@skyphe.org>\n"
 "Language-Team: \n"
@@ -13,330 +13,591 @@ msgstr ""
 "X-Poedit-Country: CROATIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext;_x;_ex\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../file-gallery.php:129
+#: ../file-gallery.php:186
+msgid "Disable 'File Gallery' handling of [gallery] shortcode?"
+msgstr "File Gallery neka ne preuzima [gallery] shortcode?"
+
+#: ../file-gallery.php:194
+msgid "Display File Gallery on which post types?"
+msgstr "Pružiti File Gallery funkcionalnost na kojim tipovima članaka (custom post types)?"
+
+#: ../file-gallery.php:203
+msgid "Use alternative color scheme (a bit more contrast)?"
+msgstr "Uključi alternativnu shemu boja (malo više kontrasta)?"
+
+#: ../file-gallery.php:211
+msgid "How many page links should be shown in pagination?"
+msgstr "Koliko stranica da se odjednom prikazuje u paginaciji?"
+
+#: ../file-gallery.php:219
+msgid "Auto enqueue lightbox scripts for which link classes (separate with commas)?"
+msgstr "Automatski učitaj \"lightbox\" skripte kada poveznice imaju slijedeće klase (odvojite ih zerezom):"
+
+#: ../file-gallery.php:227
+msgid "Default WordPress image size for thumbnails in File Gallery metabox on post editing screens?"
+msgstr "Predefinirana WordPress veličina slike za sličice u File Gallery odjeljku na stranici za uređivanje posta?"
+
+#: ../file-gallery.php:236
+msgid "Default width (in pixels) for thumbnails in File Gallery metabox on post editing screens?"
+msgstr "Širina (u pikselima) za sličice u File Gallery odjeljku na stranici za uređivanje posta?"
+
+#: ../file-gallery.php:246
+msgid "Some default values for when inserting a gallery into a post"
+msgstr "neke osnovne vrijednosti vezane uz umetanje galerije u post"
+
+#: ../file-gallery.php:246
+#, php-format
+msgid "The following two blocks of options <strong>do not</strong> affect the output/display of your galleries - they are here only so you could set default values for File Gallery metabox on post editing screen. <a href=\"%s/help/index.html#settings_page\" target=\"_blank\">More information is available in the help file</a>."
+msgstr "Sljedeća dva bloka opcija <strong>ne utječu</strong> na izgled galerija, već su tu samo kako biste namjestili predefinirane vrijednosti za File Gallery opcije na stranicama za uređivanje članaka. Za više informacija, pogledajte <a href=\"%s/help/index.html#settings_page\" target=\"_blank\">pomoć</a>."
+
+#: ../file-gallery.php:246
+#: ../file-gallery.php:351
+#: ../includes/main-form.php:70
+#: ../includes/main-form.php:260
+#: ../includes/media-settings.php:26
+msgid "size"
+msgstr "veličina"
+
+#: ../file-gallery.php:255
+#: ../file-gallery.php:360
+msgid "link"
+msgstr "poveznica"
+
+#: ../file-gallery.php:264
+#: ../includes/main-form.php:96
+msgid "linked image size"
+msgstr "veličina povezane slike"
+
+#: ../file-gallery.php:273
+#: ../file-gallery.php:369
+#: ../includes/main-form.php:91
+#: ../includes/main-form.php:124
+#: ../includes/main-form.php:275
+#: ../includes/main-form.php:280
+#: ../includes/media-settings.php:146
+msgid "external url"
+msgstr "vanjska adresa"
+
+#: ../file-gallery.php:281
+msgid "order by"
+msgstr "posloži po"
+
+#: ../file-gallery.php:290
+#: ../includes/main-form.php:134
+msgid "order"
+msgstr "redoslijed"
+
+#: ../file-gallery.php:299
+#: ../includes/main-form.php:149
+msgid "template"
+msgstr "predložak"
+
+#: ../file-gallery.php:308
+#: ../file-gallery.php:377
+#: ../includes/main-form.php:129
+#: ../includes/main-form.php:285
+msgid "link class"
+msgstr "klasa poveznice"
+
+#: ../file-gallery.php:316
+#: ../file-gallery.php:385
+#: ../includes/main-form.php:175
+#: ../includes/main-form.php:290
+msgid "image class"
+msgstr "klasa slike"
+
+#: ../file-gallery.php:324
+#: ../includes/main-form.php:203
+msgid "columns"
+msgstr "broj kolumni"
+
+#: ../file-gallery.php:333
+#: ../includes/main-form.php:180
+msgid "mime type"
+msgstr "'mime' tip datoteke"
+
+#: ../file-gallery.php:341
+#: ../includes/main-form.php:170
+msgid "gallery class"
+msgstr "klasa galerije"
+
+#: ../file-gallery.php:351
+msgid "...and for when inserting (a) single image(s) into a post"
+msgstr "i za umetanje pojedinačnih dokumenata"
+
+#: ../file-gallery.php:393
+#: ../includes/main-form.php:295
+msgid "alignment"
+msgstr "poravnanje"
+
+#: ../file-gallery.php:404
+msgid "Cache"
+msgstr "Pivremena memorija (cache)"
+
+#: ../file-gallery.php:404
+msgid "Enable caching?"
+msgstr "Uključiti privremenu memoriju (cache)?"
+
+#: ../file-gallery.php:412
+msgid "Cache expires after how many seconds? (leave as is if you don't know what it means)"
+msgstr "Privremena memorija se osvježava nakon koliko sekundi (ostavite kako jest ako ne razumijete što to znači)"
+
+#: ../file-gallery.php:420
+msgid "Cache non-HTML gallery output (<em>array, object, json</em>)"
+msgstr "Spremaj <em>output</em> galerija koji nije HTML u privremenu memoriju?"
+
+#: ../file-gallery.php:430
+msgid "Edit screens options"
+msgstr "Postavke ekrana sa izlistom postova"
+
+#: ../file-gallery.php:430
+msgid "Display attachment count?"
+msgstr "Prikazuj broj vezanih priloga?"
+
+#: ../file-gallery.php:438
+msgid "Filter out duplicate attachments (copies) when browsing media library?"
+msgstr "Ne prikazuj duplikate priloga (kopije) pri pregledavanju medijske knjižnice?"
+
+#: ../file-gallery.php:446
+msgid "Display media tags for attachments in media library?"
+msgstr "Prikazuj medijske tagove za priloge iz medijske knjižnice?"
+
+#: ../file-gallery.php:454
+msgid "Display post thumb (if set)?"
+msgstr "Prikazuj sličicu vezanu uz post (ako je postavljena)?"
+
+#: ../file-gallery.php:464
+msgid "Other options"
+msgstr "Ostale postavke"
+
+#: ../file-gallery.php:464
+msgid "Display galleries within post excerpts?"
+msgstr "Prikazati galerije unutar sažetaka?"
+
+#: ../file-gallery.php:470
 msgid "galleries are shown on full posts only"
 msgstr "galerije se ne prikazuju u sažecima"
 
-#: ../file-gallery.php:239
+#: ../file-gallery.php:472
+msgid "Replacement text for galleries within post excerpts (if you haven't checked the above option)"
+msgstr "Zamjenski tekst za galerije unutar sažetaka (ukoliko ste označili gornju opciju)"
+
+#: ../file-gallery.php:480
+msgid "Display options for inserting galleries into a post?"
+msgstr "Prikazuj opcije za umetanje galerija u post?"
+
+#: ../file-gallery.php:488
+msgid "Display options for inserting single images into a post?"
+msgstr "Prikazuj opcije za umetanje pojedinačnih slika?"
+
+#: ../file-gallery.php:496
+msgid "Display attachment custom fields?"
+msgstr "Prikazuj korisnička polja za priloge?"
+
+#: ../file-gallery.php:504
+msgid "Display 'insert gallery' button even if gallery options are hidden?"
+msgstr "Prikazuj gumb za umetanje galerije i kada su opcije sakrivene?"
+
+#: ../file-gallery.php:512
+msgid "Display 'insert single image(s)' button even if single image options are hidden?"
+msgstr "Prikazuj gumb za umetanje pojedinačnih slika i kada su opcije sakrivene?"
+
+#: ../file-gallery.php:520
+msgid "Delete all options on deactivation?"
+msgstr "Izbrisati sve opcije pri deaktivaciji plugina?"
+
+#: ../file-gallery.php:533
+msgid "File Gallery version"
+msgstr "File Gallery inačica"
+
+#: ../file-gallery.php:541
+msgid "File Gallery folder"
+msgstr "File gallery direktorij"
+
+#: ../file-gallery.php:549
+msgid "File Gallery path"
+msgstr "File gallery staza"
+
+#: ../file-gallery.php:557
+#: ../includes/media-tags.php:44
+msgid "Media tags Taxonomy name"
+msgstr "Naziv taksonomije medijskih tagova"
+
+#: ../file-gallery.php:565
+#: ../includes/media-tags.php:51
+msgid "Media tags URL slug"
+msgstr "URL segment za medijske tagove"
+
+#: ../file-gallery.php:578
+msgid "Gallery insert options state"
+msgstr "Vidljivost opcija za umetanje galerija"
+
+#: ../file-gallery.php:586
+msgid "Single images insert options state"
+msgstr "Vidljivost opcija za umetanje pojedinih slika"
+
+#: ../file-gallery.php:594
+msgid "Attachment custom fields state"
+msgstr "Vidljivost korisničkih polja za priloge"
+
+#: ../file-gallery.php:760
 msgid "Settings"
 msgstr "Postavke"
 
-#: ../file-gallery.php:257
-#: ../file-gallery.php:309
-#: ../file-gallery.php:527
-#: ../file-gallery.php:735
-#: ../includes/main-form.php:200
+#: ../file-gallery.php:761
+msgid "Help"
+msgstr "Pomoć"
+
+#: ../file-gallery.php:786
+#: ../file-gallery.php:845
+#: ../file-gallery.php:1074
+#: ../file-gallery.php:1293
+#: ../includes/main-form.php:234
 msgid "Media tags"
 msgstr "Medijski tagovi"
 
-#: ../file-gallery.php:258
-#: ../file-gallery.php:263
+#: ../file-gallery.php:787
 msgid "Media tag"
 msgstr "Medijski tag"
 
-#: ../file-gallery.php:381
-#: ../includes/main-form.php:284
+#: ../file-gallery.php:922
+#: ../includes/main-form.php:318
 msgid "Switch to tags"
 msgstr "Prebaci na odabir tagova"
 
-#: ../file-gallery.php:382
+#: ../file-gallery.php:923
 msgid "Switch to list of attachments"
 msgstr "Prebaci na listu priloga"
 
-#: ../file-gallery.php:383
-#: ../includes/main-form.php:33
+#: ../file-gallery.php:924
+#: ../includes/main-form.php:58
 msgid "Insert checked attachments into post as"
 msgstr "Umetni označene priloge u post kao"
 
-#: ../file-gallery.php:384
+#: ../file-gallery.php:925
 msgid "No files are currently attached to this post."
 msgstr "Trenutno nema priloga vezanih uz ovaj post."
 
-#: ../file-gallery.php:385
+#: ../file-gallery.php:926
 msgid "Are you sure that you want to delete these attachments? Press [OK] to delete or [Cancel] to abort."
 msgstr "Sigurno želite izbrisati ove priloge? Pritisnite [OK] za potvrdu ili [Cancel] za odustajanje."
 
-#: ../file-gallery.php:386
+#: ../file-gallery.php:927
 msgid "saving attachment data..."
 msgstr "spremam podatke o prilogu..."
 
-#: ../file-gallery.php:387
+#: ../file-gallery.php:928
 msgid "loading attachment data..."
 msgstr "učitavam podatke o prilogu..."
 
-#: ../file-gallery.php:388
+#: ../file-gallery.php:929
 msgid "deleting attachment..."
 msgstr "brišem prilog..."
 
-#: ../file-gallery.php:389
+#: ../file-gallery.php:930
 msgid "deleting attachments..."
 msgstr "brišem priloge..."
 
-#: ../file-gallery.php:390
+#: ../file-gallery.php:931
 msgid "loading..."
 msgstr "učitavam..."
 
-#: ../file-gallery.php:391
+#: ../file-gallery.php:932
 msgid "detaching attachment"
 msgstr "odvajam prilog..."
 
-#: ../file-gallery.php:392
+#: ../file-gallery.php:933
 msgid "detaching attachments"
 msgstr "odvajam priloge..."
 
-#: ../file-gallery.php:393
+#: ../file-gallery.php:934
 msgid "Are you sure that you want to detach these attachments? Press [OK] to detach or [Cancel] to abort."
 msgstr "Sigurno želite odvojiti ove priloge od trenutnog posta? Pritisnite [OK] za potvrdu ili [Cancel] za odustajanje."
 
-#: ../file-gallery.php:394
+#: ../file-gallery.php:935
 msgid "close"
 msgstr "zatvori"
 
-#: ../file-gallery.php:395
+#: ../file-gallery.php:936
 msgid "loading attachments"
 msgstr "učitavam priloge"
 
-#: ../file-gallery.php:396
+#: ../file-gallery.php:937
 msgid "Featured image set successfully"
 msgstr "Istaknutu slika je uspješno postavljena"
 
-#: ../file-gallery.php:397
+#: ../file-gallery.php:938
 msgid "Featured image removed"
 msgstr "Istaknuta slika je uklonjena"
 
-#: ../file-gallery.php:398
+#: ../file-gallery.php:939
+msgid "Copy all attachments from the original post"
+msgstr "Kopiraj sve priloge iz originalnog članka"
+
+#: ../file-gallery.php:940
 msgid "Copy all attachments from the original post?"
 msgstr "Kopiraj sve priloge iz originalnog članka?"
 
-#: ../file-gallery.php:399
-#: ../includes/main.php:122
+#: ../file-gallery.php:941
+msgid "Copy all attachments from this translation"
+msgstr "Kopiraj sve priloge iz ovog prijevoda"
+
+#: ../file-gallery.php:942
+msgid "Copy all attachments from this translation?"
+msgstr "Kopiraj sve priloge iz ovog prijevoda?"
+
+#: ../file-gallery.php:943
+#: ../includes/main.php:154
 msgid "Set as featured image"
 msgstr "Postavi kao istaknutu sliku"
 
-#: ../file-gallery.php:400
-#: ../includes/main.php:124
+#: ../file-gallery.php:944
+#: ../includes/main.php:156
 msgid "Unset as featured image"
 msgstr "Odznači kao istaknutu sliku"
 
-#: ../file-gallery.php:416
-#: ../file-gallery.php:462
+#: ../file-gallery.php:945
+#, php-format
+msgid "Supplied ID (%d) is zero or not a number, please correct."
+msgstr "Dani ID (%d) je nula ili nije broj, molim ispravite."
+
+#: ../file-gallery.php:946
+msgid "regenerating..."
+msgstr "obnavljam..."
+
+#: ../file-gallery.php:963
+#: ../file-gallery.php:1009
 #: ../includes/attachments-custom-fields.php:45
-#: ../includes/attachments-custom-fields.php:170
+#: ../includes/attachments-custom-fields.php:179
 msgid "Add New Custom Field"
 msgstr "Dodaj novo korisničko polje"
 
-#: ../file-gallery.php:417
-#: ../file-gallery.php:463
+#: ../file-gallery.php:964
+#: ../file-gallery.php:1010
 #: ../includes/attachments-custom-fields.php:62
-#: ../includes/attachments-custom-fields.php:173
+#: ../includes/attachments-custom-fields.php:182
 msgid "Add Custom Field"
 msgstr "Dodalj polje"
 
-#: ../file-gallery.php:418
-#: ../file-gallery.php:464
+#: ../file-gallery.php:965
+#: ../file-gallery.php:1011
 msgid "Error deleting attachment custom field!"
 msgstr "Greška pri brisanju polja!"
 
-#: ../file-gallery.php:419
-#: ../file-gallery.php:465
+#: ../file-gallery.php:966
+#: ../file-gallery.php:1012
 msgid "Error adding attachment custom field!"
 msgstr "Greška pri dodavanju polja!"
 
-#: ../file-gallery.php:420
-#: ../file-gallery.php:466
+#: ../file-gallery.php:967
+#: ../file-gallery.php:1013
 #: ../includes/attachments-custom-fields.php:51
-#: ../includes/attachments-custom-fields.php:173
+#: ../includes/attachments-custom-fields.php:182
 msgid "Name:"
 msgstr "Naslov:"
 
-#: ../file-gallery.php:421
-#: ../file-gallery.php:467
-#: ../includes/attachments-custom-fields.php:173
+#: ../file-gallery.php:968
+#: ../file-gallery.php:1014
+#: ../includes/attachments-custom-fields.php:182
 msgid "Value:"
 msgstr "Vrijednost:"
 
-#: ../file-gallery.php:488
+#: ../file-gallery.php:1035
 msgid "Attach all checked items to current post"
 msgstr "Pridruži sve označene priloge trenutnom postu"
 
-#: ../file-gallery.php:489
+#: ../file-gallery.php:1036
 msgid "Exclude current post's attachments"
 msgstr "Izuzmi priloge vezane uz trenutni post"
 
-#: ../file-gallery.php:490
+#: ../file-gallery.php:1037
 msgid "Include current post's attachments"
 msgstr "Uvrsti priloge vezane uz trenutni post"
 
-#: ../file-gallery.php:571
+#: ../file-gallery.php:1125
 msgid "File Gallery requires Javascript to function. Please enable it in your browser."
 msgstr "File Gallery zahtijeva Javascript za propisno funkcioniranje. Molim omogućite ga u svojem pregledniku."
 
-#: ../file-gallery.php:576
+#: ../file-gallery.php:1133
 msgid "Delete attachment dialog"
 msgstr "Dijalog za brisanje priloga"
 
-#: ../file-gallery.php:577
+#: ../file-gallery.php:1134
 msgid "Warning: one of the attachments you've chosen to delete has copies."
 msgstr "Upozorenje: jedan od priloga koje ste odlučili izbrisati ima kopije."
 
-#: ../file-gallery.php:578
+#: ../file-gallery.php:1135
 msgid "How do you wish to proceed?"
 msgstr "Što želite napraviti?"
 
-#: ../file-gallery.php:579
+#: ../file-gallery.php:1136
 msgid "Click here if you have no idea what this dialog means"
 msgstr "Kliknite ovdje ako ne razumijete ovaj dijalog :)"
 
-#: ../file-gallery.php:579
+#: ../file-gallery.php:1136
 msgid "(opens File Gallery help in new browser window)"
 msgstr "(otvara pomoćnu dokumentaciju u novom prozoru)"
 
-#: ../file-gallery.php:582
-#: ../includes/main-form.php:23
+#: ../file-gallery.php:1139
+#: ../includes/main-form.php:43
 msgid "Copy all attachments from another post"
 msgstr "Kopiraj sve priloge iz nekog drugog posta"
 
-#: ../file-gallery.php:585
-#: ../includes/main-form.php:189
+#: ../file-gallery.php:1141
+#: ../includes/main-form.php:223
 msgid "Post ID:"
 msgstr "ID posta:"
 
-#: ../file-gallery.php:609
-#: ../file-gallery.php:614
-#: ../file-gallery.php:615
-msgid "File gallery"
-msgstr "File gallery"
+#: ../file-gallery.php:1164
+#: ../file-gallery.php:1169
+#: ../file-gallery.php:1170
+#: ../includes/media-settings.php:16
+msgid "File Gallery"
+msgstr "File Gallery"
 
-#: ../file-gallery.php:663
+#: ../file-gallery.php:1218
 msgid "No. of attachments"
 msgstr "Broj vezanih priloga"
 
-#: ../file-gallery.php:666
+#: ../file-gallery.php:1221
 msgid "Post thumb"
 msgstr "Sličica vezana uz post"
 
-#: ../file-gallery.php:699
+#: ../file-gallery.php:1254
 msgid "No Media Tags"
 msgstr "Nema medijskih tagova"
 
 #: ../includes/attachments-custom-fields.php:64
-#: ../includes/attachments-custom-fields.php:171
+#: ../includes/attachments-custom-fields.php:180
 msgid "The \"Name\" field is required"
 msgstr "Polje \"Naslov\" je obavezno"
 
 #: ../includes/attachments-custom-fields.php:71
-#: ../includes/attachments-custom-fields.php:153
+#: ../includes/attachments-custom-fields.php:162
 msgid "Custom Fields"
 msgstr "Korisnička polja"
 
 #: ../includes/attachments-custom-fields.php:72
-#: ../includes/main-form.php:42
-#: ../includes/main-form.php:222
+#: ../includes/main-form.php:65
+#: ../includes/main-form.php:256
 msgid "show/hide this fieldset"
 msgstr "pokaži/sakrij ova polja"
 
-#: ../includes/attachments-custom-fields.php:146
+#: ../includes/attachments-custom-fields.php:148
+#, fuzzy
+msgid "Attachment Post URL"
+msgstr "URL priloga:"
+
+#: ../includes/attachments-custom-fields.php:149
 msgid "Post URL"
 msgstr "URL članka:"
 
-#: ../includes/attachments-custom-fields.php:146
+#: ../includes/attachments-custom-fields.php:149
 msgid "Attachment URL"
 msgstr "URL priloga:"
 
-#: ../includes/attachments.php:187
+#: ../includes/attachments-custom-fields.php:151
+msgid "Parent Post URL"
+msgstr "URL članka"
+
+#: ../includes/attachments.php:256
 #, php-format
 msgid "Attachment with ID <strong>%d</strong> does not exist!"
 msgstr "Prilog koji ima ID <strong>%d</strong> ne postoji!"
 
-#: ../includes/attachments.php:233
+#: ../includes/attachments.php:297
+msgid "Regenerate this image's thumbnails"
+msgstr "Regeneriraj umanjene varijante ove slike"
+
+#: ../includes/attachments.php:304
 msgid "ID:"
 msgstr "ID:"
 
-#: ../includes/attachments.php:234
+#: ../includes/attachments.php:305
 msgid "Date uploaded:"
 msgstr "Datum uploada:"
 
-#: ../includes/attachments.php:235
+#: ../includes/attachments.php:306
 msgid "Uploaded by:"
 msgstr "Poslao/la:"
 
-#: ../includes/attachments.php:237
+#: ../includes/attachments.php:308
 msgid "IDs of copies of this attachment:"
 msgstr "ID kopija ovog priloga"
 
-#: ../includes/attachments.php:240
+#: ../includes/attachments.php:311
 msgid "This attachment is a copy of attachment ID"
 msgstr "Ovaj prilog je kopija priloga ID "
 
-#: ../includes/attachments.php:256
+#: ../includes/attachments.php:329
 msgid "Alternate text for this image"
 msgstr "Zamjenski ('alt') tekst za ovu sliku"
 
-#: ../includes/attachments.php:260
+#: ../includes/attachments.php:333
 msgid "Title"
 msgstr "Naslov"
 
-#: ../includes/attachments.php:263
+#: ../includes/attachments.php:336
 msgid "Caption"
 msgstr "Natpis"
 
-#: ../includes/attachments.php:266
+#: ../includes/attachments.php:339
 msgid "Description"
 msgstr "Opis"
 
-#: ../includes/attachments.php:269
+#: ../includes/attachments.php:342
 msgid "Media tags (separate each tag with a comma)"
 msgstr "Media tagovi (upišite ih odvojene zarezima)"
 
-#: ../includes/attachments.php:272
+#: ../includes/attachments.php:345
 msgid "Menu order"
 msgstr "Redoslijed u izborniku (menu order)"
 
-#: ../includes/attachments.php:275
+#: ../includes/attachments.php:348
 msgid "Attachment file URL:"
 msgstr "URL dokumenta:"
 
-#: ../includes/attachments.php:286
+#: ../includes/attachments.php:359
 msgid "save and return"
 msgstr "Spremi izmjene"
 
-#: ../includes/attachments.php:288
+#: ../includes/attachments.php:360
 msgid "cancel and return"
 msgstr "Odustani"
 
-#: ../includes/attachments.php:353
+#: ../includes/attachments.php:424
 msgid "Some of the checked attachments were successfully attached to current post."
 msgstr "Neki od označenih priloga su uspješno pridodani trenutnom post-u."
 
-#: ../includes/attachments.php:354
+#: ../includes/attachments.php:425
 msgid "Additionally, here are ID's of attachments you had selected, but were already attached to current post, according to their URIs.<br />You will be presented with an option to copy those attachments as well in the next version of this plugin. If that makes any sense, that is."
 msgstr "Dodatno, ovo su ID-evi priloga koji su bili označeni, a već su priloženi uz ovaj post, sudeći prema lokaciji i nazivu datoteka."
 
-#: ../includes/attachments.php:358
+#: ../includes/attachments.php:429
 msgid "Checked attachments were successfully attached to current post."
 msgstr "Označeni prilozi su uspješno pridodani trenutnom post-u."
 
-#: ../includes/attachments.php:364
+#: ../includes/attachments.php:435
 msgid "All of the checked attachments are already attached to current post, according to their URIs.<br />You will be presented with an option to copy those attachments as well in the next version of this plugin. If that makes any sense, that is."
 msgstr "Svi označeni prilozi već su otprije pridodani ovom postu, sudeći prema lokaciji i nazivu datoteka."
 
-#: ../includes/attachments.php:366
+#: ../includes/attachments.php:437
 msgid "You must check the checkboxes next to attachments you want to copy to current post."
 msgstr "Potrebno je označiti kvadratiće kraj opisa onih priloga koje želite pridodati trenutnom postu."
 
-#: ../includes/attachments.php:444
+#: ../includes/attachments.php:545
 msgid "Database error! (file_gallery_copy_all_attachments)"
 msgstr "Greška baze podataka! (file_gallery_copy_all_attachments)"
 
-#: ../includes/attachments.php:450
+#: ../includes/attachments.php:551
 #, php-format
 msgid "Uh-oh. No attachments were found for post ID %d."
 msgstr "Post sa ID-em %d nema vezanih priloga."
 
-#: ../includes/attachments.php:471
+#: ../includes/attachments.php:572
 #, php-format
 msgid "All attachments were successfully copied from post %d."
 msgstr "Svi prilozi su uspješno kopirani iz posta sa ID-em %d i pridodani trenutnom post-u."
@@ -345,535 +606,433 @@ msgstr "Svi prilozi su uspješno kopirani iz posta sa ID-em %d i pridodani trenu
 msgid "You have successfully cleared the File Gallery cache."
 msgstr "Uspješno ste ispraznili privremenu memoriju File Gallery modula."
 
-#: ../includes/main-form.php:19
+#: ../includes/main-form.php:32
 msgid "Refresh attachments"
 msgstr "Osvježi listu priloga"
 
-#: ../includes/main-form.php:20
+#: ../includes/main-form.php:35
 msgid "Check all"
 msgstr "Označi sve"
 
-#: ../includes/main-form.php:21
+#: ../includes/main-form.php:36
 msgid "Uncheck all"
 msgstr "Odznači sve"
 
-#: ../includes/main-form.php:22
-msgid "Save attachment order"
-msgstr "Spremi redoslijed priloga"
-
-#: ../includes/main-form.php:24
+#: ../includes/main-form.php:37
 msgid "Delete all checked"
 msgstr "Izbriši sve označene priloge"
 
-#: ../includes/main-form.php:25
+#: ../includes/main-form.php:38
 msgid "Detach all checked"
 msgstr "Odvoji sve označene priloge od ovog članka"
 
-#: ../includes/main-form.php:26
-#: ../includes/media-settings.php:630
+#: ../includes/main-form.php:41
+msgid "Upload new files"
+msgstr "Dodajte nove priloge"
+
+#: ../includes/main-form.php:41
+msgid "Add an Image"
+msgstr "Dodaj sliku"
+
+#: ../includes/main-form.php:46
+#: ../includes/main-form.php:347
+msgid "Save attachment order"
+msgstr "Spremi redoslijed priloga"
+
+#: ../includes/main-form.php:47
 msgid "Clear File Gallery cache"
 msgstr "Isprazni privremenu memoriju File Gallery modula"
 
-#: ../includes/main-form.php:27
+#: ../includes/main-form.php:48
 msgid "Adjust media settings"
 msgstr "Uredi medijske postavke"
 
-#: ../includes/main-form.php:28
+#: ../includes/main-form.php:49
 msgid "Open help file"
 msgstr "Otvori pomoć"
 
-#: ../includes/main-form.php:41
-#: ../includes/main-form.php:195
-msgid "a gallery"
+#: ../includes/main-form.php:64
+#: ../includes/main-form.php:229
+#: ../includes/main-form.php:248
+msgid "Insert a gallery"
 msgstr "galeriju"
 
-#: ../includes/main-form.php:47
-#: ../includes/main-form.php:226
-#: ../includes/media-settings.php:22
-#: ../includes/media-settings.php:75
-#: ../includes/media-settings.php:112
-msgid "size"
-msgstr "veličina"
-
-#: ../includes/main-form.php:50
-#: ../includes/main-form.php:75
-#: ../includes/media-settings.php:300
-#: ../includes/media-settings.php:329
-#: ../includes/media-settings.php:358
-#: ../includes/media-settings.php:387
+#: ../includes/main-form.php:73
+#: ../includes/main-form.php:98
+#: ../includes/media-settings.php:176
 msgid "thumbnail"
 msgstr "sličica"
 
-#: ../includes/main-form.php:51
-#: ../includes/main-form.php:76
-#: ../includes/media-settings.php:307
-#: ../includes/media-settings.php:336
-#: ../includes/media-settings.php:365
-#: ../includes/media-settings.php:394
+#: ../includes/main-form.php:74
+#: ../includes/main-form.php:99
+#: ../includes/media-settings.php:182
 msgid "medium"
 msgstr "srednja"
 
-#: ../includes/main-form.php:52
-#: ../includes/main-form.php:77
-#: ../includes/media-settings.php:314
-#: ../includes/media-settings.php:343
-#: ../includes/media-settings.php:372
-#: ../includes/media-settings.php:401
+#: ../includes/main-form.php:75
+#: ../includes/main-form.php:100
+#: ../includes/media-settings.php:188
 msgid "large"
 msgstr "velika"
 
-#: ../includes/main-form.php:53
-#: ../includes/main-form.php:78
-#: ../includes/media-settings.php:321
-#: ../includes/media-settings.php:350
-#: ../includes/media-settings.php:379
-#: ../includes/media-settings.php:408
+#: ../includes/main-form.php:76
+#: ../includes/main-form.php:101
+#: ../includes/media-settings.php:194
 msgid "full"
 msgstr "puna veličina"
 
-#: ../includes/main-form.php:62
-#: ../includes/main-form.php:235
+#: ../includes/main-form.php:85
+#: ../includes/main-form.php:269
 msgid "link to"
 msgstr "poveznica na"
 
-#: ../includes/main-form.php:64
-#: ../includes/main-form.php:237
-#: ../includes/media-settings.php:239
+#: ../includes/main-form.php:87
+#: ../includes/main-form.php:271
+#: ../includes/media-settings.php:142
 msgid "nothing (do not link)"
 msgstr "ništa (nema poveznice)"
 
-#: ../includes/main-form.php:65
-#: ../includes/main-form.php:238
-#: ../includes/media-settings.php:240
+#: ../includes/main-form.php:88
+#: ../includes/main-form.php:272
+#: ../includes/media-settings.php:143
 msgid "file"
 msgstr "datoteku"
 
-#: ../includes/main-form.php:66
-#: ../includes/main-form.php:239
-#: ../includes/media-settings.php:241
+#: ../includes/main-form.php:89
+#: ../includes/main-form.php:273
+#: ../includes/media-settings.php:144
 msgid "attachment page"
 msgstr "stranicu sa prilogom"
 
-#: ../includes/main-form.php:67
-#: ../includes/main-form.php:240
-#: ../includes/media-settings.php:242
+#: ../includes/main-form.php:90
+#: ../includes/main-form.php:274
+#: ../includes/media-settings.php:145
 msgid "parent post"
 msgstr "članak"
 
-#: ../includes/main-form.php:68
-#: ../includes/main-form.php:95
-#: ../includes/main-form.php:241
-#: ../includes/main-form.php:246
-#: ../includes/media-settings.php:84
-#: ../includes/media-settings.php:118
-#: ../includes/media-settings.php:243
-msgid "external url"
-msgstr "vanjska adresa"
-
-#: ../includes/main-form.php:73
-#: ../includes/media-settings.php:81
-msgid "linked image size"
-msgstr "veličina povezane slike"
-
-#: ../includes/main-form.php:87
+#: ../includes/main-form.php:110
 msgid "link 'rel' attribute"
 msgstr "'rel' atribut poveznice"
 
-#: ../includes/main-form.php:100
-#: ../includes/main-form.php:251
-#: ../includes/media-settings.php:87
-#: ../includes/media-settings.php:121
-msgid "link class"
-msgstr "klasa poveznice"
+#: ../includes/main-form.php:117
+#: ../includes/main.php:165
+#: ../includes/main.php:172
+#: ../includes/main.php:188
+#: ../includes/main.php:198
+#: ../includes/main.php:207
+msgid "or"
+msgstr "ili"
 
-#: ../includes/main-form.php:105
-#: ../includes/media-settings.php:99
-msgid "order"
-msgstr "redoslijed"
+#: ../includes/main-form.php:118
+msgid "custom value"
+msgstr "upišite vrijednost"
 
-#: ../includes/main-form.php:107
-#: ../includes/media-settings.php:264
+#: ../includes/main-form.php:136
+#: ../includes/media-settings.php:149
 msgid "file gallery"
 msgstr "file gallery"
 
-#: ../includes/main-form.php:108
-#: ../includes/media-settings.php:265
+#: ../includes/main-form.php:137
+#: ../includes/media-settings.php:150
 msgid "random"
 msgstr "nasumično"
 
-#: ../includes/main-form.php:109
-#: ../includes/media-settings.php:266
+#: ../includes/main-form.php:138
+#: ../includes/media-settings.php:151
 msgid "menu order"
 msgstr "redoslijed u izborniku (menu order)"
 
-#: ../includes/main-form.php:110
-#: ../includes/media-settings.php:267
+#: ../includes/main-form.php:139
+#: ../includes/media-settings.php:152
 msgid "title"
 msgstr "po naslovu"
 
-#: ../includes/main-form.php:111
-#: ../includes/media-settings.php:268
+#: ../includes/main-form.php:140
+#: ../includes/media-settings.php:153
 msgid "date / time"
 msgstr "po vremenu objave"
 
-#: ../includes/main-form.php:114
+#: ../includes/main-form.php:143
 msgid "ASC"
 msgstr "uzlazno"
 
-#: ../includes/main-form.php:115
+#: ../includes/main-form.php:144
 msgid "DESC"
 msgstr "silazno"
 
-#: ../includes/main-form.php:120
-#: ../includes/media-settings.php:102
-msgid "template"
-msgstr "predložak"
-
-#: ../includes/main-form.php:141
-#: ../includes/main-form.php:256
-#: ../includes/media-settings.php:90
-#: ../includes/media-settings.php:124
-msgid "image class"
-msgstr "klasa slike"
-
-#: ../includes/main-form.php:146
-#: ../includes/media-settings.php:93
-msgid "mime type"
-msgstr "'mime' tip datoteke"
-
-#: ../includes/main-form.php:151
+#: ../includes/main-form.php:185
 msgid "limit"
 msgstr "limit"
 
-#: ../includes/main-form.php:156
+#: ../includes/main-form.php:190
 msgid "offset"
 msgstr "ofset"
 
-#: ../includes/main-form.php:161
+#: ../includes/main-form.php:195
 msgid "paginate"
 msgstr "paginacija"
 
-#: ../includes/main-form.php:169
-#: ../includes/media-settings.php:105
-msgid "columns"
-msgstr "broj kolumni"
-
-#: ../includes/main-form.php:203
+#: ../includes/main-form.php:237
 msgid "current post's attachments only?"
 msgstr "samo prilozi vezani uz trenutni post?"
 
-#: ../includes/main-form.php:221
-#: ../includes/main-form.php:277
-msgid "single files"
-msgstr "pojedinačne dokumente "
+#: ../includes/main-form.php:255
+#: ../includes/main-form.php:311
+#: ../includes/main-form.php:324
+#, fuzzy
+msgid "Insert single files"
+msgstr "Umetni sliku/e"
 
-#: ../includes/main-form.php:261
-#: ../includes/media-settings.php:127
-msgid "alignment"
-msgstr "poravnanje"
-
-#: ../includes/main-form.php:263
-#: ../includes/media-settings.php:449
+#: ../includes/main-form.php:297
+#: ../includes/media-settings.php:136
+#: ../includes/media-settings.php:160
 msgid "none"
 msgstr "bez poravnanja"
 
-#: ../includes/main-form.php:264
-#: ../includes/media-settings.php:450
+#: ../includes/main-form.php:298
+#: ../includes/media-settings.php:137
+#: ../includes/media-settings.php:161
 msgid "left"
 msgstr "lijevo"
 
-#: ../includes/main-form.php:265
-#: ../includes/media-settings.php:451
+#: ../includes/main-form.php:299
+#: ../includes/media-settings.php:138
+#: ../includes/media-settings.php:162
 msgid "right"
 msgstr "desno"
 
-#: ../includes/main-form.php:266
-#: ../includes/media-settings.php:452
+#: ../includes/main-form.php:300
+#: ../includes/media-settings.php:139
+#: ../includes/media-settings.php:163
 msgid "center"
 msgstr "centrirano"
 
-#: ../includes/main-form.php:271
+#: ../includes/main-form.php:305
 msgid "display caption?"
 msgstr "prikazati natpis (caption)?"
 
-#: ../includes/main-form.php:304
+#: ../includes/main-form.php:330
+msgid "Sort attachments by"
+msgstr "Sortirati priloge po"
+
+#: ../includes/main-form.php:344
+msgid "Go"
+msgstr "Sortiraj"
+
+#: ../includes/main-form.php:363
 #, php-format
 msgid "File Gallery &mdash; %d attachment."
 msgstr "File Gallery &mdash; %d prilog."
 
-#: ../includes/main-form.php:307
+#: ../includes/main-form.php:366
 #, php-format
 msgid "File Gallery &mdash; %d attachments."
 msgstr "File Gallery &mdash; %d priloga."
 
-#: ../includes/main.php:108
+#: ../includes/main.php:138
 msgid "Zoom"
 msgstr "Uvećanje"
 
-#: ../includes/main.php:113
+#: ../includes/main.php:143
 msgid "Edit"
 msgstr "Uredi"
 
-#: ../includes/main.php:115
+#: ../includes/main.php:145
+msgid "Click to select, or click and drag to change position"
+msgstr "Kliknite kako biste označili, ili kliknite i povucite za promjenu pozicije"
+
+#: ../includes/main.php:146
 msgid "Click to select"
 msgstr "Klikni za označavanje"
 
-#: ../includes/main.php:131
+#: ../includes/main.php:163
 msgid "Really set as featured image?"
 msgstr "Stvarno označiti kao istaknutu sliku?"
 
-#: ../includes/main.php:132
-#: ../includes/main.php:139
-#: ../includes/main.php:165
-#: ../includes/main.php:174
+#: ../includes/main.php:164
+#: ../includes/main.php:171
+#: ../includes/main.php:197
+#: ../includes/main.php:206
 msgid "Continue"
 msgstr "Nastavak"
 
-#: ../includes/main.php:133
-#: ../includes/main.php:140
-#: ../includes/main.php:156
 #: ../includes/main.php:166
-#: ../includes/main.php:175
-msgid "or"
-msgstr "ili"
-
-#: ../includes/main.php:134
-#: ../includes/main.php:141
-#: ../includes/main.php:167
-#: ../includes/main.php:176
+#: ../includes/main.php:173
+#: ../includes/main.php:199
+#: ../includes/main.php:208
 msgid "Cancel"
 msgstr "Odustani"
 
-#: ../includes/main.php:138
+#: ../includes/main.php:170
 msgid "Really unset as featured image?"
 msgstr "Stvarno odznačiti kao istaknutu sliku?"
 
-#: ../includes/main.php:147
+#: ../includes/main.php:179
 msgid "Detach / Delete"
 msgstr "Odvoji / Izbriši"
 
-#: ../includes/main.php:154
+#: ../includes/main.php:186
 msgid "Delete"
 msgstr "Izbriši"
 
-#: ../includes/main.php:161
+#: ../includes/main.php:193
 msgid "Detach"
 msgstr "Odvoji"
 
-#: ../includes/main.php:164
+#: ../includes/main.php:196
 msgid "Really detach?"
 msgstr "Stvarno odvojiti?"
 
-#: ../includes/main.php:173
+#: ../includes/main.php:205
 msgid "Really delete?"
 msgstr "Stvarno izbrisati?"
 
-#: ../includes/main.php:438
+#: ../includes/main.php:471
 msgid "No attachments were deleted (capabilities?)"
 msgstr "Nijedan prilog nije izbrisan (mogućnosti korisnika?)"
 
-#: ../includes/main.php:440
+#: ../includes/main.php:473
 msgid "Attachment(s) deleted"
 msgstr "Prilozi izbrisani"
 
-#: ../includes/main.php:451
+#: ../includes/main.php:484
 msgid "Attachment(s) detached"
 msgstr "Prilozi odvojeni"
 
-#: ../includes/main.php:453
+#: ../includes/main.php:486
 msgid "Error detaching attachment(s)"
 msgstr "Greška pri odvajanju priloga!"
 
-#: ../includes/main.php:521
+#: ../includes/main.php:560
 msgid "Attachment data updated"
 msgstr "Podaci o prilogu su ažurirani"
 
-#: ../includes/main.php:525
+#: ../includes/main.php:564
 msgid "Error updating attachment data!"
 msgstr "Greška pri ažuriranju podataka o prilogu!"
 
-#: ../includes/main.php:530
+#: ../includes/main.php:569
 msgid "No change."
 msgstr "Nema izmjena."
 
-#: ../includes/media-settings.php:14
+#: ../includes/media-settings.php:15
 msgid "Intermediate image sizes"
 msgstr "Ostale veličine slika"
 
-#: ../includes/media-settings.php:15
-msgid "File Gallery"
-msgstr "File Gallery"
-
-#: ../includes/media-settings.php:26
+#: ../includes/media-settings.php:30
 msgid "Medium size"
 msgstr "Srednja veličina"
 
-#: ../includes/media-settings.php:31
+#: ../includes/media-settings.php:35
 msgid "Large size"
 msgstr "Velika veličina"
 
-#: ../includes/media-settings.php:56
-msgid "Disable 'File Gallery' handling of [gallery] shortcode?"
-msgstr "File Gallery neka ne preuzima [gallery] shortcode?"
-
-#: ../includes/media-settings.php:59
-msgid "Display File Gallery on which post types?"
-msgstr "Pružiti File Gallery funkcionalnost na kojim tipovima članaka (custom post types)?"
-
-#: ../includes/media-settings.php:62
-msgid "Auto enqueue lightbox scripts for which link classes (separate with commas)?"
-msgstr "Automatski učitaj \"lightbox\" skripte kada poveznice imaju slijedeće klase (odvojite ih zerezom):"
-
 #: ../includes/media-settings.php:65
-msgid "Default WordPress image size for thumbnails in File Gallery metabox on post editing screens?"
-msgstr "Predefinirana WordPress veličina slike za sličice u File Gallery odjeljku na stranici za uređivanje posta?"
-
-#: ../includes/media-settings.php:68
-msgid "Default width (in pixels) for thumbnails in File Gallery metabox on post editing screens?"
-msgstr "Širina (u pikselima) za sličice u File Gallery odjeljku na stranici za uređivanje posta?"
-
-#: ../includes/media-settings.php:75
-msgid "Some default values for when inserting a gallery into a post"
-msgstr "neke osnovne vrijednosti vezane uz umetanje galerije u post"
-
-#: ../includes/media-settings.php:78
-#: ../includes/media-settings.php:115
-msgid "link"
-msgstr "poveznica"
-
-#: ../includes/media-settings.php:96
-msgid "order by"
-msgstr "posloži po"
-
-#: ../includes/media-settings.php:112
-msgid "...and for when inserting (a) single image(s) into a post"
-msgstr "i za umetanje pojedinačnih dokumenata"
-
-#: ../includes/media-settings.php:133
-msgid "Cache"
-msgstr "Pivremena memorija (cache)"
-
-#: ../includes/media-settings.php:133
-msgid "Enable caching?"
-msgstr "Uključiti privremenu memoriju (cache)?"
-
-#: ../includes/media-settings.php:135
-msgid "Cache non-HTML gallery output (<em>array, object, json</em>)?"
-msgstr "Spremaj <em>output</em> galerija koji nije HTML u privremenu memoriju?"
-
-#: ../includes/media-settings.php:137
-msgid "Cache expires after how many seconds? (leave as is if you don't know what it means)"
-msgstr "Privremena memorija se osvježava nakon koliko sekundi (ostavite kako jest ako ne razumijete što to znači)"
-
-#: ../includes/media-settings.php:143
-msgid "Edit screens options"
-msgstr "Postavke ekrana sa izlistom postova"
-
-#: ../includes/media-settings.php:143
-msgid "Display attachment count?"
-msgstr "Prikazuj broj vezanih priloga?"
-
-#: ../includes/media-settings.php:145
-msgid "Display post thumb (if set)?"
-msgstr "Prikazuj sličicu vezanu uz post (ako je postavljena)?"
-
-#: ../includes/media-settings.php:147
-msgid "Filter out duplicate attachments (copies) when browsing media library?"
-msgstr "Ne prikazuj duplikate priloga (kopije) pri pregledavanju medijske knjižnice?"
-
-#: ../includes/media-settings.php:149
-msgid "Display media tags for attachments in media library?"
-msgstr "Prikazuj medijske tagove za priloge iz medijske knjižnice?"
-
-#: ../includes/media-settings.php:156
-msgid "Other options"
-msgstr "Ostale postavke"
-
-#: ../includes/media-settings.php:156
-msgid "Display galleries within post excerpts?"
-msgstr "Prikazati galerije unutar sažetaka?"
-
-#: ../includes/media-settings.php:158
-msgid "Replacement text for galleries within post excerpts (if you haven't checked the above option)"
-msgstr "Zamjenski tekst za galerije unutar sažetaka (ukoliko ste označili gornju opciju)"
-
-#: ../includes/media-settings.php:161
-msgid "Display options for inserting galleries into a post?"
-msgstr "Prikazuj opcije za umetanje galerija u post?"
-
-#: ../includes/media-settings.php:163
-msgid "Display options for inserting single images into a post?"
-msgstr "Prikazuj opcije za umetanje pojedinačnih slika?"
-
-#: ../includes/media-settings.php:165
-msgid "Display attachment custom fields?"
-msgstr "Prikazuj korisnička polja za priloge?"
-
-#: ../includes/media-settings.php:168
-msgid "Delete all options on deactivation?"
-msgstr "Izbrisati sve opcije pri deaktivaciji plugina?"
-
-#: ../includes/media-settings.php:171
-msgid "File gallery folder"
-msgstr "File gallery direktorij"
-
-#: ../includes/media-settings.php:172
-msgid "File gallery path"
-msgstr "File gallery staza"
-
-#: ../includes/media-settings.php:186
 msgid "Here you can specify width, height and crop attributes for intermediate image sizes added by plugins and/or themes, as well as crop options for the default medium and large sizes"
 msgstr "Ovdje možete odrediti širinu, visinu i opcije obrezivanja za ostale veličine slika koje su dodane od strane drugih modula i/ili tema, te opcije obrezivanja za osnovne veličine (srednju i veliku)"
 
-#: ../includes/media-settings.php:189
+#: ../includes/media-settings.php:68
 #, php-format
 msgid "File Gallery help file is located in the \"help\" subfolder of the plugin. You can <a href=\"%s/help/index.html\" target=\"_blank\">click here to open it in new window</a>."
 msgstr "Upute za korištenje nalaze se unutar \"help\" podmape unutar File Gallery mape. Možete <a href=\"%s/help/index.html\" target=\"_blank\">kliknuti ovdje kako biste otvorili dokument u novom prozoru</a>."
 
-#: ../includes/media-settings.php:281
+#: ../includes/media-settings.php:156
 msgid "ascending"
 msgstr "uzlazno"
 
-#: ../includes/media-settings.php:282
+#: ../includes/media-settings.php:157
 msgid "descending"
 msgstr "silazno"
 
-#: ../includes/media-settings.php:502
+#: ../includes/media-settings.php:323
 msgid "Crop medium size to exact dimensions"
 msgstr "Obrezati srednju veličinu slike tako da bude točno upisanih dimenzija"
 
-#: ../includes/media-settings.php:508
+#: ../includes/media-settings.php:329
 msgid "Crop large size to exact dimensions"
 msgstr "Obrezati veliku veličinu slike tako da bude točno upisanih dimenzija"
 
-#: ../includes/media-settings.php:522
+#: ../includes/media-settings.php:343
 msgid "Width"
 msgstr "Širina"
 
-#: ../includes/media-settings.php:524
+#: ../includes/media-settings.php:345
 msgid "Height"
 msgstr "Visina"
 
-#: ../includes/media-settings.php:527
+#: ../includes/media-settings.php:348
 #, php-format
 msgid "Crop %s size to exact dimensions"
 msgstr "Obrezati veličinu slike '%s' tako da bude točno upisanih dimenzija"
 
-#: ../includes/miscellaneous.php:176
+#: ../includes/miscellaneous.php:170
 msgid "Attachment order saved successfully."
 msgstr "Redoslijed priloga je uspješno spremljen."
 
-#: ../includes/miscellaneous.php:180
+#: ../includes/miscellaneous.php:174
 msgid "Database error! Function: file_gallery_save_menu"
 msgstr "Greška!"
 
-#: ../includes/templating.php:246
+#: ../includes/regenerate-images.php:17
+msgid "No valid attachment IDs were supplied!"
+msgstr "Nije zadan niti jedan važeći ID priloga!"
+
+#: ../includes/regenerate-images.php:28
+#, php-format
+msgid "Error: %s while regenerating image ID %d"
+msgstr "Greška: %s pri regeneraciji umanjenih varijanti slike (ID: %d)"
+
+#: ../includes/regenerate-images.php:30
+#, php-format
+msgid "Unknown error while regenerating image ID %d"
+msgstr "Nepoznata greška pri regeneraciji umanjenih varijanti slike (ID: %d)"
+
+#: ../includes/regenerate-images.php:41
+msgid "Attachment thumbnails were successfully regenerated"
+msgstr "Umanjene varijante ove slike su uspješno regenerirane"
+
+#: ../includes/regenerate-images.php:43
+msgid "All attachments' thumbnails were successfully regenerated"
+msgstr "Umanjene varijante svih slika su uspješno regenerirane"
+
+#: ../includes/regenerate-images.php:48
+msgid "There were errors and some of the attachments' thumbnails weren't successfully regenerated!"
+msgstr "Došlo je do greške i nekim slikama nisu regenerirane umanjene varijante!"
+
+#: ../includes/regenerate-images.php:50
+msgid "There were errors and none of the attachments' thumbnails were successfully regenerated!"
+msgstr "Došlo je do greške i niti jednoj slici nisu regenerirane umanjene varijante!"
+
+#: ../includes/templating.php:283
 msgid "file does not exist:"
 msgstr "datoteka ne postoji:"
 
-#: ../includes/templating.php:246
+#: ../includes/templating.php:283
 msgid "using default style"
 msgstr "koristim osnovni stil"
+
+#: ../includes/templating.php:961
+msgid "Skip to first page"
+msgstr "Preskoči na prvu stranicu"
+
+#: ../includes/templating.php:964
+msgid "Skip to last page"
+msgstr "Preskoči na posljednju stranicu"
+
+#~ msgid "Media tag taxonomy name"
+#~ msgstr "Naziv taksonomije medijskih tagova"
+
+#~ msgid "a gallery"
+#~ msgstr "galeriju"
+
+#~ msgid "single files"
+#~ msgstr "pojedinačne dokumente "
+
+#~ msgid "Media tags URl slug"
+#~ msgstr "URL segment za medijske tagove"
+
+#~ msgid "File gallery"
+#~ msgstr "File gallery"
 
 #~ msgid "Add Custom Field:"
 #~ msgstr "Dodaj korisničko polje:"

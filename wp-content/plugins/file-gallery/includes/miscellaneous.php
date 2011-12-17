@@ -1,23 +1,17 @@
 <?php
 
 /**
- * Parses plugin options
- *
- * @since 1.6.5.2
+ * Checks if wp-admin is in SLL mode and replaces 
+ * the protocol in links accordingly
  */
-function file_gallery_parse_args( $args, $defaults )
+function file_gallery_https( $input )
 {
-	foreach( $defaults as $key => $val )
-	{
-		// if key isn't set, it's a new option - add
-		if( ! isset($args[$key]) )
-			$args[$key] = $val;
-		// if a key's value is empty, but should be a false - make it rather a zero
-		elseif( '' == $args[$key] && (0 === $val || 1 === $val) )
-			$args[$key] = 0;
-	}
+	global $file_gallery;
+
+	if( $file_gallery->ssl_admin && 0 === strpos($input, 'http:') && 0 !== strpos($input, 'https:') )
+		$input = 'https' . substr($input, 4);
 	
-	return $args;
+	return $input;
 }
 
 
@@ -112,8 +106,8 @@ function file_gallery_get_image_size($link, $height = false)
 	
 	if( "" != $link )
 	{
-		$server_name = preg_match("#http://([^/]+)[/]?(.*)#", get_bloginfo('url'), $matches);
-		$server_name = "http://" . $matches[1];
+		$server_name = preg_match("#(http|https)://([^/]+)[/]?(.*)#", get_bloginfo('url'), $matches);
+		$server_name = $matches[1] . "://" . $matches[2];
 		
 		if( false === strpos($link, $server_name) )
 		{

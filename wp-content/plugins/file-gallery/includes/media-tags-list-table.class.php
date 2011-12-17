@@ -25,7 +25,7 @@ class File_Gallery_Media_Tags_List_Table extends WP_Terms_List_Table
 
 function file_gallery_filter_terms_list_table( $class )
 {
-	if( 'media_tag' == $_GET['taxonomy'] )
+	if( FILE_GALLERY_MEDIA_TAG_NAME == $_GET['taxonomy'] )
 		$class = 'File_Gallery_Media_Tags_List_Table';
 	
 	return $class;

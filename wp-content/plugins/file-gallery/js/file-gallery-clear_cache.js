@@ -1,9 +1,5 @@
 if( "undefined" == typeof(file_gallery) )
-{	var file_gallery = 
-	{
-		options : file_gallery_options
-	};
-}
+	var file_gallery = { options : file_gallery_options };
 
 jQuery(document).ready(function()
 {

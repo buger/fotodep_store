@@ -1,28 +1,27 @@
 #fg_container
 {
-	padding-left: 7px;
+	padding-left: 7px !important;
 }
 
 #file_gallery fieldset p
 {
-	float: right;
+	float: right !important;
 }
 
 #file_gallery fieldset p input#fg_gallery_tags_from
 {
-	margin: -1px 3px 0 0;
+	margin: -1px 3px 0 0 !important;
 }
 
 #fg_info
 {
-	float: right;
+	float: right !important;
 }
 
 #file_gallery .button-primary
 {
-	float: left;
 	background: #21759B url(../images/button-grad.png) repeat-x scroll right bottom;	
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3) !important;
 }
 
 #file_gallery .button-primary:hover,
@@ -34,32 +33,31 @@
 .sortableitem,
 .ui-selected
 {
-	float:right;
+	float:right !important;
 		
-	padding-left: 3px;
-	padding-right: 20px;
+	padding-left: 3px !important;
+	padding-right: 20px !important;
 	
-	margin-right: 3px;
-	margin-left: 5px;	
+	margin-right: 3px !important;
+	margin-left: 5px !important;	
 }
-
 
 .sortableitem .checker
 {
-	left: 0;
-	right:auto;
+	left: 3px !important;
+	right:auto !important;
 }
 
 .delete_or_detach_link
 {
-	right: 0;
-	left:auto;
+	right: 0 !important;
+	left:auto !important;
 }
 
 .post_thumb_status
 {
-	right: 40px;
-	left:auto;
+	right: 40px !important;
+	left:auto !important;
 }
 
 .del_attachment,
@@ -68,74 +66,80 @@
 .post_thumb_setter,
 .post_thumb_unsetter
 {
-	left: 1px;
-	right:auto;
+	left: 1px !important;
+	right:auto !important;
 }
 
-.sortableitem img.fgtt
+#file_gallery_list .sortableitem img.fgtt
 {
-	float:right;
-	clear:left;
-	border-right: 1px solid #777;
-	padding: 1px 1px 0 0;	
+	right: auto;
+	left: 4px;
+	padding: 1px 1px 0 0 !important;	
 }
 
 .sortableitem img.fgtt.non_image
 {
-	margin: 8px 10px 0 0;	
+	margin: 8px 10px 0 0 !important;	
 }
 
 a.img_zoom
 {	
-	right:0;	
-	left:auto;
+	right:0 !important;	
+	left:auto !important;
 }
 a.img_edit
 {
-	right:0;	
-	left:auto;
+	right:0 !important;	
+	left:auto !important;
 }
 
 #attachment_data_edit_form
 {
-	float: left;
+	float: left !important;
 }
 
 #attachment_data_edit_form label
 {	
-	padding: 5px 2px 0px 0;
+	padding: 5px 2px 0px 0 !important;
 }
 
 #file_gallery_response
 {
-	left:25px;
-	right:auto;
+	left:25px !important;
+	right:auto !important;
 }
 
 #fg_buttons
 {
-	float: left;	
-	margin-left: 2px;
-	text-align: left;
+	float: left !important;	
+	margin-left: 2px !important;
+	text-align: left !important;
+}
+
+#file_gallery_upload_media
+{
+	float: left;
+	margin-left: 0;
+	margin-right: 3px;
 }
 
 #file_gallery_attachment_edit_image
 {
-	float:right;
-	margin-right:2.5%;
-	margin-left:5%;
+	float:right !important;
+	margin-right:2.5% !important;
+	margin-left:5% !important;
 }
 
 #file_gallery_upload_files
 {
-	right: 5px;
-	left:auto;
+	right: 5px !important;
+	left:auto !important;
 }
 
 #poststuff .inside p#fg_media_tag_list .fg_insert_tag
 {
-	float: right;
-	margin-left: 15px;
+	float: right !important;
+	margin-left: 15px !important;
 }
 
 /* wp-admin css fixes */
@@ -143,39 +147,57 @@ a.img_edit
 
 .ui-dialog button
 {
-	margin-left: 6px;
+	margin-left: 6px !important;
 }
 
 .ui-dialog .ui-dialog-titlebar-close
 {	
-	left: 7px;
-	right:auto;
+	left: 7px !important;
+	right:auto !important;
 }
 
 
-.attach_me
+.file_gallery_attach_to_post.solo
 {
-	left: 0;
-	right:auto;
+	float: left !important;
+	margin: 11px 0 0 6px !important;
 }
 
 #file_gallery_hide_gallery_options,
 #file_gallery_hide_single_options
 {
-	left: 0;
-	right:auto;
+	left: 0 !important;
+	right:auto !important;
 }
 
 .thumb_switch_load
 {	
-	right: 36px;
-	left:auto;
+	right: 36px !important;
+	left:auto !important;
 }
 
 #file_gallery_copy_from_wmpl_original
 {
-	-moz-border-radius: 0 5px 5px 0;
-	-webkit-border-radius: 0 5px 5px 0;
-	border-radius: 0 5px 5px 0;
-	margin:10px -6px -8px;	
+	-moz-border-radius: 0 5px 5px 0 !important;
+	-webkit-border-radius: 0 5px 5px 0 !important;
+	border-radius: 0 5px 5px 0 !important;
+	margin:10px -6px -8px !important;	
+}
+
+#file_gallery_hide_acf {
+	right:auto;
+	left:0;
+}
+
+#media_tag_taxonomy_name,
+#media_tag_taxonomy_slug
+{
+	background: url(../images/file-gallery-logo.png) left center no-repeat;
+}
+
+#poststuff #file_gallery h3.hndle span
+{
+	width: 100%;
+	display: block;
+	background:url(../images/file-gallery-logo.png) left center no-repeat;
 }

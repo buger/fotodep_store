@@ -1,6 +1,7 @@
 <?php
 
 // Takes care of creating, updating and deleting database tables
+
 class scbTable {
 	protected $name;
 	protected $columns;
@@ -9,19 +10,23 @@ class scbTable {
 	function __construct( $name, $file, $columns, $upgrade_method = 'dbDelta' ) {
 		global $wpdb;
 
-		$this->name = $wpdb->prefix . $name;
+		$this->name = $name;
 		$this->columns = $columns;
 		$this->upgrade_method = $upgrade_method;
 
 		$wpdb->tables[] = $name;
-		$wpdb->$name = $this->name;
+		$wpdb->$name = $wpdb->prefix . $name;
 
-		scbUtil::add_activation_hook( $file, array( $this, 'install' ) );
-		scbUtil::add_uninstall_hook( $file, array( $this, 'uninstall' ) );
+		if ( $file ) {
+			scbUtil::add_activation_hook( $file, array( $this, 'install' ) );
+			scbUtil::add_uninstall_hook( $file, array( $this, 'uninstall' ) );
+		}
 	}
 
 	function install() {
 		global $wpdb;
+
+		$full_table_name = $wpdb->prefix . $this->name;
 
 		$charset_collate = '';
 		if ( $wpdb->has_cap( 'collation' ) ) {
@@ -33,20 +38,22 @@ class scbTable {
 
 		if ( 'dbDelta' == $this->upgrade_method ) {
 			require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-			dbDelta( "CREATE TABLE $this->name ( $this->columns ) $charset_collate" );		
+			dbDelta( "CREATE TABLE $full_table_name ( $this->columns ) $charset_collate" );
 			return;
 		}
 
 		if ( 'delete_first' == $this->upgrade_method )
-			$wpdb->query( "DROP TABLE IF EXISTS $this->name;" );
+			$wpdb->query( "DROP TABLE IF EXISTS $full_table_name;" );
 
-		$wpdb->query( "CREATE TABLE IF NOT EXISTS $this->name ( $this->columns ) $charset_collate;" );
+		$wpdb->query( "CREATE TABLE IF NOT EXISTS $full_table_name ( $this->columns ) $charset_collate;" );
 	}
 
 	function uninstall() {
 		global $wpdb;
 
-		$wpdb->query( "DROP TABLE IF EXISTS $this->name" );
+		$full_table_name = $wpdb->prefix . $this->name;
+
+		$wpdb->query( "DROP TABLE IF EXISTS $full_table_name" );
 	}
 }
 

@@ -5,8 +5,8 @@
 // Usage:
 // global $wp_editor;
 // $wp_editor->editor($content, $editor_id, $settings, $media_buttons);
-if ( !class_exists('WP_Editor') ) :
-class WP_Editor {
+if ( !class_exists('WP_Pre_33_Editor') ) :
+class WP_Pre_33_Editor {
 
 	var $editor_ids = array();
 	var $settings = array();
@@ -17,7 +17,16 @@ class WP_Editor {
 		add_filter( 'tiny_mce_before_init', array($this, 'loaded_test') );
 	}
 
+	function wp_default_editor() {
+		return wp_default_editor();
+	}
+
 	function editor( $content, $editor_id, $settings = array(), $media_buttons = true ) {
+        if (function_exists('wp_editor')) {
+            $settings['media_buttons'] = $media_buttons;
+            wp_editor($content, $editor_id, $settings);
+            return;
+        }
 
 		$this->editor_ids[] = $editor_id;
 
@@ -272,5 +281,5 @@ var wpEditor={wpautop:{<?php echo $id.':';echo $this->settings[$id]['wpautop'] ?
 	}
 }
 global $wp_editor;
-$wp_editor = new WP_Editor;
+$wp_editor = new WP_Pre_33_Editor;
 endif; // WP_Editor

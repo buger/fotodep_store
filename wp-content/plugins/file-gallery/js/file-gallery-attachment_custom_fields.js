@@ -21,41 +21,42 @@ jQuery(document).ready(function()
 	{
 		var key = jQuery("#new_custom_field_key").val(),
 			value = jQuery("#new_custom_field_value").val(),
-			attachment_id = jQuery("#attachment_id").val() || jQuery("#fgae_attachment_id").val();
+			attachment_id = jQuery("#attachment_id").val() ? jQuery("#attachment_id").val() : jQuery("#fgae_attachment_id").val();
 
-		e.preventDefault();
+		if( "" != key )
+		{
+			jQuery.post
+			(
+				ajaxurl,
+				{
+					'action'		: 'add_new_attachment_custom_field',
+					'attachment_id'	: attachment_id,
+					'key'			: key,
+					'value'			: value,
+					'_ajax_nonce'	: acf.options.add_new_attachment_custom_field_nonce
+				},
+				function(response)
+				{
+					if( 0 < Number(response) )
+					{
+						jQuery(".acf_new_custom_field")
+							.before('<tr class="' + key + '" id="acf_' + acf_custom_field_num + '"><th valign="top" class="label" scope="row"><label for="attachments[' + attachment_id + '][' + key + ']"><span class="alignleft">' + key + '</span><br class="clear" /></label></th><td class="field custom_field"><textarea name="attachments[' + attachment_id + '][' + key + ']" id="attachments[' + attachment_id + '][' + key + ']">' + value + '</textarea><input class="button-secondary acf_delete_custom_field" type="button" value="Delete" name="acf_delete_custom_field_' + key + '" /></td></tr>');
+						
+						jQuery("#acf_" + acf_custom_field_num).fadeTo(0, 0).css({"visibility" : "visible", "backgroundColor":"#FFFF88"}).fadeTo(250, 1).animate({"backgroundColor" : "#F9F9F9"}, 250);
+						
+						acf_custom_field_num++;
+					}
+					else
+					{
+						alert(acf.L10n.error_adding_attachment_custom_field);
+					}
+				},
+				'html'
+			);
+		}
 		
-		if( "" == key )
-			return false;
-
-		jQuery.post
-		(
-			ajaxurl,
-			{
-				'action'		: 'add_new_attachment_custom_field',
-				'attachment_id'	: attachment_id,
-				'key'			: key,
-				'value'			: value,
-				'_ajax_nonce'	: acf.options.add_new_attachment_custom_field_nonce
-			},
-			function(response)
-			{
-				if( "1" == response )
-				{
-					jQuery(".acf_new_custom_field")
-						.before('<tr class="' + key + '" id="acf_' + acf_custom_field_num + '"><th valign="top" class="label" scope="row"><label for="attachments[' + attachment_id + '][' + key + ']"><span class="alignleft">' + key + '</span><br class="clear" /></label></th><td class="field custom_field"><textarea name="attachments[' + attachment_id + '][' + key + ']" id="attachments[' + attachment_id + '][' + key + ']">' + value + '</textarea><input class="button-secondary acf_delete_custom_field" type="button" value="Delete" name="acf_delete_custom_field_' + key + '" /></td></tr>');
-					
-					jQuery("#acf_" + acf_custom_field_num).fadeTo(0, 0).css({"visibility" : "visible", "backgroundColor":"#FFFF88"}).fadeTo(250, 1).animate({"backgroundColor" : "#F9F9F9"}, 250);
-					
-					acf_custom_field_num++;
-				}
-				else if( "0" == response )
-				{
-					alert(acf.L10n.error_adding_attachment_custom_field);
-				}
-			},
-			'html'
-		);
+		e.preventDefault();
+		return false;
 	});
 	
 	

@@ -1,19 +1,7 @@
 <?php
 
-/*
-Creates an admin page with widgets, similar to the dashboard
+// Admin screen with metaboxes base class
 
-For example, if you defined the boxes like this:
-
-$this->boxes = array( array( 'settings', 'Settings box', 'normal' )
-	... );
-
-You must also define two methods in your class for each box:
-
-function settings_box() - this is where the box content is echoed
-function settings_handler() - this is where the box settings are saved
-...
-*/
 abstract class scbBoxesPage extends scbAdminPage {
 	/*
 		A box definition looks like this:
@@ -37,7 +25,6 @@ abstract class scbBoxesPage extends scbAdminPage {
 		parent::page_init();
 
 		add_action( 'load-' . $this->pagehook, array( $this, 'boxes_init' ) );
-		add_filter( 'screen_layout_columns', array( $this, 'columns' ) );
 	}
 
 	function default_css() {
@@ -52,7 +39,6 @@ abstract class scbBoxesPage extends scbAdminPage {
 .inside {
 	clear: both;
 	overflow: hidden;
-	padding: 10px 10px 0 !important;
 }
 .inside table {
 	margin: 0 !important;
@@ -79,6 +65,7 @@ abstract class scbBoxesPage extends scbAdminPage {
 .inside p.submit {
 	float: left !important;
 	padding: 0 !important;
+	margin-bottom: 0 !important;
 }
 </style>
 <?php
@@ -93,34 +80,40 @@ abstract class scbBoxesPage extends scbAdminPage {
 			$hide2 = $hide3 = $hide4 = '';
 			switch ( $screen_layout_columns ) {
 				case 4:
-					$width = 'width:24.5%;';
+					if( !isset( $this->args['column_widths'] ) )
+						$this->args['column_widths'] = array( 24.5, 24.5, 24.5, 24.5 );
 					break;
 				case 3:
-					$width = 'width:32.67%;';
+					if( !isset( $this->args['column_widths'] ) )
+						$this->args['column_widths'] = array( 32.67, 32.67, 32.67 );
 					$hide4 = 'display:none;';
 					break;
 				case 2:
-					$width = 'width:49%;';
+					if( !isset( $this->args['column_widths'] ) )
+						$this->args['column_widths'] = array( 49, 49 );
 					$hide3 = $hide4 = 'display:none;';
 					break;
 				default:
-					$width = 'width:98%;';
+					if( !isset( $this->args['column_widths'] ) )
+						$this->args['column_widths'] = array( 98 );
 					$hide2 = $hide3 = $hide4 = 'display:none;';
 			}
+
+			$this->args['column_widths'] = array_pad( $this->args['column_widths'], 4, 0 );
 		}
 ?>
 <div id='<?php echo $this->pagehook ?>-widgets' class='metabox-holder'>
 <?php
-	echo "\t<div class='postbox-container' style='$width'>\n";
+	echo "\t<div class='postbox-container' style='width:{$this->args['column_widths'][0]}%'>\n";
 	do_meta_boxes( $this->pagehook, 'normal', '' );
 
-	echo "\t</div><div class='postbox-container' style='{$hide2}$width'>\n";
+	echo "\t</div><div class='postbox-container' style='width:{$hide2}{$this->args['column_widths'][1]}%'>\n";
 	do_meta_boxes( $this->pagehook, 'side', '' );
 
-	echo "\t</div><div class='postbox-container' style='{$hide3}$width'>\n";
+	echo "\t</div><div class='postbox-container' style='width:{$hide3}{$this->args['column_widths'][2]}%'>\n";
 	do_meta_boxes( $this->pagehook, 'column3', '' );
 
-	echo "\t</div><div class='postbox-container' style='{$hide4}$width'>\n";
+	echo "\t</div><div class='postbox-container' style='width:{$hide4}{$this->args['column_widths'][3]}%'>\n";
 	do_meta_boxes( $this->pagehook, 'column4', '' );
 ?>
 </div></div>
@@ -149,12 +142,6 @@ abstract class scbBoxesPage extends scbAdminPage {
 		}
 	}
 
-	function columns( $columns ) {
-		$columns[$this->pagehook] = $this->args['columns'];
-
-		return $columns;
-	}
-
 	function uninstall() {
 		global $wpdb;
 
@@ -172,9 +159,12 @@ abstract class scbBoxesPage extends scbAdminPage {
 	}
 
 	function boxes_init() {
-		wp_enqueue_script( 'common' );
-		wp_enqueue_script( 'wp-lists' );
 		wp_enqueue_script( 'postbox' );
+
+		add_screen_option( 'layout_columns', array(
+			'max' => $this->args['columns'],
+			'default' => $this->args['columns']
+		) );
 
 		$registered = array();
 		foreach( $this->boxes as $box_args ) {
@@ -243,4 +233,6 @@ EOT
 <?php
 	}
 }
+
+
 
