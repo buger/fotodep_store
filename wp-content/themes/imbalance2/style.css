@@ -1,0 +1,114 @@
+/*
+Theme Name: Imbalance 2
+Theme URI: http://www.wpshower.com/
+Description: Imbalance 2 turns you Wordpress-based website to an attractive blog, portfolio or even online magazine. This free template designed in strict modern style with a minimalistic touch. Imbalance 2 can easily fresh up your web-magazine or blog. Due to modern flexible features and layout Imbalance 2 fits to almost any project and your visitors won't remain indifferent.
+Author: WPSHOWER
+Author URI: http://www.wpshower.com
+Version: 1.0.3
+License: GNU General Public License
+License URI: license.txt
+Tags: fluid, grid, blog, magazine, imbalance
+*/
+
+html, body, form, ul, li, table, td { margin: 0; padding: 0; }
+body { position: relative; color: #333; }
+body, input, textarea { font-size: 13px; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+a img { border: 0; }
+td { vertical-align: top; }
+ul { list-style-position: inside; }
+h1 { font-size: 24px; }
+h2 { font-size: 18px; }
+h3 { font-size: 12px; }
+blockquote { border-left-width: 3px; border-left-style: solid; margin-left: 7px; padding-left: 20px; font-size: 16px; color: #636363; }
+.clear { clear: both; }
+.main_separator { color: #dedfe0; }
+.wrapper { padding-top: 31px; }
+#header { border-bottom: 1px solid #dedfe0; padding-bottom: 50px; }
+#site-title { float: left; width: 210px; padding-right: 40px; overflow: hidden; line-height: 27px; font-size: 23px; }
+#site-title a { color: #333; font-weight: bold; text-decoration: none; }
+#header-left { float: left; width: 210px; padding-right: 40px; }
+#header-center { float: left; width: 210px; padding-right: 30px; }
+#search { float: right; width: 220px; }
+#header-right { margin: 20px 0 0 10px; }
+#search label, #search input[type=submit] { display: none; }
+#search input[type=text] { width: 200px; padding: 7px 9px; margin: 0; border: 1px solid #dedfe0; background: #fff; font-size: 13px; outline: none; }
+#page_search input[type=submit] { display: none; }
+.menu ul { list-style-type: none; }
+.menu ul li { padding-bottom: 9px; }
+.menu ul a { line-height: 13px; color: #303030; text-decoration: none; }
+#boxes { margin-top: 40px; }
+.box { width: 210px; margin-bottom: 70px; color: #636363; }
+.box .rel { position: relative; }
+.box .rel p { margin: 0; }
+.box .texts { position: absolute; top: -20px; left: -20px; width: 210px; color: #fff; z-index: 200; opacity: 0; filter: alpha(opacity=0); }
+.box .texts .categories a, .box .texts a, .box .texts .posted, .box .texts .posted a { color: #fff; }
+.box .texts .transparent img { opacity: 0.1; filter: alpha(opacity=10); }
+.box .texts .abs { position: absolute; top: 0; }
+.box .categories { padding-bottom: 10px; }
+.box .categories a, .box .posted a { color: #a1a1a1; }
+.box h1 { margin: 0; padding-bottom: 10px; font-size: 16px; }
+.box h1 a { color: #333; }
+.box .posted { padding-top: 10px; color: #a1a1a1; }
+.box img { display: block; }
+.fetch { clear: both; width: 460px; margin: 0 auto 40px; background: #f9f9f9; -moz-border-radius: 4px; border-radius: 4px; text-align: center; }
+.fetch a { display: block; height: 40px; line-height: 40px; font-size: 16px; font-weight: bold; color: #333; text-decoration: none; }
+.fetch:hover a { color: #fff; }
+#content { padding-bottom: 20px; }
+#nav-above { float: left; width: 210px; padding-right: 40px; text-align: right; color: #636363; }
+#nav-above a { text-decoration: none; color: #333; }
+.nav-previous, .nav-next { display: inline; }
+.nav-separator { color: #e5e5e5; }
+.post_title { margin-top: 35px; overflow: hidden; }
+.post_title h1 { margin: 0 0 10px 250px; font-size: 27px; line-height: 35px; width: 710px; }
+.entry-title, .page-title { margin-left: 250px; margin-top: 35px; }
+.entry-meta { padding-bottom: 30px; color: #636363; }
+.entry-meta a { color: #333; text-decoration: none; }
+#wides { clear: both; }
+.entry-aside { width: 210px; padding-right: 40px; vertical-align: middle; }
+.entry-content-right { width: 710px; font-size: 15px; line-height: 21px; }
+.entry-content { width: 710px; margin-left: 250px; font-size: 15px; line-height: 21px; }
+.entry-utility { padding: 10px 0; }
+.entry-tags { margin: 10px 0; }
+.entry-tags span { font-weight: bolder; }
+#social { padding: 20px 0 0 0; }
+.twitter-share-button { float: left; margin: 2px 20px 0 0; }
+.post img, .page img { margin: 20px 0; }
+.post .alignleft, .page .alignleft { float: left; margin-right: 20px; }
+.post .alignright, .page .alignright { float: right; margin-left: 20px; }
+.post .aligncenter, .page .aligncenter { display: block; clear: both; margin: 20px auto; }
+#comments { padding: 0 0 0 246px; width: 714px; }
+#comments-title { font-size: 21px; margin: 40px 0 20px 4px; }
+.commentlist { margin: 0; padding: 0; list-style: none; }
+.commentlist ul.children { list-style: none; }
+.commentlist li > div { position: relative; border-bottom: 1px solid #dedfe0; padding: 30px 0 30px 4px; }
+.commentlist li li > div { margin-left: 90px; }
+.commentlist li li li > div { margin-left: 180px; }
+.commentlist li li li li > div { margin-left: 270px; }
+.commentlist li li li li li > div { margin-left: 360px; }
+.comment-avatar { position: absolute; top: 30px; left: -96px; }
+.comment-content { margin-left: 96px; border-bottom: 1px solid #dedfe0; }
+.comment-author { float: left; width: 210px; padding-right: 40px; font-size: 15px; }
+cite { font-style: normal; font-weight: bold; }
+.comment-meta { float: left; width: 210px; padding-right: 40px; color: #999999; }
+.comment-body { clear: both; padding-top: 7px; font-size: 15px; line-height: 21px; }
+#respond { padding-left: 4px; }
+li.comment > div { position: relative; }
+.reply { position: absolute; top: 30px; right: 20px; }
+#reply-title { font-size: 21px; }
+.comment-reply-link { display: none; }
+.comment-form-author, .comment-form-email, .comment-form-url { float: left; width: 460px; margin: 0; padding: 10px 0; }
+.comment-form-comment { clear: both; width: 460px; margin: 0; padding: 10px 0; }
+input[type="text"], textarea { background: #fff; border: 1px solid #ccc; padding: 8px; outline: none; color: #6b6b6b; -moz-border-radius: 4px; border-radius: 4px; }
+#comments input[type="text"] { width: 442px; }
+#comments textarea { width: 442px; }
+.form-submit { margin-bottom: 40px; }
+.form-submit input { width: 460px; padding: 6px 0; color: #fff; font-size: 15px; font-weight: bold; cursor: pointer; border: 0; text-align: center; -moz-border-radius: 4px; border-radius: 4px; }
+.recent { margin-top: 40px; padding-top: 40px; border-top: 1px solid #ccc; }
+#footer { padding: 30px 0 50px; border-top: 1px solid #dedfe0; }
+#site-info { float: left; width: 460px; padding-right: 40px; line-height: 22px; }
+#site-info a { font-weight: bold; text-decoration: none; color: #333; }
+#footer-left { float: right; width: 210px; padding-right: 40px; }
+#footer-right { float: right; width: 210px; }
+#infscr-loading { background: none repeat scroll 0 0 #000000; bottom: 40px; color: #FFFFFF; height: 100px; left: 40%; opacity: 0.8; padding: 10px; position: fixed; width: 200px; z-index: 5000; border-radius: 10px; }

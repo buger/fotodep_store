@@ -1,0 +1,15 @@
+#categories ul li a span, #archives ul li a span {
+	float:right;
+	position: absolute;
+	margin-top: -3px;
+	padding-left: 25px;
+}
+
+
+.photogalleria {
+	margin-bottom: 20px!important;
+}
+
+.attachment #respond textarea {
+	overflow: hidden;
+}

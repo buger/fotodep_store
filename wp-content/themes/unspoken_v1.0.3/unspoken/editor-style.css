@@ -1,0 +1,30 @@
+.content-col-main {
+   padding: 1%;
+   border: 1px dotted #ccc;
+   background: #fff;
+}
+
+.content-col-side {
+   float: right;
+   width: 250px;
+   padding: 1%;
+   border: 1px dotted #ccc;
+   background: #fff;
+   margin-left: 10px;
+}
+
+.content-2col-side {
+   float: right;
+   width: 250px;   
+   background: #fff;	
+   margin-left: 10px;
+}
+
+.content-2col-side div:first-child {
+	margin-bottom: 10px;
+}
+
+.content-2col-side div {
+	padding: 1%;
+    border: 1px dotted #ccc;
+}

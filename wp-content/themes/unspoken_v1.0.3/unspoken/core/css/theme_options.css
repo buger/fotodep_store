@@ -1,0 +1,9 @@
+.unspoken .inside h3 {background: none; border-radius: 0; -moz-border-radius: 0; -webkit-border-radius: 0; cursor: default; border-top: 1px solid #DFDFDF; padding-top: 15px !important; margin-top: 10px !important;}
+.unspoken .inside h3.first {border-top: none; margin-top: 0 !important;}
+.unspoken .hndle {cursor: default;}
+.unspoken .form-table td input, .unspoken .form-table td .description {vertical-align: middle;}
+.unspoken .form-table td .description {margin-left: 5px;}
+.unspoken_options {padding: 40px 20px;}
+.getconnected-item {margin-bottom: 5px;}
+.getconnected-options {display: none;}
+.getconnected-title {font-size: 13px; display: block; margin-bottom: 5px;}

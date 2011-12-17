@@ -1,0 +1,35 @@
+* html .clear {zoom: 1; clear: both;}
+*+html .clear {zoom: 1; clear: both;}
+* html .grid .even {zoom: 1; clear: both;}
+*+html .grid .even {zoom: 1;}
+* html .share-item {zoom: 1; clear: both;}
+*+html .share-item {zoom: 1;}
+
+#top-menu ul li {zoom: 1;}
+#top-menu ul li ul {width: 80px;}
+#navigation ul li ul {width: 180px;}
+#navigation ul.sub-menu li {vertical-align: bottom;}
+* html .searchform {display: inline;}
+
+.hentry, .hentry-content blockquote, .comment-text blockquote {zoom: 1;}
+.single .hentry-content embed, .single .hentry-content object {width: expression(Math.min(parseInt(this.offsetWidth), 460 ) + "px");}
+#sharebox {margin-left: -235px;}
+
+* html #mode {right: 10px;}
+.mainpost-container .bg {filter: alpha(opacity = 80); zoom: 1;}
+* html .photography .block-title2 a.prev {right: 29px;}
+* html .photography .block-title2 a.next {right: 10px;}
+
+#comment, #author, #email, #url, #name, #twittername, #message {border-color: #fff;}
+#submit {padding: 10px 0;}
+
+.tabs-list li {display: inline; zoom: 1;}
+.unspoken-getconnected li {display: inline;}
+.unspoken_archive li {display: inline; zoom: 1;}
+.unspoken-flickr li {display: inline; zoom: 1; position: relative;}
+* html .unspoken-flickr li {margin-right: 12px;}
+.unspoken-flickr li a, .unspoken-flickr li a img {display: inline;}
+.widget_search #s {width: 145px; padding: 3px 5px;}
+
+*+html .bottom-widgetarea {margin-bottom: 40px;}
+.footer {padding: 10px 20px 0;}

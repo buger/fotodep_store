@@ -1,0 +1,178 @@
+/*
+Theme Name: Swiss Dessign
+Theme URI: http://www.dessign.net/swissdessign
+Description: Swiss Dessign Theme for WordPress is stylish, customizable, simple, and readable. Perfect for any illustrator or graphic designer. 
+Version: 1.5
+Author: Marios Lublinski
+Author URI: http://www.dessign.net
+Tags: 2 column theme, white, clean
+
+*/
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: url('images/vertical_bg.jpg') repeat;
+  font-size: 11px;
+  font-family: arial, verdana, georgia;
+}
+
+img {
+  border: none;
+}
+
+.clear {
+  clear: both;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #000;
+  text-decoration: line-through;
+}
+
+h1,h2,h3,p {
+  margin: 10px 0;
+}
+
+#main_container {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#top_gray {
+  height: 6px;
+  width: 1000px;
+  background-color: #000000;
+}
+
+#header {
+  width: 980px;
+  background-color: #fff;
+  padding: 15px 10px;
+  margin-bottom: 15px;
+}
+
+#header ul.header_list {
+  float: right;
+  list-style-type: none;
+  margin-top: 10px;
+}
+
+#header ul.header_list li {
+  display: inline;
+  border-right: 1px solid #aeaeae;
+  padding: 0px 5px;
+}
+
+#header ul.header_list li a {
+  color: #aeaeae;
+  text-decoration: none;
+}
+
+#header ul.header_list li a:hover {
+  text-decoration: line-through;
+}
+
+.header_list li.last {
+  border-right: none !important;
+}
+
+.logo {
+  float: left;
+}
+
+#left_container {
+  float: left;
+  width: 155px;
+  background-color: #fff;
+  font-size: 10px;
+  padding-left: 5px;
+  padding-bottom: 15px;
+}
+
+#left_container h3 {
+  font-size: 12px;
+  padding-bottom: 5px;
+  border-bottom: 1px dotted #000;
+  margin: 15px 0 0 0;
+}
+
+#left_container ul.left_list {
+  list-style-type: none;
+  margin: 10px 0;
+}
+
+#left_container ul.left_list li {
+  margin: 3px 0;
+}
+
+#center_container {
+  float: left;
+  margin-left: 25px;
+  width: 230px;
+  padding: 10px 10px;
+  background-color: #fff;
+}
+
+#center_container h3.title a {
+  font-size: 11px;
+  color: #000;
+  font-weight: normal;
+}
+
+#center_container img {
+  margin: 5px 0;
+  width: 220px;
+  height: 111px;
+}
+
+.featured_post {
+  margin-bottom: 15px;
+}
+
+#right_container {
+  padding: 10px;
+  background-color: #fff;
+  width: 521px;
+  float: right;
+}
+
+#right_container h3.title a {
+  font-size: 11px;
+  color: #000;
+  font-weight: normal;
+}
+
+#right_container img.featured_big {
+  margin: 0;
+  width: 521px;
+  height: 332px;
+}
+
+.home_image img { width: 521px; height: 332px; }
+
+#right_container p {
+  font-size: 12px;
+}
+
+.comments ol {
+  margin-left: 15px;
+}
+
+#footer {
+  width: 980px;
+  padding: 10px;
+  text-align: right;
+  background-color: #fff;
+  margin-top: 15px;
+  font-size: 10px;
+}

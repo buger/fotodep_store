@@ -1,0 +1,30 @@
+/* Default CSS for Galleria */
+.galleria{list-style:none;width:200px}
+.galleria li{display:block;width:108px;height:108px;overflow:hidden;float:left;margin:0 10px 10px 0}
+.galleria li div{position:absolute;display:none;top:0;left:180px}
+.galleria li div img{cursor:pointer}
+.galleria li.active div img,.galleria li.active div{display:block}
+.galleria li img.thumb{cursor:pointer;}
+.galleria li .caption{display:block;padding-top:.5em}
+* html .galleria li div span{width:400px} /* MSIE bug */
+
+/* Custom CSS for Wordpress */
+.caption {font-style:italic;color:#887; }
+.galleria_list{position:relative;}
+.show_gallery {width:auto;margin:0 auto; float: left}
+.show_gallery li{width:108px;height:108px;margin:0 10px 10px 0;background:#000;overflow:hidden}
+.show_gallery li div .caption{font:italic 0.7em/1.4 georgia,serif;}
+.galleria_container{margin:0 auto 20px auto;height:auto;width:auto;text-align:center;display:block}
+.galleria_container img{margin-bottom:10px;margin-left:3px;}
+
+.gallery_list, .show_gallery{
+	display: block;
+	float: left;
+	clear:none;
+}
+
+.photogalleria {
+	display: block;
+	float: right;
+	top: 0px;
+}

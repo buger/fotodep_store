@@ -1,0 +1,21 @@
+/*  
+Theme Name: Imbalance
+Theme URI: http://www.wpshower.com
+Version: 1.18
+Description: Designed by <a href="http://www.wpshower.com">WPSHOWER</a>
+Author: WPSHOWER
+Author URI: http://www.wpshower.com
+
+	Copyright: (c) 2010 WPSHOWER
+	License: GNU/GPL Version 2 or later. http://www.gnu.org/licenses/gpl.html
+
+*/
+
+.clear {zoom: 1; clear: both;}
+* html .wrapper {height:100%;}
+.post_home, .right-desc, .cat-price {zoom: 1; display: inline;}
+li.parent a, li.parent a:hover {background-position: 100% 29px;}
+.nav a {padding-top: 22px;}
+*+html .taglist {margin-top: 65px;}
+* html .middle {padding-bottom: 91px;}
+*+html .middle {padding-bottom: 91px;}

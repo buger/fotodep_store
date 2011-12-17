@@ -1,0 +1,1174 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Unspoken 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-14 14:15+0300\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Neolot <neolot@gmail.com>\n"
+"Language-Team: Wpshower <hello@wpshower.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: /home/neolot/projects/unspoken\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: World\n"
+"X-Poedit-KeywordsList: __;_e;_n;_x\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: /home/neolot/projects/unspoken\n"
+
+#: /home/neolot/projects/unspoken/404.php:6
+msgid "Sorry, that page doesn’t exist!"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/404.php:9
+msgid ""
+"The page you've requested can not be displayed. It appears you've missed your intended destination, either\n"
+"through a bad or outdated link, or a typo in the page you were hoping to reach."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/404.php:11
+msgid "Back to homepage"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:4
+msgid "Submit your comment"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:7
+#, php-format
+msgid "You must be <a href=\"%s\" title=\"Log in\">logged in</a> to post a comment."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:20
+#: /home/neolot/projects/unspoken/template-contactform.php:80
+msgid "Your name"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:23
+#: /home/neolot/projects/unspoken/template-contactform.php:84
+msgid "Please enter your name"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:25
+#: /home/neolot/projects/unspoken/template-contactform.php:86
+msgid "Your name is required"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:28
+#: /home/neolot/projects/unspoken/template-contactform.php:89
+msgid "Your email"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:31
+#: /home/neolot/projects/unspoken/template-contactform.php:93
+msgid "Please enter a valid email address"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:33
+#: /home/neolot/projects/unspoken/template-contactform.php:95
+msgid "An email address is required"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:36
+#: /home/neolot/projects/unspoken/loop-single.php:76
+msgid "Website"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:46
+#: /home/neolot/projects/unspoken/template-contactform.php:105
+msgid "Message"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:49
+#: /home/neolot/projects/unspoken/template-contactform.php:109
+msgid "Please enter your message"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:54
+#, php-format
+msgid "Logged in as <a href=\"%1$s\">%2$s</a>. <a href=\"%3$s\" title=\"Log out of this account\">Log out?</a>"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:68
+msgid "Submit comment"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/commentform.php:68
+msgid "Cancel"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/footer.php:10
+msgid "Navigation footer"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/footer.php:35
+msgid "Search"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/footer.php:44
+msgid "Footer left linkset"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/footer.php:46
+msgid "Footer right linkset"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/footer.php:50
+msgid "All Rights Reserved"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-sitemap.php:19
+msgid "Pages"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-sitemap.php:22
+msgid "Categories"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-sitemap.php:25
+msgid "Posts per category"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-sitemap.php:38
+#, php-format
+msgid "<li><a href=\"%1$s\">%2$s</a> &mdash; Comments (%3$s)</li>"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop.php:34
+msgid "Not found"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop.php:35
+msgid "Apologies, but no results were found for the requested criteria. Perhaps searching will help find a related post."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/yarpp-template-similar.php:3
+msgid "Similar stories"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/yarpp-template-similar.php:6
+msgid "[This post has no title]"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-contactform.php:71
+msgid "Please enter recipient(s) email address on the <a href=\"/wp-admin/admin.php?page=unspoken-templates-options\">options page</a>"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-contactform.php:73
+msgid "Your message has been sent!"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-contactform.php:98
+msgid "Subject"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-contactform.php:114
+msgid "Send message"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:7
+#, php-format
+msgid "Posted by %1$s on %2$s %3$s &middot; %4$s"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:7
+#, php-format
+msgid "in %1$s"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:7
+#, php-format
+msgid "<a href=\"#comments\">%1$u Comments</a>"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:7
+msgid "Edit entry"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:31
+#, php-format
+msgid "<p class=\"hentry-tags\">Tags: %1$s</p>"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:35
+msgid "Pages:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:44
+msgid "Previous Post"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:52
+msgid "Next Post"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:71
+msgid "About author"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:91
+msgid "Share this article"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:94
+msgid "Tweet this"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:95
+msgid "Digg it"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:96
+msgid "Add to Delicious"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:97
+msgid "Share on Facebook"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/loop-single.php:98
+msgid "Stumble it"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/index.php:6
+#: /home/neolot/projects/unspoken/template-blog.php:11
+msgid "Latest entries"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/search.php:6
+msgid "Search result"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/archive.php:7
+#: /home/neolot/projects/unspoken/archive.php:11
+#: /home/neolot/projects/unspoken/archive.php:13
+#: /home/neolot/projects/unspoken/archive.php:15
+#: /home/neolot/projects/unspoken/archive.php:29
+#, php-format
+msgid "%s"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/archive.php:9
+#, php-format
+msgid "&quot;%s&quot; tag"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/archive.php:13
+msgid "F Y"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/archive.php:15
+msgid "Y"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-magazine.php:29
+msgid "0 Comments"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-magazine.php:29
+msgid "1 Comment"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-magazine.php:29
+msgid "% Comments"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/template-magazine.php:29
+msgid "Comments off"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/yarpp-template-recommended.php:3
+msgid "Recommended for you"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/pagination.php:10
+#: /home/neolot/projects/unspoken/pagination.php:19
+msgid "Older posts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/pagination.php:11
+#: /home/neolot/projects/unspoken/pagination.php:20
+msgid "Newer posts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/pagination.php:28
+#: /home/neolot/projects/unspoken/pagination.php:34
+msgid "Load more posts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/comments.php:21
+msgid "1 comment on this post"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/comments.php:23
+msgid "Submit yours"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/comments.php:33
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/comments.php:34
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/comments.php:43
+msgid "1 pingback on this post"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:48
+msgid "Unspoken Theme"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:49
+msgid "Theme Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:50
+msgid "Support Forum"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:76
+#: /home/neolot/projects/unspoken/header.php:77
+msgid "Top menu"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:77
+#: /home/neolot/projects/unspoken/header.php:113
+msgid "Navigation"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:167
+msgid "Edit"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:174
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/functions.php:291
+msgid "<p>Popular tags</p>"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/header.php:12
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:37
+msgid "Unspoken Theme Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:48
+#: /home/neolot/projects/unspoken/core/theme_options.php:139
+#: /home/neolot/projects/unspoken/core/theme_options.php:260
+#: /home/neolot/projects/unspoken/core/theme_options.php:324
+msgid "Click to toggle"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:51
+msgid "General Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:55
+msgid "Posts view"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:58
+msgid "Choose your default post view:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:60
+msgid "List"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:61
+msgid "Grid"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:66
+msgid "Post Info"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:69
+msgid "Choose info to display:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:71
+msgid "Date"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:73
+msgid "Number of comments"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:74
+msgid "Author"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:79
+msgid "Page Navigation"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:82
+msgid "Choose page navigation type:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:84
+msgid "Standard"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:85
+msgid "Standard + WP Page-Navi support"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:86
+msgid "AJAX-load"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:87
+msgid "InfiniteScroll"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:92
+msgid "Highlights Slider Settings"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:95
+msgid "Exclude slider posts from other modules:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:101
+msgid "Scroll slider automatically:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:107
+#: /home/neolot/projects/unspoken/core/theme_options.php:347
+msgid "Scroll delay (ms):"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:114
+msgid "Footer Text"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:117
+msgid "Insert text here:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:124
+msgid "Google Analytics"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:127
+msgid "Insert Analytics or any other statistics system code:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:128
+msgid "It will be inserted in the bottom of the page before closing </body> tag."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:132
+#: /home/neolot/projects/unspoken/core/theme_options.php:253
+#: /home/neolot/projects/unspoken/core/theme_options.php:317
+#: /home/neolot/projects/unspoken/core/theme_options.php:374
+msgid "Save Changes"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:142
+msgid "Styling Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:146
+msgid "Skins"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:149
+msgid "Select a skin:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:152
+msgid "Default"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:153
+msgid "Black"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:154
+msgid "Newsum"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:155
+msgid "Brockman"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:156
+msgid "Old Paper"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:157
+msgid "Nobby"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:163
+msgid "Main Font"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:166
+msgid "Select a font:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:169
+msgid "Arial"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:170
+msgid "Helvetica"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:171
+msgid "Times New Roman"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:172
+msgid "Courier New"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:173
+msgid "Verdana"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:174
+msgid "Georgia"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:175
+msgid "Trebuchet MS"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:181
+msgid "Logo"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:201
+msgid "Top logo URL:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:204
+msgid "Max width 405 px"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:215
+msgid "Bottom logo URL"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:218
+msgid "Max width 202 px"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:229
+msgid "Text logo:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:232
+msgid "Text logo will be displayed both on top and on the bottom."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:237
+msgid "Favicon"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:240
+msgid "Insert your icon URL here:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:245
+msgid "Your Styles"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:248
+msgid "Insert your styles here. They are of top priority against the template styles."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:263
+msgid "Single Page Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:267
+msgid "Author Info Module"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:270
+msgid "Switch off"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:277
+msgid "Related Posts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:280
+msgid "Choose related posts type:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:282
+msgid "Block of three posts with image thumbnails below it"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:283
+msgid "List of five posts on left-side column "
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:288
+msgid "Social Services"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:291
+msgid "Choose module type:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:293
+msgid "Block of five popular social networks + RSS on the left side of the post"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:294
+msgid "Floating block of share buttons on the left side of the post"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:299
+msgid "Facebook Like"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:302
+msgid "Display Facebook “Like” button in the end of each post:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:309
+msgid "Advertising area in the left column of a post"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:312
+msgid "Insert code<br />(max width 140 px):"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:327
+msgid "Templates Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:331
+msgid "Magazine Template"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:334
+msgid "Use magazine template:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:337
+msgid "If this option is on, there will be additional image of 620х380 size created for the slider."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:341
+msgid "Scroll the slider automatically:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:354
+msgid "Contact form template"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:357
+msgid "Recipient(s) Email address:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:360
+msgid "You can specify multiple emails delimited with comma"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:365
+msgid "Subject prefix:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/theme_options.php:368
+msgid "i.e. Message from my site:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:7
+msgid "Homepage"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:9
+msgid "Homepage area works only with \"WPSHOWER Home\" & \"WPSHOWER Ad Place\""
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:18
+msgid "Sidebar"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:20
+msgid "The sidebar widget area"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:29
+msgid "Tabs widget area"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:31
+msgid "Please fill in the title!"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:40
+msgid "Header Ad Place"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:42
+msgid "An ad place, max width 468px"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:51
+msgid "Ad place under the menu"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:62
+msgid "Bottom"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets.php:64
+msgid "The bottom widget area"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/advanced_post_options.php:8
+msgid "Advanced Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/advanced_post_options.php:14
+msgid "Show in Highlights"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/advanced_post_options.php:19
+msgid "Show in Editor's Choice"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/advanced_post_options.php:24
+msgid "Show in magazine slider"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/advanced_post_options.php:106
+msgid "Video Options"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/advanced_post_options.php:112
+msgid "Paste a link to video"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/advanced_post_options.php:117
+msgid "Show in Video"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:5
+msgid "Posts with thumbnails sorted by comments number"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:6
+msgid "WPSHOWER Popular Posts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:11
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:33
+msgid "Popular Posts"
+msgstr "Популярное"
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:23
+#: /home/neolot/projects/unspoken/core/widgets/recent_comments.php:21
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:84
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:54
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:13
+#: /home/neolot/projects/unspoken/core/widgets/recent_posts.php:21
+msgid "Title:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:24
+#: /home/neolot/projects/unspoken/core/widgets/recent_posts.php:22
+msgid "Number of posts:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:25
+msgid "Period:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:25
+msgid "days"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/popular_posts.php:26
+#: /home/neolot/projects/unspoken/core/widgets/recent_posts.php:23
+msgid "Disable thumbnails"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_comments.php:5
+msgid "Recent comments with thumbnails"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_comments.php:6
+msgid "WPSHOWER Recent Comments"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_comments.php:11
+#: /home/neolot/projects/unspoken/core/widgets/recent_comments.php:30
+msgid "Recent Comments"
+msgstr "Комментарии"
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_comments.php:22
+msgid "Number of comments:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_comments.php:23
+msgid "Disable avatars"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:5
+msgid "A monthly or categories archive of your site&#8217;s posts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:6
+msgid "WPSHOWER Archive"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:13
+msgid "Archives"
+msgstr "Архив"
+
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:26
+#, php-format
+msgid "View all posts in %s"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:57
+#, php-format
+msgid "%1$s %2$d"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:87
+msgid "Monthly archive"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/archive.php:90
+msgid "Show post counts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:5
+msgid "A list with your social links"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:6
+msgid "WPSHOWER GetConnected"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:33
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:103
+msgid "RSS Feed"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:34
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:104
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:38
+msgid "Twitter"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:35
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:105
+msgid "Facebook"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:36
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:106
+msgid "Skype"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:37
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:107
+msgid "Flickr"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:38
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:108
+msgid "Behance"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:39
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:109
+msgid "Devian Art"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:40
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:110
+msgid "LinkedIn"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:41
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:111
+msgid "Delicious"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:42
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:112
+msgid "Stumbleupon"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:43
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:113
+msgid "Tumblr"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:44
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:114
+msgid "Blogger"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:45
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:115
+msgid "Posterous"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:46
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:116
+msgid "Last FM"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:47
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:117
+msgid "Vimeo"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:48
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:118
+msgid "Youtube"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:49
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:119
+msgid "Dribbble"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:61
+msgid "Feed url:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:61
+msgid "Profile url:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/getconnected.php:122
+msgid "Get Connected"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:5
+msgid "A list with your last tweets"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:6
+msgid "WPSHOWER Twitter"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:14
+msgid "Twitter name:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:15
+msgid "Number of tweets (max 20):"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:16
+msgid "Cache tweets:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/twitter.php:16
+msgid "minutes"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/flickr.php:23
+msgid "Flickr photos"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/flickr.php:40
+msgid "Untitled Flickr photo"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/flickr.php:149
+msgid "Flickr Photos"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:5
+msgid "An ad place"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:6
+msgid "WPSHOWER Ad Place"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:31
+msgid "Type of the ad:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:33
+msgid "Code"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:34
+msgid "Banner"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:39
+msgid "Paste an ad code:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:43
+msgid "Target URL:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:44
+msgid "Image URL:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:45
+msgid "ALT attribute:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:46
+msgid "TITLE attribute:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:48
+msgid "Align:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:50
+msgid "None"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:51
+msgid "Center"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:52
+msgid "Left"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:53
+msgid "Right"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/ad_place.php:56
+msgid "Open in a new window"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:5
+msgid "Using this widget you can customize the content on the main page."
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:6
+msgid "WPSHOWER Home"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:47
+msgid "Type of the block:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:49
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:191
+msgid "Highlights & Latest entries"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:50
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:194
+msgid "Category"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:52
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:200
+msgid "Editor's choice"
+msgstr "Скоро!"
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:53
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:203
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:209
+msgid "Video"
+msgstr "Видео"
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:60
+msgid "Slider title:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:61
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:80
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:144
+msgid "Number of posts in list:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:67
+msgid "Select category"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:86
+msgid "Select category, column 1"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:101
+msgid "Select category, column 2"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:116
+msgid "Select category, column 3"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:131
+msgid "Select category, column 4"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:148
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:152
+msgid "Widget title:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:153
+msgid "The number of visible videos:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:154
+msgid "The maximum number of videos:"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:154
+msgid "Set -1 to show all"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:207
+msgid "Highlights"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:208
+msgid "Editor's Choice"
+msgstr "Скоро!"
+
+#: /home/neolot/projects/unspoken/core/widgets/homepage_block.php:302
+msgid "Latest Entries"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/tabs.php:5
+msgid "Tabs"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/tabs.php:6
+msgid "WPSHOWER Tabs"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_posts.php:5
+msgid "Recent posts with thumbnails"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_posts.php:6
+msgid "WPSHOWER Recent Posts"
+msgstr ""
+
+#: /home/neolot/projects/unspoken/core/widgets/recent_posts.php:11
+#: /home/neolot/projects/unspoken/core/widgets/recent_posts.php:30
+msgid "Recent Posts"
+msgstr ""
+

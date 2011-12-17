@@ -1,0 +1,115 @@
+=========================
+= 1.0 - Initial release =
+=========================
+
+============================
+= 1.1 - WP 3.0 mod by mijk =
+============================
+- modified header.php + functions.php (added wp_nav_menu support)
+- modified index.php + archive.php + search.php + functions.php  (added support for WP post-thumbnails)
+- modified style.css - added default WP classes, cleaned output
+- removed top part of original sidebar content
+
+======================================
+= 1.11 - Support for post thumbnails =
+======================================
+- modified index.php + archive.php + search.php + functions.php  
+  (changed support for correct resolution of WP post-thumbnails)
+- modified style.css 
+  (fixed header and ul/ol issue from 1.0, appearing at single.php/page.php)
+- Added front-end edit links
+- modified single.php and page.php
+- Added Theme Options page to input Twitter and Facebook URL's [mijk.bee@gmail.com]
+- modified functions.php and header.php
+- Modified nav_menu output and fallback function for menu - set to depth=1 to avoid menu breaking
+- modified header.php and functions.php 
+- Added support for Theme Background change
+- modified functions.php
+- Fixed IE6+7 category bug
+- modified functions.php, added ie7.css
+
+========
+= 1.12 =
+========
+- Fixed default sidebar with "featured posts"
+- modified sidebar.php
+- Added missing Social Bookmarks to posts
+- modified single.php
+- Fixed commentbox input fields
+- modified style.css
+- Modified Commentbox send button
+- modified comments.php
+- Fixed WordPress gallery insertion (plugin Cleaner Gallery needed! http://wordpress.org/extend/plugins/cleaner-gallery/ )
+- modified style.css
+
+========
+= 1.13 =
+========
+- Added Photo-Galleria jQuery plugin to replace default WordPress gallery
+- modified functions.php
+- added js/photo-galleria/*
+- Fixed issues with single post page
+- modified style.css
+- modified single.php
+- Changed default thumbnail
+- modified images/default-thumbnail.jpg
+- Added option to change excerpt lenght to theme options (no more need of advanced-excerpt plugin)
+- modified functions.php 
+- Added Twitter widget
+- modified functions.php
+- modified style.css
+- added images/larry-shadowed-big.png
+
+========
+= 1.14 =
+========
+Fixed Twitter Widget id collisions
+- modified js/twitter/twitter.php
+- Fixed Single Page validation Error (escaped Social Bookmarks)
+- modified single.php
+
+========
+= 1.15 =
+========
+Fixed backwards compatibility for menu (for WP 2.9+)
+- modified header.php
+
+==========================
+= 1.16 - Cleanup release =
+==========================
+- added option to disable jQuery Gallery
+- added option to disable Featured posts in Sidebar
+- cleaned up markup in all files
+- theme better commented
+- fixed backward compatibility
+- css cleanup
+- jQuery enqueued the right way
+- cleaned up header from scripts
+- modified photo-galleria to display only thumbnails when is gallery loaded
+- fixed wrong thumbnail display in admin
+- fixed changelog.txt
+- added sidebar-featured.php
+- added js/collapse.js
+- added js/columnize.js
+
+========
+= 1.17 =
+========
+- modified default excerpt symbol from [...] to ... disabled if advanced-excerpt plugin is activated (functions.php)
+- added Theme Option to change logo (fuctions.php, header.php, style.css)
+- fixed footer copyright generator (footer.php)
+
+========
+= 1.18 =
+========
+- added support for nested comments (comments.php, style.css)
+- added comment link to post metadata (single.php)
+- added header to search page (search.php)
+- added header to archive page (archive.php)
+- added custom page template with blog listings (blog.php)
+
+========
+= 1.19 =
+========
+- fixed columnizer issue (js/columnizer.js)
+- fixed gallery breakdown issue - thanks to Andy and Chiamattt for spotting (style.css)

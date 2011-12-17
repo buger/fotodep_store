@@ -1,0 +1,43 @@
+#menu #navicons {
+	width:290px;
+}
+#menu #navicons a {
+	float:left;
+}
+li.comment {
+	zoom:1;
+}
+#sidebar ul {
+}
+
+.preview {
+	overflow:hidden;
+}
+#author, #email, #url {
+	float:none;
+	width:123px;
+}
+#respond textarea {
+	width:440px;
+}
+#main {
+	zoom:1;
+}
+#categories, #archives {
+	position:relative;
+}
+#categories ul li a, #archives ul li a {
+	position:relative;
+}
+#categories ul li a span, #archives ul li a span {
+	/*display:none;*/
+	position:absolute;
+	top:0;
+	right:0;
+}
+#categories ul li, #categories ul li a {
+	width:283px;
+}
+#form>commentform input#author, #form>commentform input#email {
+	margin-right:0px!important;
+}

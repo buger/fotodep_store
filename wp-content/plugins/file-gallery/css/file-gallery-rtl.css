@@ -1,0 +1,181 @@
+#fg_container
+{
+	padding-left: 7px;
+}
+
+#file_gallery fieldset p
+{
+	float: right;
+}
+
+#file_gallery fieldset p input#fg_gallery_tags_from
+{
+	margin: -1px 3px 0 0;
+}
+
+#fg_info
+{
+	float: right;
+}
+
+#file_gallery .button-primary
+{
+	float: left;
+	background: #21759B url(../images/button-grad.png) repeat-x scroll right bottom;	
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+#file_gallery .button-primary:hover,
+#file_gallery .button-primary:active
+{
+	background: #FFFFFF url(../images/white-grad.png) repeat-x scroll right bottom;	
+}
+
+.sortableitem,
+.ui-selected
+{
+	float:right;
+		
+	padding-left: 3px;
+	padding-right: 20px;
+	
+	margin-right: 3px;
+	margin-left: 5px;	
+}
+
+
+.sortableitem .checker
+{
+	left: 0;
+	right:auto;
+}
+
+.delete_or_detach_link
+{
+	right: 0;
+	left:auto;
+}
+
+.post_thumb_status
+{
+	right: 40px;
+	left:auto;
+}
+
+.del_attachment,
+.detach_attachment,
+.detach_or_delete,
+.post_thumb_setter,
+.post_thumb_unsetter
+{
+	left: 1px;
+	right:auto;
+}
+
+.sortableitem img.fgtt
+{
+	float:right;
+	clear:left;
+	border-right: 1px solid #777;
+	padding: 1px 1px 0 0;	
+}
+
+.sortableitem img.fgtt.non_image
+{
+	margin: 8px 10px 0 0;	
+}
+
+a.img_zoom
+{	
+	right:0;	
+	left:auto;
+}
+a.img_edit
+{
+	right:0;	
+	left:auto;
+}
+
+#attachment_data_edit_form
+{
+	float: left;
+}
+
+#attachment_data_edit_form label
+{	
+	padding: 5px 2px 0px 0;
+}
+
+#file_gallery_response
+{
+	left:25px;
+	right:auto;
+}
+
+#fg_buttons
+{
+	float: left;	
+	margin-left: 2px;
+	text-align: left;
+}
+
+#file_gallery_attachment_edit_image
+{
+	float:right;
+	margin-right:2.5%;
+	margin-left:5%;
+}
+
+#file_gallery_upload_files
+{
+	right: 5px;
+	left:auto;
+}
+
+#poststuff .inside p#fg_media_tag_list .fg_insert_tag
+{
+	float: right;
+	margin-left: 15px;
+}
+
+/* wp-admin css fixes */
+
+
+.ui-dialog button
+{
+	margin-left: 6px;
+}
+
+.ui-dialog .ui-dialog-titlebar-close
+{	
+	left: 7px;
+	right:auto;
+}
+
+
+.attach_me
+{
+	left: 0;
+	right:auto;
+}
+
+#file_gallery_hide_gallery_options,
+#file_gallery_hide_single_options
+{
+	left: 0;
+	right:auto;
+}
+
+.thumb_switch_load
+{	
+	right: 36px;
+	left:auto;
+}
+
+#file_gallery_copy_from_wmpl_original
+{
+	-moz-border-radius: 0 5px 5px 0;
+	-webkit-border-radius: 0 5px 5px 0;
+	border-radius: 0 5px 5px 0;
+	margin:10px -6px -8px;	
+}
