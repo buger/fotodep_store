@@ -343,9 +343,10 @@ class wpshower_homepage_block extends WP_Widget {
 <?php
             $args = array(
                 'posts_per_page' => -1,
-                'meta_key' => 'usn_highlight',
-                'meta_value' => 'on',
-                'post__not_in' => get_option( 'sticky_posts' )
+                'post_status' => 'publish', 
+                'post_type' => 'product', 
+                'meta_key' => 'featured', 
+                'meta_value' => 'yes'
             );
             query_posts($args);
             if ( have_posts() ) :
