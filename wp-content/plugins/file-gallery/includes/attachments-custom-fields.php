@@ -142,7 +142,7 @@ if( false === $file_gallery->acf )
  */
 function file_gallery_attachment_fields_to_edit( $form_fields, $attachment )
 {
-	global $pagenow, $wpdb;
+	global $pagenow, $wpdb, $file_gallery;
 
 	// parent post url button
 	if( false === strpos($form_fields['url']['html'], __('Attachment Post URL')) ) // Button title changed in 3.3
@@ -154,7 +154,7 @@ function file_gallery_attachment_fields_to_edit( $form_fields, $attachment )
 	if( false === $file_gallery->acf )
 	{
 		$options = get_option('file_gallery');
-		
+
 		if( true == $options['display_acf'] )
 		{
 			if( 'media.php' == $pagenow && is_numeric($_GET['attachment_id']) && 'edit' == $_GET['action'] )

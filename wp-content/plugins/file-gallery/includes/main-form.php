@@ -330,15 +330,15 @@
 				<label for="file_gallery_attachments_sortby"><?php _e('Sort attachments by', 'file-gallery'); ?></label>
 			
 				<select id="file_gallery_attachments_sortby">
-					<option value="menu_order"<?php if( 'menu_order' == $attachment_orderby){ echo ' selected="selected"'; } ?>>menu order</option>
-					<option value="post_title"<?php if( 'post_title' == $attachment_orderby){ echo ' selected="selected"'; } ?>>title</option>
-					<option value="post_name"<?php if( 'post_name' == $attachment_orderby){ echo ' selected="selected"'; } ?>>name</option>
-					<option value="post_date"<?php if( 'post_date' == $attachment_orderby){ echo ' selected="selected"'; } ?>>date</option>
+					<option value="menu_order"<?php if( 'menu_order' == $attachment_orderby){ echo ' selected="selected"'; } ?>><?php _e('menu order', 'file-gallery'); ?></option>
+					<option value="post_title"<?php if( 'post_title' == $attachment_orderby){ echo ' selected="selected"'; } ?>><?php _e('title', 'file-gallery'); ?></option>
+					<option value="post_name"<?php if( 'post_name' == $attachment_orderby){ echo ' selected="selected"'; } ?>><?php _e('name', 'file-gallery'); ?></option>
+					<option value="post_date"<?php if( 'post_date' == $attachment_orderby){ echo ' selected="selected"'; } ?>><?php _e('date', 'file-gallery'); ?></option>
 				</select>
 				
 				<select id="file_gallery_attachments_sort">
-					<option value="ASC"<?php if( 'ASC' == $attachment_order){ echo ' selected="selected"'; } ?>>ASC</option>
-					<option value="DESC"<?php if( 'DESC' == $attachment_order){ echo ' selected="selected"'; } ?>>DESC</option>
+					<option value="ASC"<?php if( 'ASC' == $attachment_order){ echo ' selected="selected"'; } ?>><?php _e('ASC', 'file-gallery'); ?></option>
+					<option value="DESC"<?php if( 'DESC' == $attachment_order){ echo ' selected="selected"'; } ?>><?php _e('DESC', 'file-gallery'); ?></option>
 				</select>
 				
 				<input type="button" id="file_gallery_attachments_sort_submit" class="button" value="<?php _e('Go', 'file-gallery'); ?>" />

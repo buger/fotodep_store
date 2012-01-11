@@ -2,7 +2,7 @@
 /*
 Plugin Name: File Gallery
 Plugin URI: http://skyphe.org/code/wordpress/file-gallery/
-Version: 1.7.1
+Version: 1.7.3
 Description: "File Gallery" extends WordPress' media (attachments) capabilities by adding a new gallery shortcode handler with templating support, a new interface for attachment handling when editing posts, and much more.
 Author: Bruno "Aesqe" Babic
 Author URI: http://skyphe.org
@@ -31,7 +31,7 @@ Author URI: http://skyphe.org
  * Setup default File Gallery options
  */
 
-define('FILE_GALLERY_VERSION', '1.7.1');
+define('FILE_GALLERY_VERSION', '1.7.3');
 define('FILE_GALLERY_DEFAULT_TEMPLATES', serialize( array('default', 'file-gallery', 'list', 'simple') ) );
 
 
@@ -167,8 +167,7 @@ if( isset($_GET['file_gallery_debug']) )
 
 
 // Begin
-if( ! isset($file_gallery) || ! is_a($file_gallery, 'File_Gallery') )
-	$file_gallery = new File_Gallery();
+$file_gallery = new File_Gallery();
 
 
 /**
@@ -666,6 +665,17 @@ register_activation_hook( __FILE__, 'file_gallery_activate' );
 
 
 /**
+ * Do activation procedure on plugin upgrade
+ */
+function file_gallery_upgrade()
+{
+	if( $options = get_option('file_gallery') && version_compare( $options['version'], FILE_GALLERY_VERSION, '<') )
+		file_gallery_activate();
+}
+add_action( 'admin_init', 'file_gallery_upgrade' );
+
+
+/**
  * Some cleanup on deactivation
  */
 function file_gallery_deactivate()
@@ -1117,9 +1127,10 @@ add_action('admin_print_styles', 'file_gallery_css_admin');
  */
 function file_gallery_content()
 {
+	global $post;
+
 	echo 
-	'	
-	<div id="fg_container">
+	'<div id="fg_container">
 		<noscript>
 			<div class="error" style="margin: 0;">
 				<p>' . __('File Gallery requires Javascript to function. Please enable it in your browser.', 'file-gallery') . '</p>
@@ -1302,6 +1313,7 @@ add_filter('manage_media_columns', 'file_gallery_media_columns');
  */
 require_once('includes/media-tags.php');
 require_once('includes/media-settings.php');
+// require_once('includes/media-upload.php');
 require_once('includes/attachments.php');
 require_once('includes/miscellaneous.php');
 require_once('includes/mime-types.php');

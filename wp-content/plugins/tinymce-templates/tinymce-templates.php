@@ -4,7 +4,7 @@ Plugin Name: TinyMCE Templates
 Plugin URI: http://wpist.me/wp/tinymce-templates/
 Description: TinyMCE Templates plugin will enable to use HTML template on WordPress Visual Editor.
 Author: Takayuki Miyauchi
-Version: 2.4.0
+Version: 2.5.0
 Author URI: http://wpist.me/
 Domain Path: /languages
 Text Domain: tinymce_templates
@@ -173,8 +173,7 @@ public function admin_head(){
 
 public function display_post_states($stat)
 {
-    global $post;
-    $share = get_post_meta($post->ID, $this->meta_param, true);
+    $share = get_post_meta(get_the_ID(), $this->meta_param, true);
     if ($share) {
         $stat[] = __('Shared', 'tinymce_templates');
     }
@@ -331,7 +330,7 @@ public function wp_ajax(){
     if (isset($_GET['template_id']) && intval($_GET['template_id'])) {
         $p = get_post($_GET['template_id']);
         if ($p->post_status === 'publish') {
-            if ($u->ID === $p->post_author) {
+            if (intval($u->ID) && (intval($u->ID) === intval($p->post_author))) {
                 echo apply_filters(
                     "tinymce_templates",
                     wpautop($p->post_content),
@@ -360,14 +359,13 @@ public function wp_ajax(){
     $posts = get_posts($p);
 
     $url    = admin_url('admin-ajax.php');
-    $url = add_query_arg('action', 'tinymce_templates', $url);
-    $url = add_query_arg('action', 'tinymce_templates', $url);
-    $nonce = wp_create_nonce("tinymce_templates");
-    $url = add_query_arg('nonce', $nonce, $url);
+    $url    = add_query_arg('action', 'tinymce_templates', $url);
+    $nonce  = wp_create_nonce("tinymce_templates");
+    $url    = add_query_arg('nonce', $nonce, $url);
 
     $arr = array();
     foreach ($posts as $p) {
-        if ($u->ID !== $p->post_author) {
+        if (intval($u->ID) && (intval($u->ID) !== intval($p->post_author))) {
             $share = get_post_meta($p->ID, $this->meta_param, true);
             if (!$share) {
                 continue;

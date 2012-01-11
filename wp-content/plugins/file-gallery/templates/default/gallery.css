@@ -25,6 +25,8 @@
 #content .gallery.default img
 {
 	border: 2px solid #cfcfcf;
+	padding: 0;
+	margin: 0;
 }
 
 .gallery.default .gallery-caption,

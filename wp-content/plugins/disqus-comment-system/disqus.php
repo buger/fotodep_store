@@ -4,7 +4,7 @@ Plugin Name: Disqus Comment System
 Plugin URI: http://disqus.com/
 Description: The Disqus comment system replaces your WordPress comment system with your comments hosted and powered by Disqus. Head over to the Comments admin page to set up your DISQUS Comment System.
 Author: Disqus <team@disqus.com>
-Version: 2.69
+Version: 2.70
 Author URI: http://disqus.com/
 */
 
@@ -31,7 +31,7 @@ define('DISQUS_CAN_EXPORT',         is_file(dirname(__FILE__) . '/export.php'));
 if (!defined('DISQUS_DEBUG')) {
     define('DISQUS_DEBUG',          false);
 }
-define('DISQUS_VERSION',            '2.69');
+define('DISQUS_VERSION',            '2.70');
 define('DISQUS_SYNC_TIMEOUT',       30);
 
 /**
@@ -303,12 +303,16 @@ function dsq_sync_comments($comments) {
                 $commentdata['comment_author'] = $comment->anonymous_author->name;
                 $commentdata['comment_author_email'] = $comment->anonymous_author->email;
                 $commentdata['comment_author_url'] = $comment->anonymous_author->url;
-                $commentdata['comment_author_IP'] = $comment->anonymous_author->ip_address;
+                $commentdata['comment_author_IP'] = $comment->ip_address;
             } else {
-                $commentdata['comment_author'] = $comment->author->display_name;
+                if (isset($comment->author->display_name)) {
+                    $commentdata['comment_author'] = $comment->author->display_name;
+                } else {
+                    $commentdata['comment_author'] = $comment->author->username;
+                }
                 $commentdata['comment_author_email'] = $comment->author->email;
                 $commentdata['comment_author_url'] = $comment->author->url;
-                $commentdata['comment_author_IP'] = $comment->author->ip_address;
+                $commentdata['comment_author_IP'] = $comment->ip_address;
             }
             $commentdata = wp_filter_comment($commentdata);
             if ($comment->parent_post) {
@@ -1467,7 +1471,7 @@ function dsq_install_database($version=0) {
 }
 function dsq_uninstall_database($version=0) {
     if (version_compare($version, '2.49', '>=')) {
-        $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta` (meta_key, meta_value(11));");
+        $wpdb->query("DROP INDEX disqus_dupecheck ON `".$wpdb->prefix."commentmeta`;");
     }
 }
 ?>

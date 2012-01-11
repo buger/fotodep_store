@@ -112,7 +112,7 @@ function file_gallery_css_front( $mobile = false )
 		return;
 
 	// if option to show galleries in excerpts is set to false
-	if( ! is_single() && ( ! isset($options['in_excerpt']) || true != $options['in_excerpt']) && false == $mobile )
+	if( ! is_singular() && ( ! isset($options['in_excerpt']) || true != $options['in_excerpt']) && false == $mobile )
 		return;
 
 	$gallery_matches = 0;
@@ -394,7 +394,7 @@ function file_gallery_shortcode( $content = false, $attr = false )
 
 	// if option to show galleries in excerpts is set to false...
 	// ...replace [gallery] with user selected text
-	if( ! is_single() && ( ! isset($options['in_excerpt']) || true != $options['in_excerpt']) )
+	if( ! is_singular() && ( ! isset($options['in_excerpt']) || true != $options['in_excerpt']) )
 		return $options['in_excerpt_replace_content'];
 	
 	$default_templates = unserialize(FILE_GALLERY_DEFAULT_TEMPLATES);

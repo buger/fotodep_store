@@ -3,8 +3,8 @@ Contributors: aesqe, azizur
 Donate link: http://skyphe.org/donate/
 Tags: attachment, attachments, gallery, galleries, template, templates, shortcode, file, files, attach, detach, unattach, copy, media, tags, library, custom, custom fields, custom fields for attachments, attachment custom fields
 Requires at least: 3.1
-Tested up to: 3.3
-Stable tag: 1.7.1
+Tested up to: 3.4-alpha-19620
+Stable tag: 1.7.3
 
 File Gallery extends WordPress media (attachments) capabilities 
 by adding a new gallery shortcode handler with templating support 
@@ -103,7 +103,6 @@ file_gallery_no_post_thumb_content
 file_gallery_parse_attachment_data
 file_gallery_attachment_copy_title_extension
 file_gallery_mime_types
-file_is_displayable_image
 file_gallery_lightboxes_options
 file_gallery_lightbox_classes
 file_gallery_approved_attachment_post_statuses
@@ -114,10 +113,28 @@ file_gallery_lightbox_imageclass
 file_gallery_non_image_thumb_link
 file_gallery_galleryclass
 file_gallery_output
+file_gallery_get_file_type
 
 
 
 == Changelog ==
+
+= 1.7.3 =
+* January 2nd, 2012
+* correct display of non-image icons
+  (wrong variable order in apply_filters())
+
+= 1.7.2 =
+* December 31st, 2011
+* bugfix: no galleries on pages if 
+  "Display galleries within post excerpts?" option was unchecked
+* bugfix: attachment custom fields missing
+* late thought of the year: activation code should now run 
+  after plugin upgrades too, eh...
+* new filter: "file_gallery_get_file_type"
+* made a few more strings in FG metabox translatable
+* updated French and Hebrew translations
+* new screenshots
 
 = 1.7.1 =
 * December 15th, 2011
