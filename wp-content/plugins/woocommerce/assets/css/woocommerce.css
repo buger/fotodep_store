@@ -1316,6 +1316,9 @@ ul.products li .onsale, ul.recent_products_widget li .onsale {
   top: 20px;
   right: 20px;
 }
+ul.products li .button, ul.recent_products_widget li .button {
+  display: none;
+}
 ul.products .sub-category, ul.recent_products_widget .sub-category {
   display: none;
 }
