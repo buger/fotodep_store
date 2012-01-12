@@ -80,12 +80,23 @@ class WooCommerce_Widget_Recent_Products extends WP_Widget {
 ?>
 		<?php echo $before_widget; ?>
 		<?php if ( $title ) echo $before_title . $title . $after_title; ?>
-		<ul class="product_list_widget">
+		<ul class="recent_products_widget">
 		<?php  while ($r->have_posts()) : $r->the_post(); $_product = &new woocommerce_product(get_the_ID()); ?>
-		<li><a href="<?php the_permalink() ?>" title="<?php echo esc_attr(get_the_title() ? get_the_title() : get_the_ID()); ?>">
-			<?php if (has_post_thumbnail()) the_post_thumbnail('shop_thumbnail'); else echo '<img src="'.$woocommerce->plugin_url().'/assets/images/placeholder.png" alt="Placeholder" width="'.$woocommerce->get_image_size('shop_thumbnail_image_width').'" height="'.$woocommerce->get_image_size('shop_thumbnail_image_height').'" />'; ?>
-			<?php if ( get_the_title() ) the_title(); else the_ID(); ?>
-		</a> <?php echo $_product->get_price_html(); ?></li>
+		
+		<li>
+			<div>
+				<div class="cat"><?php echo $_product->get_categories(); ?></div>
+				<a href="<?php the_permalink() ?>" title="<?php echo esc_attr(get_the_title() ? get_the_title() : get_the_ID()); ?>">
+					<div class="img">
+					<?php if (has_post_thumbnail()) the_post_thumbnail('shop_catalog'); else echo '<img src="'.$woocommerce->plugin_url().'/assets/images/placeholder.png" alt="Placeholder" width="'.$woocommerce->get_image_size('shop_catalog_image_width').'" height="'.$woocommerce->get_image_size('shop_catalog_image_height').'" />'; ?>
+					</div>
+					<div class="title">
+					<?php if ( get_the_title() ) the_title(); else the_ID(); ?>
+					</div>			
+				</a>
+			<div class="price"><?php echo $_product->get_price_html(); ?></div>
+			</div>
+		</li>
 		<?php endwhile; ?>
 		</ul>
 		<?php echo $after_widget; ?>

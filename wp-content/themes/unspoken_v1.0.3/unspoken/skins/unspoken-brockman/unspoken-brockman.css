@@ -758,7 +758,7 @@ a.rsswidget img {vertical-align: -1px;}
 .home #mainposts { width: 940px; height: 400px; }
 .home .mainpost {width: 940px; height: 400px;}
 
-.home #wpshower_homepage_block-3 { position: absolute; top: -410px; }
+.home #wpshower_homepage_block-3 { position: absolute; top: -410px; left: 0px;}
 .home .middle { position: relative; margin-top: 420px;}
 
 #sidebar {

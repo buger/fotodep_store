@@ -15,7 +15,7 @@
         <link rel="profile" href="http://gmpg.org/xfn/11" />
         <?php if ( get_option('unspoken_favicon') ) echo '<link rel="shortcut icon" href="' . get_option('unspoken_favicon') . '" type="image/x-icon" />'; ?>
 		<link rel="stylesheet" href="<?php bloginfo( 'stylesheet_url' ); ?>" type="text/css" media="all" />
-		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/lib/js/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/lib/js/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="all" />        
         <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
         <link rel="alternate" type="text/xml" title="RSS .92" href="<?php bloginfo('rss_url'); ?>"/>
         <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="<?php bloginfo('atom_url'); ?>" />
@@ -69,6 +69,7 @@
             }
             if ( get_option('unspoken_styles') ) echo '<style type="text/css">' . get_option('unspoken_styles') . '</style>';
             ?>
+        <link rel="stylesheet" href="<?php bloginfo( 'template_url' ); ?>/custom_style.css" type="text/css" media="all" />
 	</head>
 	<body <?php body_class(); ?>>
         <div class="wrapper">

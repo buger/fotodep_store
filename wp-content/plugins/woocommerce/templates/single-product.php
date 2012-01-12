@@ -11,7 +11,6 @@
 			<?php do_action('woocommerce_before_single_product_summary', $post, $_product); ?>
 			
 			<div class="summary">
-				
 				<h1 itemprop="name" class="product_title page-title"><?php the_title(); ?></h1>
 				
 				<?php do_action( 'woocommerce_single_product_summary', $post, $_product ); ?>
@@ -28,6 +27,5 @@
 
 <?php do_action('woocommerce_after_main_content'); // </div></div> ?>
 
-<?php do_action('woocommerce_sidebar'); ?>
 
 <?php get_footer('shop'); ?>

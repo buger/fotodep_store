@@ -94,6 +94,8 @@ class RV_Sub_Menu_Widget extends WP_Widget {
 		if( ! isset( $instance['MenuID'] )){
 			return;
 		}
+
+		$instance['MenuID'] = 4;
 	        
 
 		if( ! isset( $instance['MenuLevel'] )){
@@ -122,8 +124,8 @@ class RV_Sub_Menu_Widget extends WP_Widget {
 					'type' => 'numeric'
 				)*/
 			)
-		 );
-		
+		 );		
+
 		$menu_items = wp_get_nav_menu_items($instance['MenuID'], $menu_args);
 
 		if ( $menu_items ) :
