@@ -211,6 +211,7 @@ div.product {
 		padding: 20px;
 		padding-top: 20px;
 		padding-left: 30px;
+		width: 400px;
 	}
 	div.social {
 		text-align: right;
@@ -1346,6 +1347,20 @@ ul.products, ul.recent_products_widget {
 			right: 20px;
 		}
 	}
+
+	.sub-category {
+		display: none;
+	}
+}
+
+ul.recent_products_widget {
+	li {
+		height: 300px;
+
+		> div {
+			height: 270px;
+		}
+	}
 }
 
 div.related {
@@ -1465,48 +1480,3 @@ h1.page-title {
 		border: none;
 	}
 }
-
-
-/* Language selection */
-#lang_sel_list {
-  text-align: center;
-  position: absolute;
-  top: -6px;
-  right: 0px;
-  width: 50px;
-}
-
-#lang_sel_list ul{
-  list-style: none;
-  margin:0;
-  padding:0;
-  border: none;
-}
-
-#lang_sel_list ul li img{
-  margin-right:5px;
-  display: inline;
-  margin: 0;
-}
-
-#lang_sel_list ul li{
-  display:inline;
-  margin:0 5px 0 5px;
-  padding:0;
-  width: auto;
-  color: black;
-}
-
-#lang_sel_list ul li a, #lang_sel_list ul li a:visited{
-  color: black;
-  text-decoration:underline;
-  border: none;
-  padding:0;
-  margin-right: 10px;
-}
-
-#lang_sel_list ul li a:hover, #lang_sel_list ul li a:active{
-  color: black;
-}
-
-#lang_sel_list a.lang_sel_sel { font-weight: bold !important; 
