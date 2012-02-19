@@ -667,8 +667,8 @@ a.rsswidget img {vertical-align: -1px;}
 
 .mainpost {width: 620px; height: 380px; position: relative;}
 .mainpost img {display: block;}
-.mainpost-container {width: 420px; height: 260px; position: absolute; bottom: 20px; left: 20px;}
-.mainpost-container .bg {background-color: #13140e; opacity: 0.8; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; width: 420px; height: 260px; position: absolute; top: 0; left: 0; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
+.mainpost-container {width: 420px; height: 260px; position: absolute; }
+.mainpost-container .bg {background-color: #13140e; width: 420px; height: 260px; position: absolute; top: 0; left: 0; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
 .mainpost-data {padding: 20px; position: relative; z-index: 1;}
 .mainpost-data, .mainpost-data a {color: #fff;}
 .mainpost-meta {font-size: 11px; margin-bottom: 10px;}

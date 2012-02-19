@@ -651,9 +651,9 @@ a.rsswidget img {vertical-align: -1px;}
 #mainposts .next {left: 39px; background: #303030 url("images/arrows.png") -28px 50% no-repeat; border-radius: 0 3px 3px 0; -moz-border-radius: 0 3px 3px 0; -webkit-border-radius: 0 3px 3px 0;}
 
 .mainpost {width: 620px; height: 380px; position: relative;}
-.mainpost img {display: block;}
-.mainpost-container {width: 420px; height: 260px; position: absolute; bottom: 20px; left: 20px;}
-.mainpost-container .bg {background-color: #13140e; opacity: 0.8; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; width: 420px; height: 260px; position: absolute; top: 0; left: 0; border-radius: 0px; -moz-border-radius: 0px; -webkit-border-radius: 0px;}
+.mainpost img {display: block; width: 600px; height: 400px;}
+.mainpost-container {width: 420px; height: 260px; position: absolute;}
+.mainpost-container .bg {background-color: #13140e; width: 420px; height: 260px; position: absolute; top: 0; left: 0; border-radius: 0px; -moz-border-radius: 0px; -webkit-border-radius: 0px;}
 .mainpost-data {padding: 20px; position: relative; z-index: 1;}
 .mainpost-data, .mainpost-data a {color: #fff;}
 .mainpost-meta {font-size: 11px; margin-bottom: 10px;}
@@ -751,9 +751,22 @@ a.rsswidget img {vertical-align: -1px;}
   width: 620px;
 }
 
+.mainpost-data a, .mainpost-data p, .mainpost-data {
+	color: #333;
+}
 
-.mainpost-container { height: 180px !important; }
-.mainpost-container .bg { height: 180px !important; }
+.mainpost-container { 
+	width: 340px !important; 
+	top: 0;
+	right: 0;
+}
+
+.mainpost-container .bg { 
+	background-color: #F5F5F5;
+	width: 340px !important;
+	height: 400px;
+	border-left: 1px solid #ccc;
+}
 
 .home #mainposts { width: 940px; height: 400px; }
 .home .mainpost {width: 940px; height: 400px;}
@@ -871,4 +884,8 @@ background-color: #282828;
 .mainpost-data h2 a {
 	font-family: 'PT Sans', sans-serif;
 	font-size: 24px;
+}
+
+.mainpost-data {
+	
 }

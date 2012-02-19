@@ -1,10 +1,9 @@
-jQuery(document).ready(function($) {
-	
-	if (woocommerce_params.option_ajax_add_to_cart=='yes') {
+jQuery(document).ready(function($) {	
+	if (true || woocommerce_params.option_ajax_add_to_cart=='yes') {
+		console.warn('zzzz1sd');	
 	
 		// Ajax add to cart
-		$('.add_to_cart_button').live('click', function() {
-			
+		$('.add_to_cart_button').live('click', function() {			
 			// AJAX add to cart request
 			var $thisbutton = $(this);
 			
@@ -99,7 +98,7 @@ jQuery(document).ready(function($) {
 			
 				});
 				
-				return false;
+				return true;
 			
 			} else {
 				return true;

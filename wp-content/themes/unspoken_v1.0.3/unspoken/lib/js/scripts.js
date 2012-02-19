@@ -271,7 +271,7 @@ jQuery(document).ready(function() {
 
     // Fancybox init
     jQuery(".gallery a").attr('rel', 'gallery');
-    jQuery("a[rel=gallery]").fancybox({
+    jQuery("a[rel=gallery], a.zoom").fancybox({
 		'titlePosition': 'inside',
         'overlayColor': '#000',
         'overlayOpacity': 0.9

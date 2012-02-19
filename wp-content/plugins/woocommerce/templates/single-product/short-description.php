@@ -5,11 +5,11 @@
 
 global $post;
 ?>
-<?php if ($post->post_excerpt) : ?>
+<?php if ($post->post_content) : ?>
 
-	<div itemprop="description">
+	<div itemprop="description" class="description">
 	
-		<?php echo wpautop(wptexturize($post->post_excerpt)) ?>
+		<?php echo wpautop(wptexturize($post->post_content)) ?>
 	
 	</div>
 

@@ -734,8 +734,7 @@ if (!function_exists('woocommerce_form_field')) {
 			case "text" :
 			
 				$field = '<p class="form-row '.implode(' ', $args['class']).'" id="'.$key.'_field">
-					<label for="'.$key.'" class="'.implode(' ', $args['label_class']).'">'.$args['label'].'</label>
-					<input type="text" class="input-text" name="'.$key.'" id="'.$key.'" placeholder="'.$args['placeholder'].'" value="'. $value.'" />
+					<label for="'.$key.'" class="'.implode(' ', $args['label_class']).'">'.$args['label'].'</label><input type="text" class="input-text" name="'.$key.'" id="'.$key.'" placeholder="'.$args['placeholder'].'" value="'. $value.'" />
 				</p>'.$after;
 				
 			break;

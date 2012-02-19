@@ -345,24 +345,26 @@ class wpshower_homepage_block extends WP_Widget {
                 'posts_per_page' => -1,
                 'post_status' => 'publish', 
                 'post_type' => 'product', 
-                'meta_key' => 'featured', 
+                'meta_key' => '_featured', 
                 'meta_value' => 'yes'
             );
             query_posts($args);
-            if ( have_posts() ) :
+            if ( true or have_posts() ) :
         ?>
         <div id="mainposts">
             <ul>
                 <?php while (have_posts() ) : the_post(); ?>
                 <li>
                     <div class="mainpost">
+                        <a href="<?php the_permalink(); ?>">
                         <?php if ( has_post_thumbnail() ) the_post_thumbnail('slide-magazine'); ?>
+                        </a>
                         <div class="mainpost-container">
                             <div class="bg"></div>
                             <div class="mainpost-data">
-                                <div class="mainpost-meta"><?php echo get_the_date(); ?> &middot; <?php comments_popup_link ( __('0 Comments', 'unspoken'), __('1 Comment', 'unspoken'), __('% Comments', 'unspoken'), '', __('Comments off', 'unspoken')); ?> &middot; <?php the_category(', '); ?></div>
+                                <div class="mainpost-meta" style="display:none"><?php echo get_the_date(); ?> &middot; <?php comments_popup_link ( __('0 Comments', 'unspoken'), __('1 Comment', 'unspoken'), __('% Comments', 'unspoken'), '', __('Comments off', 'unspoken')); ?> &middot; <?php the_category(', '); ?></div>
                                 <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-                                <?php the_excerpt(); ?>
+                                <?php the_content(); ?>
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@ function unspoken_setup() {
     add_image_size( 'mini-ec', 135, 80, true );
     add_image_size( 'general', 300, 180, true );
     add_image_size( 'slide-home', 360, 225, true );
-    if ( get_option('unspoken_mag_use') ) add_image_size( 'slide-magazine', 940, 400, true );
+    if ( get_option('unspoken_mag_use') ) add_image_size( 'slide-magazine', 600, 400, true );
     add_image_size( 'video-mini', 134, 74, true );
     add_image_size( 'video', 460, 260, true );
     update_option('embed_size_w', 620);
