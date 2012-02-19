@@ -3,6 +3,7 @@
 global $woocommerce_loop;
 
 $woocommerce_loop['loop'] = 0;
+$woocommerce_loop['columns'] = 3;
 $woocommerce_loop['show_products'] = true;
 
 if (!isset($woocommerce_loop['columns']) || !$woocommerce_loop['columns']) $woocommerce_loop['columns'] = apply_filters('loop_shop_columns', 4);
