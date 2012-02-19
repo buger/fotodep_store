@@ -10,13 +10,14 @@ jQuery(document).ready(function($) {
 			
 			if ($thisbutton.is('.product_type_simple, .product_type_downloadable, .product_type_virtual')) {
 				
-				if (!$($thisbutton).attr('data-product_id')) return true;
+				if (!$thisbutton.attr('data-product_id')) return true;
 				
-				$($thisbutton).addClass('loading');
+				$thisbutton.removeClass('added');
+				$thisbutton.addClass('loading');
 				
 				var data = {
 					action: 		'woocommerce_add_to_cart',
-					product_id: 	$($thisbutton).attr('data-product_id'),
+					product_id: 	$thisbutton.attr('data-product_id'),
 					security: 		woocommerce_params.add_to_cart_nonce
 				};
 				
@@ -26,13 +27,13 @@ jQuery(document).ready(function($) {
 				// Ajax action
 				$.post( woocommerce_params.ajax_url, data, function(response) {
 					
-					$($thisbutton).removeClass('loading');
+					$thisbutton.removeClass('loading');
 	
 					// Get response
 					data = $.parseJSON( response );
 					
-					if (data.error) {
-						alert(data.error);
+					if (data.error && data.product_url) {
+						window.location = data.product_url;
 						return;
 					}
 					
@@ -49,7 +50,7 @@ jQuery(document).ready(function($) {
 					$('.widget_shopping_cart, .shop_table.cart, .updating, .cart_totals').fadeTo('400', '0.6').block({message: null, overlayCSS: {background: 'transparent url(' + woocommerce_params.plugin_url + '/assets/images/ajax-loader.gif) no-repeat center', opacity: 0.6}});
 					
 					// Changes button classes
-					$($thisbutton).addClass('added');
+					$thisbutton.addClass('added');
 	
 					// Cart widget load
 					if ($('.widget_shopping_cart').size()>0) {
@@ -64,6 +65,8 @@ jQuery(document).ready(function($) {
 							
 							// Unblock
 							$('.widget_shopping_cart, .updating').css('opacity', '1').unblock();
+							
+							$('body').trigger('cart_widget_refreshed');
 						} );
 					} else {
 						// Replace fragments
@@ -84,6 +87,7 @@ jQuery(document).ready(function($) {
 						
 						$('.shop_table.cart').css('opacity', '1').unblock();
 						
+						$('body').trigger('cart_page_refreshed');
 					});
 					
 					$('.cart_totals').load( window.location + ' .cart_totals:eq(0) > *', function() {
@@ -127,13 +131,33 @@ jQuery(document).ready(function($) {
 	$(".plus").live('click', function() {
 	    var currentVal = parseInt($(this).prev(".qty").val());
 	    if (!currentVal || currentVal=="" || currentVal == "NaN") currentVal = 0;
-	    $(this).prev(".qty").val(currentVal + 1); 
+	    
+	    $qty = $(this).prev(".qty");
+	    
+	    var max = parseInt($qty.attr('data-max'));
+	    if (max=="" || max == "NaN") max = '';
+	    
+	    if (max && (max==currentVal || currentVal>max)) {
+	    	$qty.val(max); 
+	    } else {
+	    	$qty.val(currentVal + 1); 
+	    }
 	});
 	
 	$(".minus").live('click', function() {
-	    var currentVal = parseInt($(this).next(".qty").val());
-	    if (!currentVal || currentVal=="" || currentVal == "NaN") currentVal = 1;
-	    if (currentVal > 0)  $(this).next(".qty").val(currentVal - 1);
+		var currentVal = parseInt($(this).next(".qty").val());
+	    if (!currentVal || currentVal=="" || currentVal == "NaN") currentVal = 0;
+	    
+	    $qty = $(this).next(".qty");
+	    
+	    var min = parseInt($qty.attr('data-min'));
+	    if (min=="" || min == "NaN") min = 0;
+	    
+	    if (min && (min==currentVal || currentVal<min)) {
+	    	$qty.val(min); 
+	    } else if (currentVal > 0) {
+	    	$qty.val(currentVal - 1);
+	    }
 	});
 	
 	/* states */
@@ -143,32 +167,71 @@ jQuery(document).ready(function($) {
 	$('select.country_to_state').change(function(){
 		
 		var country = $(this).val();
-		var state_box = $('#' + $(this).attr('rel'));
 		
-		var input_name = $(state_box).attr('name');
-		var input_id = $(state_box).attr('id');
-		
-		var value = $(state_box).val();
+		var $statebox = $(this).closest('div').find('#billing_state, #shipping_state, #calc_shipping_state');
+		var $parent = $statebox.parent();
 
+		var input_name = $statebox.attr('name');
+		var input_id = $statebox.attr('id');
+		var value = $statebox.val();
+		
 		if (states[country]) {
-			var options = '';
-			var state = states[country];
-			for(var index in state) {
-				options = options + '<option value="' + index + '">' + state[index] + '</option>';
-			}
-			if ($(state_box).is('input')) {
-				// Change for select
-				$(state_box).replaceWith('<select name="' + input_name + '" id="' + input_id + '"></select>');
-				state_box = $('#' + $(this).attr('rel'));
-			}
-			$(state_box).html( '<option value="">' + woocommerce_params.select_state_text + '</option>' + options);
+			if (states[country].length == 0) {
+				
+				// Empty array means state field is not used
+				$parent.fadeOut(200, function() {
+					$statebox.parent().find('.chzn-container').remove();
+					$statebox.replaceWith('<input type="hidden" class="hidden" name="' + input_name + '" id="' + input_id + '" value="" />');
+					
+					$('body').trigger('country_to_state_changed', [country, $(this).closest('div')]);
+				});
+				
+			} else {
+				
+				$parent.fadeOut(200, function() {
+					var options = '';
+					var state = states[country];
+					for(var index in state) {
+						options = options + '<option value="' + index + '">' + state[index] + '</option>';
+					}
+					if ($statebox.is('input')) {
+						// Change for select
+						$statebox.replaceWith('<select name="' + input_name + '" id="' + input_id + '" class="state_select"></select>');
+						$statebox = $(this).closest('div').find('#billing_state, #shipping_state, #calc_shipping_state');
+					}
+					$statebox.html( '<option value="">' + woocommerce_params.select_state_text + '</option>' + options);
+					
+					$statebox.val(value);
+					
+					$('body').trigger('country_to_state_changed', [country, $(this).closest('div')]);
+					
+					$parent.fadeIn(500);
+				});
 			
-			$(state_box).val(value);
+			}
 		} else {
-			if ($(state_box).is('select')) {
-				$(state_box).replaceWith('<input type="text" class="input-text" placeholder="' + woocommerce_params.state_text + '" name="' + input_name + '" id="' + input_id + '" />');
+			if ($statebox.is('select')) {
+				
+				$parent.fadeOut(200, function() {
+					$parent.find('.chzn-container').remove();
+					$statebox.replaceWith('<input type="text" class="input-text" name="' + input_name + '" id="' + input_id + '" />');
+					
+					$('body').trigger('country_to_state_changed', [country, $(this).closest('div')]);
+					$parent.fadeIn(500);
+				});
+				
+			} else if ($statebox.is('.hidden')) {
+				
+				$parent.find('.chzn-container').remove();
+				$statebox.replaceWith('<input type="text" class="input-text" name="' + input_name + '" id="' + input_id + '" />');
+				
+				$('body').trigger('country_to_state_changed', [country, $(this).closest('div')]);
+				$parent.delay(200).fadeIn(500);
+				
 			}
 		}
+		
+		$('body').delay(200).trigger('country_to_state_changing', [country, $(this).closest('div')]);
 		
 	}).change();
 	
@@ -308,8 +371,14 @@ jQuery(document).ready(function($) {
             $(img).attr('src', o_src);
             $(link).attr('href', o_link);
         }
+        
+        if (variation.sku) {
+        	 $('.product_meta').find('.sku').text( variation.sku );
+        } else {
+        	 $('.product_meta').find('.sku').text('');
+        }
 
-        $('.single_variation_wrap').slideDown('200').trigger('variationWrapShown');
+        $('.single_variation_wrap').slideDown('200').trigger('variationWrapShown').trigger('show_variation'); // depreciated variationWrapShown
     }
 	
 	//when one of attributes is changed - check everything to show only valid options
@@ -346,7 +415,7 @@ jQuery(document).ready(function($) {
         if(all_set) {
         	var variation = matching_variations.pop();
         	if (variation) {
-            	$('form input[name=variation_id]').val(variation.variation_id);
+            	$('form input[name=variation_id]').val(variation.variation_id).change();
             	show_variation(variation);
             } else {
             	// Nothing found - reset fields
@@ -359,7 +428,7 @@ jQuery(document).ready(function($) {
 
 	$('.variations select').change(function(){
 		
-		$('form input[name=variation_id]').val('');
+		$('form input[name=variation_id]').val('').change();
         $('.single_variation_wrap').hide();
         $('.single_variation').text('');
 		check_variations();
@@ -391,6 +460,7 @@ jQuery(document).ready(function($) {
 			$.post( woocommerce_params.ajax_url, data, function(response) {
 				
 				$('div.cart_totals').replaceWith( response );
+				$('body').trigger('updated_shipping_method');
 							
 			});
 			
@@ -407,15 +477,16 @@ jQuery(document).ready(function($) {
 		
 			if (xhr) xhr.abort();
 		
-			var method 		= $('#shipping_method').val();
-			var country 	= $('#billing_country').val();
-			var state 		= $('#billing_state').val();
-			var postcode 	= $('input#billing_postcode').val();
+			var method 			= $('#shipping_method').val();
+			var payment_method 	= $('#order_review input[name=payment_method]:checked').val();
+			var country 		= $('#billing_country').val();
+			var state 			= $('#billing_state').val();
+			var postcode 		= $('input#billing_postcode').val();	
 				
 			if ($('#shiptobilling input').is(':checked') || $('#shiptobilling input').size()==0) {
-				var s_country 	= $('#billing_country').val();
-				var s_state 	= $('#billing_state').val();
-				var s_postcode 	= $('input#billing_postcode').val();
+				var s_country 	= country;
+				var s_state 	= state;
+				var s_postcode 	= postcode;
 				
 			} else {
 				var s_country 	= $('#shipping_country').val();
@@ -429,6 +500,7 @@ jQuery(document).ready(function($) {
 				action: 			'woocommerce_update_order_review',
 				security: 			woocommerce_params.update_order_review_nonce,
 				shipping_method: 	method, 
+				payment_method:		payment_method,
 				country: 			country, 
 				state: 				state, 
 				postcode: 			postcode, 
@@ -443,15 +515,21 @@ jQuery(document).ready(function($) {
 				url: 		woocommerce_params.ajax_url,
 				data: 		data,
 				success: 	function( response ) {
-					$('#order_methods, #order_review').remove();
-					$('#order_review_heading').after(response);
+					$('#order_review').after(response).remove();
 					$('#order_review input[name=payment_method]:checked').click();
+					$('body').trigger('updated_checkout');
 				}
 			});
 		
 		}
+		
+		// Event for updating the checkout
+		$('body').bind('update_checkout', function() {
+			clearTimeout(updateTimer);
+			update_checkout();
+		});
 			
-		$('p.password, form.login, div.shipping_address').hide();
+		$('p.password, form.login, form.checkout_coupon, div.shipping_address').hide();
 		
 		$('input.show_password').change(function(){
 			$('p.password').slideToggle();
@@ -459,6 +537,11 @@ jQuery(document).ready(function($) {
 		
 		$('a.showlogin').click(function(){
 			$('form.login').slideToggle();
+			return false;
+		});
+		
+		$('a.showcoupon').click(function(){
+			$('form.checkout_coupon').slideToggle();
 			return false;
 		});
 		
@@ -493,20 +576,18 @@ jQuery(document).ready(function($) {
 		
 		/* Update totals */
 		$('#shipping_method').live('change', function(){
-			clearTimeout(updateTimer);
-			update_checkout();
+			$('body').trigger('update_checkout');
 		});
 		$('input#billing_country, input#billing_state, #billing_postcode, input#shipping_country, input#shipping_state, #shipping_postcode').live('keydown', function(){
 			clearTimeout(updateTimer);
-			updateTimer = setTimeout("update_checkout()", '1000');
+			updateTimer = setTimeout(update_checkout, '1000');
 		});
 		$('select#billing_country, select#billing_state, select#shipping_country, select#shipping_state, #shiptobilling input, .update_totals_on_change').live('change', function(){
-			clearTimeout(updateTimer);
-			update_checkout();
+			$('body').trigger('update_checkout');
 		});
 		
 		// Update on page load
-		if (woocommerce_params.is_checkout==1) update_checkout();
+		if (woocommerce_params.is_checkout==1) $('body').trigger('update_checkout');
 		
 		/* AJAX Form Submission */
 		$('form.checkout').submit(function(){
@@ -539,6 +620,71 @@ jQuery(document).ready(function($) {
 			});
 			return false;
 		});
+		
+		/* Localisation */
+		var locale_json = woocommerce_params.locale.replace(/&quot;/g, '"');
+		var locale = $.parseJSON( locale_json );
+	
+		// Handle locale
+		$('body').bind('country_to_state_changing', function( event, country, wrapper ){
+			
+			var thisform = wrapper;
+			
+			if ( locale[country] ) {
+				var thislocale = locale[country];
+			} else {
+				var thislocale = locale['default'];
+			}
+				
+			// State Handling
+			if ( thislocale['state'] ) {
+				var field = thisform.find('#billing_state_field, #shipping_state_field');
+				
+				if ( thislocale['state']['label'] ) {
+					field.find('label').text( thislocale['state']['label'] );
+				}
+			}
+			
+			var postcodefield = thisform.find('#billing_postcode_field, #shipping_postcode_field');
+			var cityfield = thisform.find('#billing_city_field, #shipping_city_field');
+				
+			// City Handling
+			if ( thislocale['city'] ) {
+				if ( thislocale['city']['label'] ) {
+					cityfield.find('label').text( thislocale['city']['label'] );
+				}
+			}
+			
+			// Postcode Handling
+			if ( thislocale['postcode'] ) {
+				if ( thislocale['postcode']['label'] ) {
+					postcodefield.find('label').text( thislocale['postcode']['label'] );
+				}
+			}
+			
+			// Re-order postcode/city
+			if ( thislocale['postcode_before_city'] ) {
+				if (cityfield.is('.form-row-first')) {
+					cityfield.fadeOut(200, function() {
+						cityfield.removeClass('form-row-first').addClass('form-row-last').insertAfter( postcodefield ).fadeIn(500);
+					});
+					postcodefield.fadeOut(200, function (){
+						postcodefield.removeClass('form-row-last').addClass('form-row-first').fadeIn(500);
+					});
+				}
+			} else {
+				if (cityfield.is('.form-row-last')) {
+					cityfield.fadeOut(200, function() {
+						cityfield.removeClass('form-row-last').addClass('form-row-first').insertBefore( postcodefield ).fadeIn(500);
+					});
+					postcodefield.fadeOut(200, function (){
+						postcodefield.removeClass('form-row-first').addClass('form-row-last').fadeIn(500);
+					});
+				}
+			}
+			
+		});
+
 
 	}
 

@@ -21,9 +21,9 @@ class WooCommerce_Widget_Top_Rated_Products extends WP_Widget {
 	
 		/* Widget variable settings. */
 		$this->woo_widget_cssclass = 'widget_top_rated_products';
-		$this->woo_widget_description = __( 'Display a list of top rated products on your site.', 'woothemes' );
+		$this->woo_widget_description = __( 'Display a list of top rated products on your site.', 'woocommerce' );
 		$this->woo_widget_idbase = 'woocommerce_top_rated_products';
-		$this->woo_widget_name = __('WooCommerce Top Rated Products', 'woothemes' );
+		$this->woo_widget_name = __('WooCommerce Top Rated Products', 'woocommerce' );
 		
 		/* Widget settings. */
 		$widget_ops = array( 'classname' => $this->woo_widget_cssclass, 'description' => $this->woo_widget_description );
@@ -52,7 +52,7 @@ class WooCommerce_Widget_Top_Rated_Products extends WP_Widget {
 		ob_start();
 		extract($args);
 
-		$title = apply_filters('widget_title', empty($instance['title']) ? __('Top Rated Products', 'woothemes') : $instance['title'], $instance, $this->id_base);
+		$title = apply_filters('widget_title', empty($instance['title']) ? __('Top Rated Products', 'woocommerce') : $instance['title'], $instance, $this->id_base);
 		
 		if ( !$number = (int) $instance['number'] ) $number = 10;
 		else if ( $number < 1 ) $number = 1;
@@ -70,12 +70,12 @@ class WooCommerce_Widget_Top_Rated_Products extends WP_Widget {
 			if ( $title ) echo $before_title . $title . $after_title; 
 				?>
 				<ul class="product_list_widget">
-					<?php while ($top_rated_posts->have_posts()) : $top_rated_posts->the_post(); $_product = &new woocommerce_product( $top_rated_posts->post->ID ); 
+					<?php while ($top_rated_posts->have_posts()) : $top_rated_posts->the_post(); global $product; 
 					?>
 					<li><a href="<?php echo esc_url( get_permalink( $top_rated_posts->post->ID ) ); ?>" title="<?php echo esc_attr($top_rated_posts->post->post_title ? $top_rated_posts->post->post_title : $top_rated_posts->post->ID); ?>">
-						<?php echo $_product->get_image(); ?>
+						<?php echo $product->get_image(); ?>
 						<?php if ( $top_rated_posts->post->post_title ) echo get_the_title( $top_rated_posts->post->ID ); else echo $top_rated_posts->post->ID; ?>			
-					</a> <?php echo $_product->get_rating_html('sidebar'); ?><?php echo $_product->get_price_html(); ?></li>
+					</a> <?php echo $product->get_rating_html('sidebar'); ?><?php echo $product->get_price_html(); ?></li>
 					
 					<?php endwhile; ?>
 				</ul>
@@ -132,10 +132,10 @@ class WooCommerce_Widget_Top_Rated_Products extends WP_Widget {
 		if ( !isset($instance['number']) || !$number = (int) $instance['number'] )
 			$number = 5;
 ?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'woothemes'); ?></label>
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'woocommerce'); ?></label>
 		<input class="widefat" id="<?php echo esc_attr( $this->get_field_id('title') ); ?>" name="<?php echo esc_attr( $this->get_field_name('title') ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 
-		<p><label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('Number of products to show:', 'woothemes'); ?></label>
+		<p><label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('Number of products to show:', 'woocommerce'); ?></label>
 		<input id="<?php echo esc_attr( $this->get_field_id('number') ); ?>" name="<?php echo esc_attr( $this->get_field_name('number') ); ?>" type="text" value="<?php echo esc_attr( $number ); ?>" size="3" /></p>
 <?php
 	}

@@ -2,7 +2,7 @@
 /*
 Plugin Name: File Gallery
 Plugin URI: http://skyphe.org/code/wordpress/file-gallery/
-Version: 1.7.3
+Version: 1.7.4.1
 Description: "File Gallery" extends WordPress' media (attachments) capabilities by adding a new gallery shortcode handler with templating support, a new interface for attachment handling when editing posts, and much more.
 Author: Bruno "Aesqe" Babic
 Author URI: http://skyphe.org
@@ -31,7 +31,7 @@ Author URI: http://skyphe.org
  * Setup default File Gallery options
  */
 
-define('FILE_GALLERY_VERSION', '1.7.3');
+define('FILE_GALLERY_VERSION', '1.7.4.1');
 define('FILE_GALLERY_DEFAULT_TEMPLATES', serialize( array('default', 'file-gallery', 'list', 'simple') ) );
 
 
@@ -669,7 +669,9 @@ register_activation_hook( __FILE__, 'file_gallery_activate' );
  */
 function file_gallery_upgrade()
 {
-	if( $options = get_option('file_gallery') && version_compare( $options['version'], FILE_GALLERY_VERSION, '<') )
+	$options = get_option('file_gallery');
+	
+	if( $options && version_compare( $options['version'], FILE_GALLERY_VERSION, '<') )
 		file_gallery_activate();
 }
 add_action( 'admin_init', 'file_gallery_upgrade' );
@@ -913,8 +915,6 @@ function file_gallery_js_admin()
 {
 	global $pagenow, $current_screen, $wp_version, $post_ID, $file_gallery;
 
-	
-	
 	$s = array('{"', '",', '"}', '\/', '"[', ']"');
 	$r = array("\n{\n\"", "\",\n", "\"\n}", '/', '[', ']');
 
@@ -923,7 +923,6 @@ function file_gallery_js_admin()
 	   || "post-new.php" == $pagenow
 	   || "page.php" == $pagenow 
 	   || "page-new.php" == $pagenow 
-	   || "edit.php" == $pagenow 
 	   || ("post" == $current_screen->base && isset($current_screen->post_type))
 	  )
 	{
@@ -996,7 +995,25 @@ function file_gallery_js_admin()
 			var file_gallery_L10n = ' . str_replace($s, $r, json_encode($file_gallery_localize)) . ',
 				file_gallery_options = ' . str_replace($s, $r, json_encode($file_gallery_options)) . ',
 				acf_L10n = ' . str_replace($s, $r, json_encode($acf_localize)) . ',
+				init_file_gallery = true,
 				acf_options = ' . str_replace($s, $r, json_encode($acf_options)) . ';
+		</script>
+		';
+	}
+	elseif( "edit.php" == $pagenow  )
+	{
+		$file_gallery_options = array( 
+			"file_gallery_url"   => file_gallery_https( FILE_GALLERY_URL ),
+			"file_gallery_nonce" => wp_create_nonce('file-gallery')
+		);
+		
+		wp_enqueue_script('file-gallery-main',  file_gallery_https( FILE_GALLERY_URL ) . '/js/file-gallery.js', array('jquery'), FILE_GALLERY_VERSION);
+		
+		echo '
+		<script type="text/javascript">
+			var file_gallery_L10n = {},
+				file_gallery_options = ' . str_replace($s, $r, json_encode($file_gallery_options)) . ',
+				init_file_gallery = false;
 		</script>
 		';
 	}

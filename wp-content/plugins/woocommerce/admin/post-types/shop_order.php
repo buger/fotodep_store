@@ -17,13 +17,13 @@ function woocommerce_edit_order_columns($columns){
 	$columns = array();
 	
 	$columns["cb"] = "<input type=\"checkbox\" />";
-	$columns["order_status"] = __("Status", 'woothemes');
-	$columns["order_title"] = __("Order", 'woothemes');
-	$columns["billing_address"] = __("Billing", 'woothemes');
-	$columns["shipping_address"] = __("Shipping", 'woothemes');
-	$columns["total_cost"] = __("Order Total", 'woothemes');
-	$columns["order_date"] = __("Date", 'woothemes');
-	$columns["order_actions"] = __("Actions", 'woothemes');
+	$columns["order_status"] = __("Status", 'woocommerce');
+	$columns["order_title"] = __("Order", 'woocommerce');
+	$columns["billing_address"] = __("Billing", 'woocommerce');
+	$columns["shipping_address"] = __("Shipping", 'woocommerce');
+	$columns["total_cost"] = __("Order Total", 'woocommerce');
+	$columns["order_date"] = __("Date", 'woocommerce');
+	$columns["order_actions"] = __("Actions", 'woocommerce');
 	
 	return $columns;
 }
@@ -37,17 +37,15 @@ add_action('manage_shop_order_posts_custom_column', 'woocommerce_custom_order_co
 function woocommerce_custom_order_columns($column) {
 
 	global $post;
-	$order = &new woocommerce_order( $post->ID );
+	$order = new WC_Order( $post->ID );
 	
 	switch ($column) {
 		case "order_status" :
 			
-			echo sprintf( __('<mark class="%s">%s</mark>', 'woothemes'), sanitize_title($order->status), __($order->status, 'woothemes') );
+			echo sprintf( '<mark class="%s">%s</mark>', sanitize_title($order->status), __($order->status, 'woocommerce') );
 			
 		break;
 		case "order_title" :
-			
-			echo '<a href="'.admin_url('post.php?post='.$post->ID.'&action=edit').'">'.sprintf( __('Order #%s', 'woothemes'), $post->ID ).'</a> ';
 			
 			if ($order->user_id) $user_info = get_userdata($order->user_id);
 			
@@ -61,62 +59,62 @@ function woocommerce_custom_order_columns($column) {
             	$user .= '</a>';
 
            	else : 
-           		$user = __('Guest', 'woothemes');
+           		$user = __('Guest', 'woocommerce');
            	endif;
            	
-           	echo '<small class="meta">' . __('Customer:', 'woothemes') . ' ' . $user . '</small>';
+           	echo '<a href="'.admin_url('post.php?post='.$post->ID.'&action=edit').'"><strong>'.sprintf( __('Order #%s', 'woocommerce'), $post->ID ).'</strong></a> ' . __('made by', 'woocommerce') . ' ' . $user;
            	
            	if ($order->billing_email) :
-        		echo '<small class="meta">'.__('Email:', 'woothemes') . ' ' . '<a href="' . esc_url( 'mailto:'.$order->billing_email ).'">'.esc_html( $order->billing_email ).'</a></small>';
+        		echo '<small class="meta">'.__('Email:', 'woocommerce') . ' ' . '<a href="' . esc_url( 'mailto:'.$order->billing_email ).'">'.esc_html( $order->billing_email ).'</a></small>';
         	endif;
         	if ($order->billing_phone) :
-        		echo '<small class="meta">'.__('Tel:', 'woothemes') . ' ' . esc_html( $order->billing_phone ) . '</small>';
+        		echo '<small class="meta">'.__('Tel:', 'woocommerce') . ' ' . esc_html( $order->billing_phone ) . '</small>';
         	endif;
 						
 		break;
 		case "billing_address" :
-			echo '<strong>'.esc_html( $order->billing_first_name . ' ' . $order->billing_last_name );
-        	if ($order->billing_company) echo ', '.esc_html( $order->billing_company );
-        	echo '</strong><br/>';
-        	echo '<a target="_blank" href="' . esc_url( 'http://maps.google.co.uk/maps?&q='.urlencode($order->formatted_billing_address).'&z=16' ) . '">'.esc_html( $order->formatted_billing_address ).'</a>';
+			if ($order->get_formatted_shipping_address()) :
+			
+        		echo '<a target="_blank" href="' . esc_url( 'http://maps.google.com/maps?&q='.urlencode( $order->get_billing_address() ).'&z=16' ) . '">'. preg_replace('#<br\s*/?>#i', ', ', $order->get_formatted_billing_address()) .'</a>';
+        	else :
+        		echo '&ndash;';
+        	endif;
         	
         	if ($order->payment_method_title) :
-        		echo '<small class="meta">' . __('Paid via', 'woothemes') . ' ' . esc_html( $order->payment_method_title ) . '</small>';
+        		echo '<small class="meta">' . __('Via', 'woocommerce') . ' ' . esc_html( $order->payment_method_title ) . '</small>';
         	endif;
         	
 		break;
 		case "shipping_address" :
-			if ($order->formatted_shipping_address) :
-            	echo '<strong>'.esc_html( $order->shipping_first_name . ' ' . $order->shipping_last_name );
-            	if ($order->shipping_company) : echo ', '.esc_html( $order->shipping_company ); endif;
-            	echo '</strong><br/>';
-            	echo '<a target="_blank" href="' . esc_url( 'http://maps.google.co.uk/maps?&q='.urlencode($order->formatted_shipping_address).'&z=16' ) .'">'.esc_html( $order->formatted_shipping_address ).'</a>';
+			if ($order->get_formatted_shipping_address()) :
+            	
+            	echo '<a target="_blank" href="' . esc_url( 'http://maps.google.com/maps?&q='.urlencode( $order->get_shipping_address() ).'&z=16' ) .'">'. preg_replace('#<br\s*/?>#i', ', ', $order->get_formatted_shipping_address()) .'</a>';
         	else :
         		echo '&ndash;';
         	endif;
         	
         	if ($order->shipping_method_title) :
-        		echo '<small class="meta">' . __('Shipped via', 'woothemes') . ' ' . esc_html( $order->shipping_method_title ) . '</small>';
+        		echo '<small class="meta">' . __('Via', 'woocommerce') . ' ' . esc_html( $order->shipping_method_title ) . '</small>';
         	endif;
 		break;
 		case "total_cost" :
 			echo woocommerce_price($order->order_total);
 		break;
 		case "order_date" :
+		
 			if ( '0000-00-00 00:00:00' == $post->post_date ) :
-				$t_time = $h_time = __( 'Unpublished', 'woothemes' );
+				$t_time = $h_time = __( 'Unpublished', 'woocommerce' );
 				$time_diff = 0;
 			else :
-				$t_time = get_the_time( __( 'Y/m/d g:i:s A', 'woothemes' ) );
-				$m_time = $post->post_date;
-				$time = get_post_time( 'G', true, $post );
+				$t_time = get_the_time( __( 'Y/m/d g:i:s A', 'woocommerce' ), $post );
+				$time = strtotime($post->post_date);
 
-				$time_diff = time() - $time;
+				$time_diff = current_time('timestamp') - $time;
 
 				if ( $time_diff > 0 && $time_diff < 24*60*60 )
-					$h_time = sprintf( __( '%s ago', 'woothemes' ), human_time_diff( $time ) );
+					$h_time = sprintf( __( '%s ago', 'woocommerce' ), human_time_diff( $time ) );
 				else
-					$h_time = mysql2date( __( 'Y/m/d', 'woothemes' ), $m_time );
+					$h_time = get_the_time( __( 'Y/m/d', 'woocommerce' ), $post );
 			endif;
 
 			echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post ) . '</abbr>';
@@ -125,9 +123,9 @@ function woocommerce_custom_order_columns($column) {
 		case "order_actions" :
 			
 			?><p>
-				<?php if (in_array($order->status, array('pending', 'on-hold'))) : ?><a class="button" href="<?php echo wp_nonce_url( admin_url('admin-ajax.php?action=woocommerce-mark-order-processing&order_id=' . $post->ID) ); ?>"><?php _e('Processing', 'woothemes'); ?></a><?php endif; ?>
-				<?php if (in_array($order->status, array('pending', 'on-hold', 'processing'))) : ?><a class="button" href="<?php echo wp_nonce_url( admin_url('admin-ajax.php?action=woocommerce-mark-order-complete&order_id=' . $post->ID) ); ?>"><?php _e('Complete', 'woothemes'); ?></a><?php endif; ?>
-				<a class="button" href="<?php echo admin_url('post.php?post='.$post->ID.'&action=edit'); ?>"><?php _e('View', 'woothemes'); ?></a>
+				<?php if (in_array($order->status, array('pending', 'on-hold'))) : ?><a class="button" href="<?php echo wp_nonce_url( admin_url('admin-ajax.php?action=woocommerce-mark-order-processing&order_id=' . $post->ID), 'woocommerce-mark-order-processing' ); ?>"><?php _e('Processing', 'woocommerce'); ?></a><?php endif; ?>
+				<?php if (in_array($order->status, array('pending', 'on-hold', 'processing'))) : ?><a class="button" href="<?php echo wp_nonce_url( admin_url('admin-ajax.php?action=woocommerce-mark-order-complete&order_id=' . $post->ID), 'woocommerce-mark-order-complete' ); ?>"><?php _e('Complete', 'woocommerce'); ?></a><?php endif; ?>
+				<a class="button" href="<?php echo admin_url('post.php?post='.$post->ID.'&action=edit'); ?>"><?php _e('View', 'woocommerce'); ?></a>
 			</p><?php
 			
 		break;
@@ -191,11 +189,11 @@ function woocommerce_orders_by_status() {
     if ($typenow=='shop_order') :
 		$terms = get_terms('shop_order_status');
 		$output = "<select name='shop_order_status' id='dropdown_shop_order_status'>";
-		$output .= '<option value="">'.__('Show all statuses', 'woothemes').'</option>';
+		$output .= '<option value="">'.__('Show all statuses', 'woocommerce').'</option>';
 		foreach($terms as $term) :
 			$output .="<option value='$term->slug' ";
 			if ( isset( $wp_query->query['shop_order_status'] ) ) $output .=selected($term->slug, $wp_query->query['shop_order_status'], false);
-			$output .=">".__($term->name, 'woothemes')." ($term->count)</option>";
+			$output .=">".__($term->name, 'woocommerce')." ($term->count)</option>";
 		endforeach;
 		$output .="</select>";
 		echo $output;
@@ -220,7 +218,7 @@ function woocommerce_orders_by_customer() {
 		if ($users) :
 		
 			$output = "<select name='_customer_user' id='dropdown_customers'>";
-			$output .= '<option value="">'.__('Show all customers', 'woothemes').'</option>';
+			$output .= '<option value="">'.__('Show all customers', 'woocommerce').'</option>';
 			foreach($users as $user) :
 				$output .="<option value='$user->ID' ";
 				if ( isset( $_GET['_customer_user'] ) ) $output .=selected($user->ID, $_GET['_customer_user'], false);

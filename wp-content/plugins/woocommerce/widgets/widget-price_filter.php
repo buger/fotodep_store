@@ -8,12 +8,15 @@
  * @category	Widgets
  * @author		WooThemes
  */
- 
+
+if (is_active_widget( false, false, 'price_filter', 'true' ) && !is_admin()) :
+	add_action('init', 'woocommerce_price_filter_init');
+	add_filter('loop_shop_post_in', 'woocommerce_price_filter');
+endif;
+
 /**
  * Price filter Init
  */
-add_action('init', 'woocommerce_price_filter_init');
-
 function woocommerce_price_filter_init() {
 	
 	unset($_SESSION['min_price']);
@@ -31,8 +34,6 @@ function woocommerce_price_filter_init() {
 /**
  * Price Filter post filter
  */
-add_filter('loop_shop_post_in', 'woocommerce_price_filter');
-
 function woocommerce_price_filter( $filtered_posts ) {
 
 	if (isset($_GET['max_price']) && isset($_GET['min_price'])) :
@@ -48,7 +49,7 @@ function woocommerce_price_filter( $filtered_posts ) {
 			'posts_per_page' => -1,
 			'meta_query' => array(
 				array(
-					'key' => 'price',
+					'key' => '_price',
 					'value' => array( $_GET['min_price'], $_GET['max_price'] ),
 					'type' => 'NUMERIC',
 					'compare' => 'BETWEEN'
@@ -94,9 +95,9 @@ class WooCommerce_Widget_Price_Filter extends WP_Widget {
 		
 		/* Widget variable settings. */
 		$this->woo_widget_cssclass = 'widget_price_filter';
-		$this->woo_widget_description = __( 'Shows a price filter slider in a widget which lets you narrow down the list of shown products when viewing product categories.', 'woothemes' );
+		$this->woo_widget_description = __( 'Shows a price filter slider in a widget which lets you narrow down the list of shown products when viewing product categories.', 'woocommerce' );
 		$this->woo_widget_idbase = 'woocommerce_price_filter';
-		$this->woo_widget_name = __('WooCommerce Price Filter', 'woothemes' );
+		$this->woo_widget_name = __('WooCommerce Price Filter', 'woocommerce' );
 		
 		/* Widget settings. */
 		$widget_ops = array( 'classname' => $this->woo_widget_cssclass, 'description' => $this->woo_widget_description );
@@ -123,6 +124,8 @@ class WooCommerce_Widget_Price_Filter extends WP_Widget {
 		
 		if (get_search_query()) $fields = '<input type="hidden" name="s" value="'.get_search_query().'" />';
 		if (isset($_GET['post_type'])) $fields .= '<input type="hidden" name="post_type" value="'.esc_attr( $_GET['post_type'] ).'" />';
+		if (isset($_GET['product_cat'])) $fields .= '<input type="hidden" name="product_cat" value="'.esc_attr( $_GET['product_cat'] ).'" />';
+		if (isset($_GET['product_tag'])) $fields .= '<input type="hidden" name="product_tag" value="'.esc_attr( $_GET['product_tag'] ).'" />';
 		
 		if ($_chosen_attributes) foreach ($_chosen_attributes as $attribute => $data) :
 		
@@ -139,14 +142,14 @@ class WooCommerce_Widget_Price_Filter extends WP_Widget {
 			$max = ceil($wpdb->get_var("SELECT max(meta_value + 0) 
 			FROM $wpdb->posts
 			LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-			WHERE meta_key = 'price'"));
+			WHERE meta_key = '_price'"));
 
 		else :
 		
 			$max = ceil($wpdb->get_var("SELECT max(meta_value + 0) 
 			FROM $wpdb->posts
 			LEFT JOIN $wpdb->postmeta ON $wpdb->posts.ID = $wpdb->postmeta.post_id
-			WHERE meta_key = 'price' AND (
+			WHERE meta_key = '_price' AND (
 				$wpdb->posts.ID IN (".implode(',', $woocommerce->query->layered_nav_product_ids).") 
 				OR (
 					$wpdb->posts.post_parent IN (".implode(',', $woocommerce->query->layered_nav_product_ids).")
@@ -163,11 +166,11 @@ class WooCommerce_Widget_Price_Filter extends WP_Widget {
 			<div class="price_slider_wrapper">
 				<div class="price_slider" style="display:none;"></div>
 				<div class="price_slider_amount">
-					<input type="text" id="min_price" name="min_price" value="'.esc_attr( $post_min ).'" data-min="'.esc_attr( $min ).'" placeholder="'.__('Min price', 'woothemes').'" />
-					<input type="text" id="max_price" name="max_price" value="'.esc_attr( $post_max ).'" data-max="'.esc_attr( $max ).'" placeholder="'.__('Max price', 'woothemes').'" />
-					<button type="submit" class="button">'.__('Filter', 'woothemes').'</button>
+					<input type="text" id="min_price" name="min_price" value="'.esc_attr( $post_min ).'" data-min="'.esc_attr( $min ).'" placeholder="'.__('Min price', 'woocommerce').'" />
+					<input type="text" id="max_price" name="max_price" value="'.esc_attr( $post_max ).'" data-max="'.esc_attr( $max ).'" placeholder="'.__('Max price', 'woocommerce').'" />
+					<button type="submit" class="button">'.__('Filter', 'woocommerce').'</button>
 					<div class="price_label" style="display:none;">
-						'.__('Price:', 'woothemes').' <span></span>
+						'.__('Price:', 'woocommerce').' <span class="from"></span> &mdash; <span class="to"></span>
 					</div>
 					'.$fields.'
 					<div class="clear"></div>
@@ -180,7 +183,7 @@ class WooCommerce_Widget_Price_Filter extends WP_Widget {
 
 	/** @see WP_Widget->update */
 	function update( $new_instance, $old_instance ) {
-		if (!isset($new_instance['title']) || empty($new_instance['title'])) $new_instance['title'] = __('Filter by price', 'woothemes');
+		if (!isset($new_instance['title']) || empty($new_instance['title'])) $new_instance['title'] = __('Filter by price', 'woocommerce');
 		$instance['title'] = strip_tags(stripslashes($new_instance['title']));
 		return $instance;
 	}
@@ -189,7 +192,7 @@ class WooCommerce_Widget_Price_Filter extends WP_Widget {
 	function form( $instance ) {
 		global $wpdb;
 		?>
-			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'woothemes') ?></label>
+			<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'woocommerce') ?></label>
 			<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id('title') ); ?>" name="<?php echo esc_attr( $this->get_field_name('title') ); ?>" value="<?php if (isset ( $instance['title'])) {echo esc_attr( $instance['title'] );} ?>" /></p>
 		<?php
 	}

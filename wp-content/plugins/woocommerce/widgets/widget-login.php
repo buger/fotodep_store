@@ -19,9 +19,9 @@ class WooCommerce_Widget_Login extends WP_Widget {
 	
 		/* Widget variable settings. */
 		$this->woo_widget_cssclass = 'widget_login';
-		$this->woo_widget_description = __( 'Display a login area and "My Account" links in the sidebar.', 'woothemes' );
+		$this->woo_widget_description = __( 'Display a login area and "My Account" links in the sidebar.', 'woocommerce' );
 		$this->woo_widget_idbase = 'woocommerce_login';
-		$this->woo_widget_name = __('WooCommerce Login', 'woothemes' );
+		$this->woo_widget_name = __('WooCommerce Login', 'woocommerce' );
 		
 		/* Widget settings. */
 		$widget_ops = array( 'classname' => $this->woo_widget_cssclass, 'description' => $this->woo_widget_description );
@@ -36,8 +36,11 @@ class WooCommerce_Widget_Login extends WP_Widget {
 		
 		extract($args);
 		
-		$logged_out_title = (!empty($instance['logged_out_title'])) ? $instance['logged_out_title'] : __('Customer Login', 'woothemes');
-		$logged_in_title = (!empty($instance['logged_in_title'])) ? $instance['logged_in_title'] : __('Welcome %s', 'woothemes');
+		// Don't show if on the account page since that has a login
+		if (is_account_page() && !is_user_logged_in()) return;
+			
+		$logged_out_title = (!empty($instance['logged_out_title'])) ? $instance['logged_out_title'] : __('Customer Login', 'woocommerce');
+		$logged_in_title = (!empty($instance['logged_in_title'])) ? $instance['logged_in_title'] : __('Welcome %s', 'woocommerce');
 
 		echo $before_widget;
 		
@@ -50,9 +53,9 @@ class WooCommerce_Widget_Login extends WP_Widget {
 			do_action('woocommerce_login_widget_logged_in_before_links');
 						
 			$links = apply_filters( 'woocommerce_login_widget_logged_in_links', array(
-				__('My account', 'woothemes') 	=> get_permalink(get_option('woocommerce_myaccount_page_id')), 
-				__('Change my password', 'woothemes') => get_permalink(get_option('woocommerce_change_password_page_id')),
-				__('Logout', 'woothemes')		=> wp_logout_url(home_url())
+				__('My account', 'woocommerce') 	=> get_permalink(woocommerce_get_page_id('myaccount')), 
+				__('Change my password', 'woocommerce') => get_permalink(woocommerce_get_page_id('change_password')),
+				__('Logout', 'woocommerce')		=> wp_logout_url(home_url())
 			));
 			
 			if (sizeof($links>0)) :
@@ -83,15 +86,15 @@ class WooCommerce_Widget_Login extends WP_Widget {
 			endforeach;					
 			
 			// Get redirect URL
-			$redirect_to = apply_filters( 'woocommerce_login_widget_redirect', get_permalink(get_option('woocommerce_myaccount_page_id')) );
+			$redirect_to = apply_filters( 'woocommerce_login_widget_redirect', get_permalink(woocommerce_get_page_id('myaccount')) );
 			?>
 			<form method="post">
 			
-				<p><label for="user_login"><?php _e('Username', 'woothemes'); ?></label> <input name="log" value="<?php if (isset($_POST['log'])) echo esc_attr(stripslashes($_POST['log'])); ?>" class="input-text" id="user_login" type="text" /></p>
+				<p><label for="user_login"><?php _e('Username', 'woocommerce'); ?></label> <input name="log" value="<?php if (isset($_POST['log'])) echo esc_attr(stripslashes($_POST['log'])); ?>" class="input-text" id="user_login" type="text" /></p>
 				
-				<p><label for="user_pass"><?php _e('Password', 'woothemes'); ?></label> <input name="pwd" class="input-text" id="user_pass" type="password" /></p>		
+				<p><label for="user_pass"><?php _e('Password', 'woocommerce'); ?></label> <input name="pwd" class="input-text" id="user_pass" type="password" /></p>		
 				
-				<p><input type="submit" class="submitbutton" name="wp-submit" id="wp-submit" value="<?php _e('Login &raquo;', 'woothemes'); ?>" /> <a href="<?php echo wp_lostpassword_url(); ?>"><?php echo __('Lost password?', 'woothemes'); ?></a></p>
+				<p><input type="submit" class="submitbutton" name="wp-submit" id="wp-submit" value="<?php _e('Login &raquo;', 'woocommerce'); ?>" /> <a href="<?php echo wp_lostpassword_url(); ?>"><?php echo __('Lost password?', 'woocommerce'); ?></a></p>
 				
 				<div>
 					<input type="hidden" name="redirect_to" class="redirect_to" value="<?php echo $redirect_to; ?>" />
@@ -173,74 +176,16 @@ class WooCommerce_Widget_Login extends WP_Widget {
 	function form( $instance ) {
 		?>
 		
-		<p><label for="<?php echo $this->get_field_id('logged_out_title'); ?>"><?php _e('Logged out title:', 'woothemes') ?></label>
-		<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id('logged_out_title') ); ?>" name="<?php echo esc_attr( $this->get_field_name('logged_out_title') ); ?>" value="<?php if (isset ( $instance['logged_out_title'])) echo esc_attr( $instance['logged_out_title'] ); else echo __('Customer Login', 'woothemes'); ?>" /></p>
+		<p><label for="<?php echo $this->get_field_id('logged_out_title'); ?>"><?php _e('Logged out title:', 'woocommerce') ?></label>
+		<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id('logged_out_title') ); ?>" name="<?php echo esc_attr( $this->get_field_name('logged_out_title') ); ?>" value="<?php if (isset ( $instance['logged_out_title'])) echo esc_attr( $instance['logged_out_title'] ); else echo __('Customer Login', 'woocommerce'); ?>" /></p>
 		
-		<p><label for="<?php echo $this->get_field_id('logged_in_title'); ?>"><?php _e('Logged in title:', 'woothemes') ?></label>
-		<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id('logged_in_title') ); ?>" name="<?php echo esc_attr( $this->get_field_name('logged_in_title') ); ?>" value="<?php if (isset ( $instance['logged_in_title'])) echo esc_attr( $instance['logged_in_title'] ); else echo __('Welcome %s', 'woothemes'); ?>" /></p>
+		<p><label for="<?php echo $this->get_field_id('logged_in_title'); ?>"><?php _e('Logged in title:', 'woocommerce') ?></label>
+		<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id('logged_in_title') ); ?>" name="<?php echo esc_attr( $this->get_field_name('logged_in_title') ); ?>" value="<?php if (isset ( $instance['logged_in_title'])) echo esc_attr( $instance['logged_in_title'] ); else echo __('Welcome %s', 'woocommerce'); ?>" /></p>
 		
 		<?php
 	}
 
 } // class WooCommerce_Widget_Login
-
-/**
- * Process ajax login
- */
-add_action('wp_ajax_nopriv_woocommerce_sidebar_login_process', 'woocommerce_sidebar_login_ajax_process');
-
-function woocommerce_sidebar_login_ajax_process() {
-
-	check_ajax_referer( 'woocommerce-sidebar-login-action', 'security' );
-	
-	// Get post data
-	$creds = array();
-	$creds['user_login'] 	= esc_attr($_POST['user_login']);
-	$creds['user_password'] = esc_attr($_POST['user_password']);
-	$creds['remember'] 		= 'forever';
-	$redirect_to 			= esc_attr($_POST['redirect_to']);
-	
-	// Check for Secure Cookie
-	$secure_cookie = '';
-	
-	// If the user wants ssl but the session is not ssl, force a secure cookie.
-	if ( !empty($_POST['log']) && !force_ssl_admin() ) {
-		$user_name = sanitize_user($_POST['log']);
-		if ( $user = get_user_by('login', $user_name) ) {
-			if ( get_user_option('use_ssl', $user->ID) ) {
-				$secure_cookie = true;
-				force_ssl_admin(true);
-			}
-		}
-	}
-	
-	if ( !$secure_cookie && is_ssl() && force_ssl_login() && !force_ssl_admin() && ( 0 !== strpos($redirect_to, 'https') ) && ( 0 === strpos($redirect_to, 'http') ) )
-	$secure_cookie = false;
-
-	// Login
-	$user = wp_signon($creds, $secure_cookie);
-	
-	// Redirect filter
-	if ( $secure_cookie && false !== strpos($redirect_to, 'wp-admin') ) $redirect_to = preg_replace('|^http://|', 'https://', $redirect_to);
-
-	// Result
-	$result = array();
-	
-	if ( !is_wp_error($user) ) :
-		$result['success'] = 1;
-		$result['redirect'] = $redirect_to;
-	else :
-		$result['success'] = 0;
-		foreach ($user->errors as $error) {
-			$result['error'] = $error[0];
-			break;
-		}
-	endif;
-	
-	echo json_encode($result);
-
-	die();
-}
 
 add_action('init', 'woocommerce_sidebar_login_process', 0);
 
@@ -251,7 +196,7 @@ function woocommerce_sidebar_login_process() {
 		global $login_errors;
 		
 		// Get redirect URL
-		$redirect_to = apply_filters( 'woocommerce_login_widget_redirect', get_permalink(get_option('woocommerce_myaccount_page_id')) );
+		$redirect_to = apply_filters( 'woocommerce_login_widget_redirect', get_permalink(woocommerce_get_page_id('myaccount')) );
 
 		// Check for Secure Cookie
 		$secure_cookie = '';
@@ -279,10 +224,10 @@ function woocommerce_sidebar_login_process() {
 		// Check the username
 		if ( !$_POST['log'] ) :
 			$user = new WP_Error();
-			$user->add('empty_username', __('<strong>ERROR</strong>: Please enter a username.', 'woothemes'));
+			$user->add('empty_username', '<strong>' . __('ERROR', 'woocommerce') . '</strong>: ' . __('Please enter a username.', 'woocommerce'));
 		elseif ( !$_POST['pwd'] ) :
 			$user = new WP_Error();
-			$user->add('empty_username', __('<strong>ERROR</strong>: Please enter your password.', 'woothemes'));
+			$user->add('empty_username', '<strong>' . __('ERROR', 'woocommerce') . '</strong>: ' . __('Please enter your password.', 'woocommerce'));
 		endif;
 		
 		// Redirect if successful

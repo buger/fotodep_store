@@ -3,8 +3,8 @@ Contributors: aesqe, azizur
 Donate link: http://skyphe.org/donate/
 Tags: attachment, attachments, gallery, galleries, template, templates, shortcode, file, files, attach, detach, unattach, copy, media, tags, library, custom, custom fields, custom fields for attachments, attachment custom fields
 Requires at least: 3.1
-Tested up to: 3.4-alpha-19620
-Stable tag: 1.7.3
+Tested up to: 3.4-alpha-19931
+Stable tag: 1.7.4.1
 
 File Gallery extends WordPress media (attachments) capabilities 
 by adding a new gallery shortcode handler with templating support 
@@ -118,6 +118,18 @@ file_gallery_get_file_type
 
 
 == Changelog ==
+
+= 1.7.4.1 =
+* February 16th, 2012
+* bugfix: reduce server stress and page load time by disabling 
+  File Gallery init and unneeded bindgings on post listing 
+  pages (thanks dan.stefan!)
+
+= 1.7.4 =
+* January 17th, 2012
+* bugfix: check if tinymce is defined before calling it
+ (thanks jrstaatsiii)
+* take care of a few php notices (thanks Hubert)
 
 = 1.7.3 =
 * January 2nd, 2012

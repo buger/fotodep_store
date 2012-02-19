@@ -1,24 +1,26 @@
-=== WooCommerce - eCommerce plugin for WordPress ===
-Contributors: woothemes
-Tags: ecommerce, e-commerce, commerce, woothemes, wordpress ecommerce, store, shop, shopping, cart, checkout, widgets, reports, shipping, tax, paypal, inventory
+=== WooCommerce – excelling eCommerce ===
+Contributors: woothemes, mikejolley, jameskoster
+Tags: ecommerce, e-commerce, commerce, woothemes, wordpress ecommerce, store, shop, shopping, cart, checkout, widgets, reports
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@woothemes.com&item_name=Donation+for+WooCommerce
-Requires at least: 3.1
+Requires at least: 3.3
 Tested up to: 3.3
-Stable tag: 1.3.2.1
+Stable tag: 1.4.4
 
-An e-commerce toolkit that helps you sell anything. Beautifully.
+WooCommerce is a powerful, extendable eCommerce plugin that helps you sell anything. Beautifully.
 
 == Description ==
 
-Transform your WordPress website into a thorough-bred online store. Delivering enterprise-level quality & features whilst backed by a name you can trust. Say hello to WooCommerce.
+Transform your WordPress website into a thorough-bred online eCommerce store. Delivering enterprise-level quality and features whilst backed by a name you can trust. Say hello to the WooCommerce eCommerce plugin.
+
+WooCommerce is built by the experienced folk at WooThemes who also offer premium [eCommerce themes](http://www.woothemes.com/themes/woocommerce-themes/ "eCommerce themes from WooThemes") and [extensions](http://www.woothemes.com/extensions/woocommerce-extensions/ "eCommerce extensions for WooCommerce from WooThemes") to further enhance your shopfront.
 
 [vimeo http://vimeo.com/29198966]
 
 = STRENGTH & FLEXIBILITY =
-Built upon core WordPress functionality for stability, with enough hooks and filters to satisfy the most avid theme developer.
+Built upon core WordPress functionality for stability, with enough hooks and filters to satisfy the most avid theme developer, eCommerce is now truly accessible to anyone.
 
 = CUSTOMIZABLE =
-Your business is unique, as should your online store. Choose one of our themes or build your own and give it a personal touch using the built in shortcodes and widgets.
+Your business is unique, as should your online store. Choose one of our [eCommerce themes](http://www.woothemes.com/themes/woocommerce-themes/ "eCommerce themes from WooThemes") or build your own and give it a personal touch using the built in shortcodes and widgets.
 
 = SMART DASHBOARD WIDGETS =
 Keep a birds-eye view of incoming sales and reviews, stock levels and general store performance and statistics all from the WordPress dashboard.
@@ -26,53 +28,109 @@ Keep a birds-eye view of incoming sales and reviews, stock levels and general st
 = FEATURES =
 Seriously, WooCommerce has got more features than you can shake a stick at. But don’t just take our word for it, try it for yourself.
 
-Read more about the features and benefits of WooCommerce at http://www.woothemes.com/woocommerce/
-Checkout and contribute to the source on GitHub at http://github.com/woothemes/woocommerce/
+= BUNDLED GATEWAYS AND SHIPPING =
+WooCommerce has enough power to be used straight out of the box and comes with the following payment gateways and shipping methods:
+
+* PayPal Standard
+* BACS
+* Cheque
+* Cash on Delivery
+* Flat rate shipping
+* Free shipping
+* International delivery
+* Local delivery
+* Local Pickup
+
+= EXTENSIONS =
+Need a specific payment gateway? Perhaps additional shipping methods? WooCommerce has a plethora of eCommerce extensions available to provide just that: [View our extensions](http://www.woothemes.com/extensions/woocommerce-extensions/ "eCommerce extensions for WooCommerce from WooThemes").
+
+Here's a list of some of our popular functionality extensions:
+
+* [Dynamic Pricing](http://www.woothemes.com/extension/dynamic-pricing/) - Bulk discounts, role based pricing and more.
+* [Catalog Visibility Options](http://www.woothemes.com/extension/catalog-visibility-options/) - Transform WooCommerce into an online catalog by removing eCommerce functionality
+* [Product Addons](http://www.woothemes.com/extension/product-addons/) - Create personalised products.
+* [Currency Converter Widget](http://www.woothemes.com/extension/currency-converter-widget/) - Dynamically switch the currency of displayed prices.
+* [Product Enquiry Form](http://www.woothemes.com/extension/product-enquiry-form/) - Allow visitors to email you enquiries about a product.
+* [Sale Flash Pro](http://www.woothemes.com/extension/sale-flash-pro/) - Display a % discount or total amount off per product.
+* [Facebook Tab](http://www.woothemes.com/extension/facebook-tab/) - Sell your products via your Facebook page.
+* [Commission King](http://www.woothemes.com/extension/commission-king/) - Assign, track and pay commissions on your WooCommerce products.
+* [Google Product Feed](http://www.woothemes.com/extension/google-product-feed/) - Add your products to Google Product Search.
+* [Newsletter Subscription](http://www.woothemes.com/extension/newsletter-subscription/) - Allow customers to subscribe to your MailChimp or CampaignMonitor mailing list.
+
+And here are some of our more popular payment gateway and shipping method extensions:
+
+* [Table rate shipping](http://www.woothemes.com/extension/table-rate-shipping/) - Create rules (per-order) based on country/postcode, weight, cart items, and price.
+* [FedEx](http://www.woothemes.com/extension/fedex/) - Calculate rates from FedEx's API
+* [PayPal Pro](http://www.woothemes.com/extension/paypal-pro/) - Direct gateway
+* [Authorize.net](http://www.woothemes.com/extension/authorize-net/) - Direct gateway
+* [Inspire Checkout (free)](http://www.woothemes.com/extension/inspire-gateway/) - Direct gateway
+* [CardSave (free)](http://www.woothemes.com/extension/cardsave/) - Form based gateway
+
+Finally, here are some cool free extensions listed here on WordPress.org:
+
+* [WooCommerce Admin Bar Addition](http://wordpress.org/extend/plugins/woocommerce-admin-bar-addition/) - Adds useful admin links and resources for the WooCommerce eCommerce Plugin to the WordPress Toolbar / Admin Bar.
+* [WooCommerce Delivery Notes](http://wordpress.org/extend/plugins/woocommerce-delivery-notes/) - Print delivery Notes for orders.
+* [Affiliates WooCommerce Integration Light](http://wordpress.org/extend/plugins/affiliates-woocommerce-light/) - Integrates Affiliates with WooCommerce.
+* [WooCommerce Multilingual](http://wordpress.org/extend/plugins/woocommerce-multilingual/) - Allows running multilingual e-commerce sites using WooCommerce and WPML.
+
+Read more about the features and benefits of the WooCommerce eCommerce platform on the [WooCommerce website](http://www.woothemes.com/woocommerce/ "WooCommerce: An open-source eCommerce plugin for WordPress"),
+
+Checkout and contribute to the source code on the [WooCommerce GitHub Repository](http://github.com/woothemes/woocommerce/)
 
 == Installation ==
 
 = Minimum Requirements =
 
-* WordPress 3.1 or greater
+* WordPress 3.3 or greater
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 * Some payment gateways require fsockopen support (for IPN access)
 
 = Automatic installation =
 
-Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t even need to leave your web browser. To do an automatic install of WooCommerce log in to your WordPress admin panel, navigate to the Plugins menu and click Add New. 
+Automatic installation is the easiest option as WordPress handles the file transfers itself and you don’t even need to leave your web browser. To do an automatic install of WooCommerce, log in to your WordPress admin panel, navigate to the Plugins menu and click Add New. 
 
-In the search field type “WooCommerce” and click Search Plugins. Once you’ve found the plugin you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking Install Now. After clicking that link you will be asked if you’re sure you want to install the plugin. Click yes and WordPress will automatically complete the installation. 
+In the search field type “WooCommerce” and click Search Plugins. Once you’ve found our eCommerce plugin you can view details about it such as the the point release, rating and description. Most importantly of course, you can install it by simply clicking Install Now. After clicking that link you will be asked if you’re sure you want to install the plugin. Click yes and WordPress will automatically complete the installation. 
 
 = Manual installation =
 
-The manual installation involves downloading the plugin and uploading it to your webserver via your favourite FTP application.
+The manual installation method involves downloading our eCommerce plugin and uploading it to your webserver via your favourite FTP application.
 
 1. Download the plugin file to your computer and unzip it
 2. Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation’s wp-content/plugins/ directory.
 3. Activate the plugin from the Plugins menu within the WordPress admin.
 
+= Upgrading =
+
+Automatic updates should work a charm; as always though, ensure you backup your site just in case. 
+
+If on the off chance you do encounter issues with the shop/category pages after an update you simply need to flush the permalinks by going to WordPress > Settings > Permalinks and hitting 'save'. That should return things to normal.
+
 == Frequently Asked Questions == 
 
 = Where can I find WooCommerce documentation and user guides =
 
-For further documentation on using WooCommerce, please sign up for free at http://www.woothemes.com/. This will provide access to extensive WooCommerce Codex, documentation and tips. 
+For further documentation on using WooCommerce, please sign up for free at [WooThemes](http://www.woothemes.com/). This will provide access to extensive WooCommerce Codex, documentation and tips. 
 
-The codex for WooCommerce can be found here: http://www.woothemes.com/woocommerce-codex/
+The documentation for WooCommerce can be found on the [WooCommerce Docs](http://www.woothemes.com/woocommerce-docs/) website.
 
-Clients and beginners will appreciate the user guide here: http://www.woothemes.com/woocommerce-codex/woocommerce-user-guide/
+Clients and beginners will appreciate the usage instructions here: [User Guide](http://www.woothemes.com/woocommerce-docs/category/user-guide/)
 
-= Where can I request new features and extensions? =
+= Will WooCommerce work with my theme? =
 
-You can vote on and request new features and extensions in our WooIdeas board - http://ideas.woothemes.com/forums/133476-woocommerce
+Yes; WooCommerce will work with any theme, but may require some styling to make it match nicely. See our docs.
+
+= Where can I request new features, eCommerce themes and extensions? =
+
+You can vote on and request new features and extensions in our [WooIdeas board](http://woo.uservoice.com/forums/133476-woocommerce)
 
 = Where can I report bugs or contribute to the project? =
 
-Bugs can be reported either in our support forum or preferably at the WooCommerce GitHub repository (https://github.com/woothemes/woocommerce/issues)
+Bugs can be reported either in our support forum or preferably on the [WooCommerce GitHub repository](https://github.com/woothemes/woocommerce/issues).
 
 = WooCommerce is awesome! Can I contribute? =
 
-Yes you can! Join in on our GitHub repository :) https://github.com/woothemes/woocommerce/
+Yes you can! Join in on our [GitHub repository](http://github.com/woothemes/woocommerce/) :)
 
 == Screenshots ==
 
@@ -81,6 +139,125 @@ Yes you can! Join in on our GitHub repository :) https://github.com/woothemes/wo
 3. WooCommerce sales reports
 
 == Changelog ==
+
+= 1.4.4 - 18/02/2012 = 
+* Fix for remove coupon links after ajax update of shipping
+* Fix for reducing/increasing stock + notifications
+* Don't reset shipping method on cart during every update
+* Checkout country/state/postcode defaults to session if not logged in
+* Method availability (country) for local pickup/delivery
+* Fixed get_permalink in shortcodes
+* Install process tweaks (for flushing post type rules)
+* data-min argument/option for quantity inputs
+* Notice is now shown in admin when the configuration may cause permalink errors
+* Trigger 'change' event on the hidden variation_id input
+* Load non-minified woocommerce.js file if SCRIPT_DEBUG is on
+* Category widget hierarchy on single product page
+
+= 1.4.3 - 16/02/2012 = 
+* Fix for variation shipping class detection
+* Classes added to my-account
+* Fix for price filtering when the shop is the homepage
+* Renamed orderby GET variable to 'sort' to prevent conflicts with permalinks
+* Fixed a bug allowing checkout when items are out of stock
+* Added a cart item error page for checkout, if the items are invalid
+* Hidden shipping text when calculator is hidden
+* If theres 1 shipping method, don't show a select box (thanks GeertDD)
+* Don't repeat weight units after each measurement (GeertDD is on a role)
+* CZ fix
+* SKU system changes - old system was confusing and could conflict with post IDs thus the following changes have been made; 1) SKU no longer defaults to post ID automatically, 2) Unique SKU check looks for SKUs only - not post IDs 3) get_sku() will return _sku not post ID
+* Product admin interface tweaks
+* Variation interface tweaks
+* Attribute interface tweaks
+* Ability to select all/none attributes
+* Quantity based on stock limit on cart page, like the product page
+* Fixed category widget hierarchy
+* Password error on checkout
+* Improved install process
+* Hookable woocommerce_form_field
+* Updated dummy content
+* Removed the sorting 'GET' from the sort form in favour of POST - caused too many issues. GET requests will still work however.
+* Moved localisation to init
+* Price slider triggers
+
+= 1.4.2 - 09/02/2012 = 
+* Uninstall fix
+* Improved template loader - passes args instead of using globals
+* Get dimensions fix
+* Add order item error fix
+* Made slug non-required on add attribute form
+* Fixed sharethis code
+* Added sharedaddy support
+* Option to require login to download files
+* Option to display layered nav as a dropdown
+* Shipping classes added to individual product variations
+* woocommerce_nocache function for cart/checkout/myaccount pages which need to be dynamic
+* Coupon code case fix
+* Removed automatic -free on shipping methods
+* Option to redirect to the product page after searching if one result found (kudos to pixeltrix)
+* Other minor fixes
+
+= 1.4.1 - 01/02/2012 = 
+* Depreciated tax class fix
+* Logout error fix
+* get_shipping_tax_rate deprecated to stop errors
+* get_attribute returns non-linked terms
+* First time install fix
+* Added back version constant to stop 3rd party themes breaking
+
+= 1.4 - 01/02/2012 = 
+* Improved default theme
+* Support for multiple and stacked (compound) taxes
+* Locale options for country address formatting and checkout fields
+* Multiple taxes shown in order total tables
+* Rewritten parts + re-organised files for increased performance and decreased memory usage
+* Moved many shortcodes (contents) to template files for easier customisation
+* Moved template function contents to template files
+* Added a simple, basic method of adding woocommerce support to themes using a woocommerce.php file based on page.php containing woocommerce_content()
+* Moved woocommerce class into the main file
+* Improved roles and capabilities for WooCommerce pages - more caps added for easier configuration
+* Category ordering fix
+* Made 'product' global, and auto filled when calling the_post - also remove this from the hooks. Certain themes may need to be updated.
+* Changed woocommerce_breadcrumb args
+* Filters for customer email attachments
+* Chosen selects for country/state select inputs (optional)
+* Piwik (http://piwik.org/) tracking - requires http://wordpress.org/extend/plugins/wp-piwik/
+* Option to hide cart widget if the cart is empty
+* Category widget - order by option
+* Option to re-order shipping methods
+* Coupon entry form on checkout (optional)
+* paying_customer user meta when order is complete
+* Improved download links in emails
+* Replaced quantity selector of grouped downloadable products with a button
+* Reworked checkout fields to make them easier to extend
+* Added address meta to users panel
+* Added address data to edit users screen
+* Using 3.3 function is_main_query()
+* Fixed price display if taxes disabled
+* Backorder notifications show order #
+* Product data write panel tweaks
+* Enabled product custom fields panel
+* Renamed custom fields for product data - upgrade script will run when upgrading. Some themes may be affected if using 'featured' - it is now '_featured'
+* woocommerce_product_visibility_options filter for backend
+* Shipping method classes/api changed to make rate definition simpler - shipping methods will need updating to stay compatible
+* Change textdomain from woothemes to woocommerce
+* Free shipping coupons ignore min-amount
+* Delete all variations option
+* Removed the need of ob_start on most frontend pages to improve page loading speed
+* Product category widget option to show current children only
+* Updated default styles
+* Tweaked visibility settings and made them more clear
+* If there is limited stock, quantity input plus button won't go higher
+* Displaying correct currency symbol (Real of Brazil)
+* Added local pickup and local delivery shipping methods (thanks Patrick Garman)
+* Improved woocommerce_coupon_is_valid filter
+* Random products widget, thanks to Geert De Deckere
+* Error are now lists instead of divs so we can show multiple errors at once
+* Problem: Stock management off, hide out of stock on meant some product were hidden randomly. Solution: Enable instock/outofstock selector on edit product page regardless of settings
+* If sending shipping to paypal, send shipping address
+* Send shipping name to paypal
+* Code to allow add-on validation
+* International shipping (based on flat rate)
 
 = 1.3.2.1 - 15/12/2011 = 
 * Category/Ordering fix
@@ -370,6 +547,21 @@ Yes you can! Join in on our GitHub repository :) https://github.com/woothemes/wo
 * Initial Release. Woo!
 
 == Upgrade Notice ==
+
+= 1.4.4 =
+Minor update fixing a few bugs. If you encounter any problems with the store/category pages after upgrade simply go to Settings > Permalinks and hit 'save'.
+
+= 1.4 = 
+Major update with plenty of optimisations and new features. Changes to note:
+
+* Requires WP 3.3
+* Product data meta has been renamed in this version so that custom-fields can be enabled. Product data is now prepended with an underscore so they are hidden from the custom-field panel. Existing data will be upgraded automatically. 
+* The shipping method classes have been updated to make rate definition easier. Third party plugins will need updating.
+* Textdomain has changed - re-scan your po/mo's
+* Tax additions (tax rows, compounds etc) required a change to the way order items are stored. Old orders won't show items when viewed. Order totals should be unaffected.
+* Significant modifications to woocommerce.less/.css to deliver a more polished look when using the default styles. If your theme builds on top of this you will likely need to update some classes. Consider using https://gist.github.com/1601558 to disable WooCommerce default css.
+
+Please backup your database before upgrading and also ensure you are running the latest versions of any WooCommerce plugins after upgrading - this includes shipping and payment gateways.
 
 = 1.3 =
 This is a major update and includes improvements to the tax and coupon system in particular - please backup your database before upgrading and also ensure you are running the latest versions of any WooCommerce plugins after upgrading.
