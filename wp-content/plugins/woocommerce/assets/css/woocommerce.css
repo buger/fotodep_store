@@ -1461,8 +1461,10 @@ h1.page-title {
   border: none;
 }
 .cart_widget {
-  float: right;
-  width: 210px;
+  position: absolute;
+  top: -10px;
+  right: 0px;
+  width: 220px;
 }
 .cart_widget .last_product {
   float: left;
@@ -1475,7 +1477,7 @@ h1.page-title {
   height: 60px !important;
 }
 .cart_widget .cart_info .total {
-  font-size: 16px;
+  font-size: 14px;
   padding-top: 5px;
 }
 .cart_widget .cart_info .total .quanity {
@@ -1486,7 +1488,7 @@ h1.page-title {
   margin-right: 5px;
 }
 .cart_widget .cart_info .buttons {
-  margin-top: 10px;
+  margin-top: 16px;
 }
 .cart_widget .cart_info .buttons a + a {
   margin-left: 10px;
