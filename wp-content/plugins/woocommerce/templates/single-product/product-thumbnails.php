@@ -32,7 +32,7 @@ global $post, $woocommerce;
 				$_post = & get_post( $attachment->ID );
 				$url = wp_get_attachment_url($_post->ID);
 				$post_title = esc_attr($_post->post_title);
-				$image = wp_get_attachment_image($attachment->ID, $small_thumbnail_size);
+				$image = wp_get_attachment_image($attachment->ID, $medium_thumbnail_size);
 
 				echo '<a href="'.$url.'" title="'.$post_title.'" rel="thumbnails" class="zoom ';
 				if ($loop==1 || ($loop-1)%$columns==0) echo 'first';
